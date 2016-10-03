@@ -1,8 +1,11 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 
 namespace Calculator.Components
 {
+    [ContentProperty(Name = nameof(Numerator))]
     public sealed partial class Fraction
     {
         private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(object), typeof(Fraction), new PropertyMetadata(null));
@@ -29,16 +32,26 @@ namespace Calculator.Components
         public Fraction()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            return availableSize;
-        }
+            var numerator = Numerator as UIElement;
+            var denominator = Denominator as UIElement;
 
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            return new Size(0d, 0d);
+            numerator?.Measure(availableSize);
+            denominator?.Measure(availableSize);
+
+            var height = (numerator?.DesiredSize.Height ?? 0d) + (denominator?.DesiredSize.Height ?? 0d) + 10d;
+            var width = Math.Max(numerator?.DesiredSize.Width ?? 0d, denominator?.DesiredSize.Width ?? 0d);
+
+            return new Size(Math.Min(width, availableSize.Width), Math.Min(height, availableSize.Height));
         }
+        
+        //protected override Size ArrangeOverride(Size finalSize)
+        //{
+        //    return finalSize;
+        //}
     }
 }
