@@ -43,7 +43,7 @@ namespace Calculator.Components
             numerator?.Measure(availableSize);
             denominator?.Measure(availableSize);
 
-            var height = (numerator?.DesiredSize.Height ?? 0d) + (denominator?.DesiredSize.Height ?? 0d) + 10d;
+            var height = (numerator?.DesiredSize.Height ?? 0d) + (denominator?.DesiredSize.Height ?? 0d) + 3d;
             var width = Math.Max(numerator?.DesiredSize.Width ?? 0d, denominator?.DesiredSize.Width ?? 0d);
 
             return new Size(Math.Min(width, availableSize.Width), Math.Min(height, availableSize.Height));

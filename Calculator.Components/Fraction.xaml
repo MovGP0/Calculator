@@ -9,9 +9,9 @@
     d:DesignHeight="300" 
     d:DesignWidth="400" 
     DataContext="{Binding}">
-    <StackPanel BorderBrush="Red" BorderThickness="0">
-        <ContentPresenter Content="{Binding Numerator}" />
+    <StackPanel>
+        <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
         <Border Height="1" Margin="2" Background="Black" />
-        <ContentPresenter Content="{Binding Denominator}" />
+        <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
     </StackPanel>
 </UserControl>

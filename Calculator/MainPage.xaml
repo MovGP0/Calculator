@@ -21,7 +21,7 @@
                 <TextBlock Text="Foo" FontSize="48" />
             </c:Fraction.Denominator>
             <c:Fraction.Numerator>
-                <TextBlock Text="Bar" FontSize="36" />
+                <TextBlock Text="FooBar" FontSize="36" />
             </c:Fraction.Numerator>
         </c:Fraction>
         <Border Grid.Row="1" Background="BlueViolet"></Border>
