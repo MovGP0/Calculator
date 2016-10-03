@@ -9,9 +9,12 @@
     d:DesignHeight="300" 
     d:DesignWidth="400" 
     DataContext="{Binding}">
-    <StackPanel>
-        <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
-        <Border Height="1" Margin="2" Background="Black" />
-        <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
-    </StackPanel>
+    <Canvas>
+        <StackPanel>
+            <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
+            <Border Height="1" Margin="2" Background="Black" />
+            <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Line x:Name="BaselineLine" X1="0" Y1="{Binding BaselineOffset}" X2="10" Y2="{Binding BaselineOffset}" StrokeThickness="1" Stroke="Aqua"></Line>
+    </Canvas>
 </UserControl>
