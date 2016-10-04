@@ -17,9 +17,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <c:AlignPanel Grid.Row="0" Grid.Column="0">
-            <c:Fraction>
-                <TextBlock Text="Foobar"  />
-            </c:Fraction>
+            <TextBlock Text="Foobar"  />
             <c:Fraction>
                 <c:Fraction.Numerator>
                     <TextBlock Text="Numerator" FontSize="36" FontFamily="Segoe UI" />
@@ -28,6 +26,7 @@
                     <TextBlock Text="Denominator" FontFamily="Segoe UI" />
                 </c:Fraction.Denominator>
             </c:Fraction>
+            <TextBlock Text="Foobar"  />
         </c:AlignPanel>
         <Border Grid.Row="0" Grid.Column="1"></Border>
         <Border Grid.Row="1" Grid.Column="0"></Border>

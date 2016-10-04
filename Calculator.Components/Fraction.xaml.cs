@@ -2,12 +2,10 @@
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Calculator.Components
 {
-    [ContentProperty(Name = nameof(Numerator))]
     public sealed partial class Fraction
     {
         private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(object), typeof(Fraction), new PropertyMetadata(null));
@@ -34,7 +32,6 @@ namespace Calculator.Components
         public Fraction()
         {
             InitializeComponent();
-            DataContext = this;
         }
         
         protected override Size MeasureOverride(Size availableSize)
@@ -46,17 +43,16 @@ namespace Calculator.Components
             denominator?.Measure(availableSize);
 
             var numeratorHeight = numerator?.DesiredSize.Height ?? 0d;
-            BaselineOffset = CalculateBaseline(numeratorHeight, FontSize);
+            BaselineOffset = CalculateBaseline(numeratorHeight, FontSize, FontFamily);
             
             var height = (numerator?.DesiredSize.Height ?? 0d) + (denominator?.DesiredSize.Height ?? 0d) + 3d;
             var width = Math.Max(numerator?.DesiredSize.Width ?? 0d, denominator?.DesiredSize.Width ?? 0d);
             return new Size(Math.Min(width, availableSize.Width), Math.Min(height, availableSize.Height));
         }
         
-        private static double CalculateBaseline(double numeratorHeight, double fontSize)
+        private static double CalculateBaseline(double numeratorHeight, double fontSize, FontFamily fontFamily)
         {
-            var ff = new FontFamily("Segoe UI");
-            var tb = new TextBlock { Text = "Fg", FontSize = fontSize, FontFamily = ff };
+            var tb = new TextBlock { Text = "Fg", FontSize = fontSize, FontFamily = fontFamily };
             tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             return tb.BaselineOffset/2d + numeratorHeight;
         }

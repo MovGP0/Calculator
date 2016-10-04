@@ -6,15 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300" 
-    d:DesignWidth="400" 
-    DataContext="{Binding}">
-    <Canvas>
-        <StackPanel>
-            <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
-            <Border Height="1" Margin="2" Background="Black" />
-            <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
-        </StackPanel>
-        <Line x:Name="BaselineLine" X1="0" Y1="{Binding BaselineOffset}" X2="10" Y2="{Binding BaselineOffset}" StrokeThickness="1" Stroke="Aqua"></Line>
-    </Canvas>
+    d:DesignHeight="300" d:DesignWidth="400" x:Name="This">
+    <StackPanel DataContext="{Binding ElementName=This}">
+        <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
+        <Border Height="2" Margin="2" Background="Black" />
+        <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
+    </StackPanel>
 </UserControl>
