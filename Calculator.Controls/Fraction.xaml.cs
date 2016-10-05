@@ -1,28 +1,27 @@
 ﻿using System;
-using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
-namespace Calculator.Components
+namespace Calculator.Controls
 {
     public sealed partial class Fraction
     {
-        private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(object), typeof(Fraction), new PropertyMetadata(null));
-        public object Numerator
+        private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(UIElement), typeof(Fraction), new PropertyMetadata(default(UIElement)));
+        public UIElement Numerator
         {
-            get { return (object)GetValue(NumeratorProperty); }
+            get { return (UIElement)GetValue(NumeratorProperty); }
             set { SetValue(NumeratorProperty, value); }
         }
 
-        private static readonly DependencyProperty DenominatorProperty = DependencyProperty.Register(nameof(Denominator), typeof(object), typeof(Fraction), new PropertyMetadata(null));
-        public object Denominator
+        private static readonly DependencyProperty DenominatorProperty = DependencyProperty.Register(nameof(Denominator), typeof(UIElement), typeof(Fraction), new PropertyMetadata(default(UIElement)));
+        public UIElement Denominator
         {
-            get { return (object)GetValue(DenominatorProperty); }
+            get { return (UIElement)GetValue(DenominatorProperty); }
             set { SetValue(DenominatorProperty, value); }
         }
         
-        private static readonly DependencyProperty BaselineOffsetProperty = DependencyProperty.Register(nameof(BaselineOffset), typeof(double), typeof(Fraction), new PropertyMetadata(0d));
+        private static readonly DependencyProperty BaselineOffsetProperty = DependencyProperty.Register(nameof(BaselineOffset), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
         public double BaselineOffset
         {
             get { return (double)GetValue(BaselineOffsetProperty); }
@@ -36,8 +35,8 @@ namespace Calculator.Components
         
         protected override Size MeasureOverride(Size availableSize)
         {
-            var numerator = Numerator as UIElement;
-            var denominator = Denominator as UIElement;
+            var numerator = Numerator;
+            var denominator = Denominator;
 
             numerator?.Measure(availableSize);
             denominator?.Measure(availableSize);

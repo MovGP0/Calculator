@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace Calculator.Components
+namespace Calculator.Controls
 {
     public sealed class AlignPanel : Panel
     {
@@ -14,7 +14,7 @@ namespace Calculator.Components
             var stackDesiredSize = new Size();
             var childSize = new Size(double.PositiveInfinity, availableSize.Height);
 
-            foreach (var child in children.Where(c => c != null))
+            foreach (var child in children.OfType<UIElement>().Where(c => c != null))
             {
                 child.Measure(childSize);
                 var offset = child.GetBaselineOffset();
@@ -32,9 +32,9 @@ namespace Calculator.Components
             var rcChild = new Rect(new Point(0d, 0d), arrangeSize);
             var previousChildSize = 0d;
 
-            var maximumOffset = children.Max(c => c.GetBaselineOffset());
+            var maximumOffset = children.OfType<UIElement>().Max(c => c.GetBaselineOffset());
 
-            foreach (var child in children.Where(c => c != null))
+            foreach (var child in children.OfType<UIElement>().Where(c => c != null))
             {
                 var offset = child.GetBaselineOffset();
                 

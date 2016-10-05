@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
-namespace Calculator.Components
+namespace Calculator.Controls
 {
     public static class UiElementExtensions
     {
