@@ -4,19 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
-        xmlns:controls="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
+        xmlns:c="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <controls:Brackets>
-            <controls:Brackets.Left>
-                <TextBlock Text="(" />
-            </controls:Brackets.Left>
-            <controls:Brackets.Right>
-                <TextBlock Text=")" />
-            </controls:Brackets.Right>
-            <TextBlock Text="Foobar" FontSize="36" />
-        </controls:Brackets>
+        <c:Root x:Name="RootElement" FontSize="36">
+            <c:Root.Index>
+                <TextBlock Text="η" FontSize="36" />
+            </c:Root.Index>
+            <TextBlock Text="ζ·Foobar" FontSize="36" />
+        </c:Root>
     </Grid>
 </Window>
 

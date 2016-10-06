@@ -112,7 +112,6 @@
       <Name>Calculator.Controls</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\LockScreenLogo.scale-200.png" />
     <Resource Include="Assets\SplashScreen.scale-200.png" />

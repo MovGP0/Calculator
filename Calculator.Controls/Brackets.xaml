@@ -8,11 +8,13 @@
              d:DesignHeight="300" d:DesignWidth="300" x:Name="This" Template="{DynamicResource BracketsTemplate}">
     <UserControl.Resources>
         <ControlTemplate x:Key="BracketsTemplate" TargetType="local:Brackets">
-            <Canvas DataContext="{Binding ElementName=This}" Background="AliceBlue">
-                <ContentPresenter Content="{Binding Left}" Canvas.Left="{Binding LeftX}" RenderTransform="{Binding LeftTransform}" />
-                <ContentPresenter Content="{Binding Content}" Canvas.Left="{Binding ContentX}" />
-                <ContentPresenter Content="{Binding Right}" Canvas.Left="{Binding RightX}" RenderTransform="{Binding RightTransform}" />
-            </Canvas>
+            <AdornerDecorator>
+                <Canvas DataContext="{Binding ElementName=This}" Background="AliceBlue">
+                    <ContentPresenter Content="{Binding Left}" Canvas.Left="{Binding LeftX}" RenderTransform="{Binding LeftTransform}" />
+                    <ContentPresenter Content="{Binding Content}" Canvas.Left="{Binding ContentX}" />
+                    <ContentPresenter Content="{Binding Right}" Canvas.Left="{Binding RightX}" RenderTransform="{Binding RightTransform}" />
+                </Canvas>
+            </AdornerDecorator>
         </ControlTemplate>
     </UserControl.Resources>
 </UserControl>

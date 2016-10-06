@@ -5,11 +5,18 @@
     xmlns:local="using:Calculator.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Calculator.Controls"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400" x:Name="This">
-    <StackPanel DataContext="{Binding ElementName=This}">
-        <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
-        <Border Height="2" Margin="2" Background="Black" />
-        <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
-    </StackPanel>
+    d:DesignHeight="300" d:DesignWidth="400" x:Name="This" Template="{DynamicResource FractionTemplate}">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="FractionTemplate" TargetType="controls:Fraction">
+            <AdornerDecorator>
+                <StackPanel DataContext="{Binding ElementName=This}">
+                    <ContentPresenter Content="{Binding Numerator}" HorizontalAlignment="Center" />
+                    <Border Height="2" Margin="2" Background="Black" />
+                    <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" />
+                </StackPanel>
+            </AdornerDecorator>
+        </ControlTemplate>
+    </UserControl.Resources>
 </UserControl>
