@@ -11,7 +11,7 @@
             <AdornerDecorator>
                 <Canvas DataContext="{Binding ElementName=This}">
                     <ContentPresenter Content="{TemplateBinding Index}" RenderTransform="{Binding IndexTransform}" />
-                    <Polyline Points="{TemplateBinding Points}" StrokeEndLineCap="Flat" StrokeLineJoin="Round" Stroke="Black" StrokeThickness="1" />
+                    <Polyline Points="{TemplateBinding Points}" StrokeEndLineCap="Flat" StrokeLineJoin="Round" Stroke="{Binding Foreground}" StrokeThickness="1" />
                     <ContentPresenter Content="{TemplateBinding Content}" Canvas.Left="{Binding ContentX}" Canvas.Top="{Binding ContentY}" />
                 </Canvas>
             </AdornerDecorator>

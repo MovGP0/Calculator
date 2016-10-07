@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Calculator
+namespace Calculator.Styling
 {
     [ValueConversion(typeof(Color), typeof(Brush))]
     public sealed class ColorToBrushValueConverter : IValueConverter

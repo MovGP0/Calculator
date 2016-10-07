@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Controls", "Calculator.Controls\Calculator.Controls.csproj", "{EDCAED3E-E410-48E4-B28C-B186C7F01251}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Keypad", "Calculator.Keypad\Calculator.Keypad.csproj", "{20FE640A-A9A1-4759-9CD5-87402F2D9CD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Styling", "Calculator.Styling\Calculator.Styling.csproj", "{BD4112DD-6462-4A9C-8AD3-3548C145421C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EDCAED3E-E410-48E4-B28C-B186C7F01251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDCAED3E-E410-48E4-B28C-B186C7F01251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDCAED3E-E410-48E4-B28C-B186C7F01251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20FE640A-A9A1-4759-9CD5-87402F2D9CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FE640A-A9A1-4759-9CD5-87402F2D9CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FE640A-A9A1-4759-9CD5-87402F2D9CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FE640A-A9A1-4759-9CD5-87402F2D9CD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD4112DD-6462-4A9C-8AD3-3548C145421C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD4112DD-6462-4A9C-8AD3-3548C145421C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD4112DD-6462-4A9C-8AD3-3548C145421C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD4112DD-6462-4A9C-8AD3-3548C145421C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

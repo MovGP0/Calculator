@@ -12,13 +12,13 @@ namespace Calculator
             Loaded += OnLoaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        protected void OnLoaded(object sender, RoutedEventArgs e)
         {
             var rootAdorner = new BaselineAdorner(RootElement);
             var fractionAdorner = new BaselineAdorner(Fraction);
 
-            AdornerLayer.GetAdornerLayer(RootElement).Add(rootAdorner);
-            AdornerLayer.GetAdornerLayer(Fraction).Add(fractionAdorner);
+            //AdornerLayer.GetAdornerLayer(RootElement).Add(rootAdorner);
+            //AdornerLayer.GetAdornerLayer(Fraction).Add(fractionAdorner);
         }
     }
 }
