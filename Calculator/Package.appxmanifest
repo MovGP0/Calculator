@@ -42,8 +42,9 @@
       </uap:VisualElements>
     </Application>
   </Applications>
-
   <Capabilities>
-    <!--<Capability Name="internetClient" />-->
+    <!-- see https://msdn.microsoft.com/en-us/library/windows/apps/br211423.aspx    
+    <Capability Name="internetClient" />
+    -->
   </Capabilities>
 </Package>

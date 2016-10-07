@@ -103,7 +103,7 @@ namespace Calculator.Controls
             ContentY = contentTop;
             Points = new PointCollection
             {
-                new Point(0, indexHeight + 3), // left point
+                new Point(0, middleOffset), // left point
                 new Point(indexWidth, middleOffset), // straight line
                 new Point(indexWidth + rootWidth/2.0, height), // bottom point
                 new Point(indexWidth + rootWidth, contentTop), // top point

@@ -6,14 +6,66 @@
         xmlns:local="clr-namespace:Calculator"
         xmlns:c="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="800">
     <Grid>
-        <c:Root x:Name="RootElement" FontSize="36">
-            <c:Root.Index>
-                <TextBlock Text="η" FontSize="36" />
-            </c:Root.Index>
-            <TextBlock Text="ζ·Foobar" FontSize="36" />
-        </c:Root>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="2" Background="Beige" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
+            <c:Root FontSize="36">
+                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36" FontFamily="Segoe IU Symbol"/>
+            </c:Root>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="0" Background="Beige"  Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <c:AlignPanel>
+                <TextBlock Text="x=" Background="Transparent" FontSize="36"/>
+            <c:Fraction LineWidth="5" x:Name="Fraction" FontSize="36" LineHeight="3.6">
+                <c:Fraction.Numerator>
+                    <c:AlignPanel>
+                            <TextBlock Text="-b+" Background="Transparent" FontSize="36"/>
+                            <c:Root FontSize="36">
+                                <c:Root.Index>
+                                    <TextBlock Text="2" FontSize="36" />
+                                </c:Root.Index>
+                                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36"/>
+                            </c:Root>
+                        </c:AlignPanel>
+                </c:Fraction.Numerator>
+                <c:Fraction.Denominator>
+                    <TextBlock Text="2a" Background="Transparent" FontSize="36"/>
+                </c:Fraction.Denominator>
+            </c:Fraction>
+            </c:AlignPanel>
+        </Border>
+    
+        <Border Grid.Row="0" Grid.Column="1" Background="AliceBlue" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <c:Root x:Name="RootElement" FontSize="36">
+                <c:Root.Index>
+                    <TextBlock Text="n" FontSize="36" />
+                </c:Root.Index>
+                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36"/>
+            </c:Root>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" Background="Aqua" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
+            
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1" Background="AliceBlue" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="2" Background="AliceBlue" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+        </Border>
     </Grid>
 </Window>
 

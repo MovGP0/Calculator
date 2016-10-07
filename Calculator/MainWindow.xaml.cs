@@ -14,9 +14,11 @@ namespace Calculator
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var adorner = new BaselineAdorner(RootElement);
-            var adornerLayer = AdornerLayer.GetAdornerLayer(RootElement);
-            adornerLayer.Add(adorner);
+            var rootAdorner = new BaselineAdorner(RootElement);
+            var fractionAdorner = new BaselineAdorner(Fraction);
+
+            AdornerLayer.GetAdornerLayer(RootElement).Add(rootAdorner);
+            AdornerLayer.GetAdornerLayer(Fraction).Add(fractionAdorner);
         }
     }
 }

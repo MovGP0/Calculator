@@ -17,20 +17,20 @@ namespace Calculator.Controls
     /// adornerLayer.Remove(adorner);
     /// </code>
     /// </example>
-    /// <remarks>
-    /// See also <see cref="CaretElement"/>.
-    /// </remarks>
     public sealed class SelectionAdorner : Adorner
     {
         private readonly Color _color = Colors.Crimson;
+        private readonly double _brushWidth = 2.0;
 
         public SelectionAdorner(UIElement adornedElement) : base(adornedElement)
         {
             Loaded += OnLoaded;
         }
 
-        public SelectionAdorner(UIElement adornedElement, Color color) : this(adornedElement)
+        public SelectionAdorner(UIElement adornedElement, Color color, double brushWidth) : this(adornedElement)
         {
+            _color = color;
+            _brushWidth = brushWidth;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)
@@ -55,7 +55,7 @@ namespace Calculator.Controls
         protected override void OnRender(DrawingContext drawingContext)
         {
             var brush = new SolidColorBrush(_color);
-            var pen = new Pen(brush, 2.0);
+            var pen = new Pen(brush, _brushWidth);
             var rect = new Rect(AdornedElement.DesiredSize);
 
             drawingContext.DrawLine(pen, rect.BottomLeft, rect.BottomRight);

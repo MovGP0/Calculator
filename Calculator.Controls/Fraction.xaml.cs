@@ -7,6 +7,7 @@ namespace Calculator.Controls
 {
     public sealed partial class Fraction
     {
+        #region DependencyProperties
         private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(UIElement), typeof(Fraction), new PropertyMetadata(default(UIElement)));
         public UIElement Numerator
         {
@@ -27,7 +28,50 @@ namespace Calculator.Controls
             get { return (double)GetValue(BaselineOffsetProperty); }
             set { SetValue(BaselineOffsetProperty, value); }
         }
+
+        public static readonly DependencyProperty LineHeightProperty = DependencyProperty.Register(nameof(LineHeight), typeof(double), typeof(Fraction), new PropertyMetadata(1.0));
+        public double LineHeight
+        {
+            get { return (double) GetValue(LineHeightProperty); }
+            set { SetValue(LineHeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty LineWidthProperty = DependencyProperty.Register(nameof(LineWidth), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
+        public double LineWidth
+        {
+            get { return (double) GetValue(LineWidthProperty); }
+            set { SetValue(LineWidthProperty, value); }
+        }
         
+        public static readonly DependencyProperty NumeratorLeftProperty = DependencyProperty.Register(nameof(NumeratorLeft), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
+        public double NumeratorLeft
+        {
+            get { return (double) GetValue(NumeratorLeftProperty); }
+            set { SetValue(NumeratorLeftProperty, value); }
+        }
+
+        public static readonly DependencyProperty LineTopProperty = DependencyProperty.Register(nameof(LineTop), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
+        public double LineTop
+        {
+            get { return (double) GetValue(LineTopProperty); }
+            set { SetValue(LineTopProperty, value); }
+        }
+
+        public static readonly DependencyProperty DenominatorLeftProperty = DependencyProperty.Register(nameof(DenominatorLeft), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
+        public double DenominatorLeft
+        {
+            get { return (double) GetValue(DenominatorLeftProperty); }
+            set { SetValue(DenominatorLeftProperty, value); }
+        }
+
+        public static readonly DependencyProperty DenominatorTopProperty = DependencyProperty.Register(nameof(DenominatorTop), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
+        public double DenominatorTop
+        {
+            get { return (double) GetValue(DenominatorTopProperty); }
+            set { SetValue(DenominatorTopProperty, value); }
+        }
+        #endregion
+
         public Fraction()
         {
             InitializeComponent();
@@ -35,18 +79,24 @@ namespace Calculator.Controls
         
         protected override Size MeasureOverride(Size availableSize)
         {
+            var childSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            Numerator?.Measure(childSize);
+            Denominator?.Measure(childSize);
+            
             var numerator = Numerator;
             var denominator = Denominator;
 
-            numerator?.Measure(availableSize);
-            denominator?.Measure(availableSize);
-
             var numeratorHeight = numerator?.DesiredSize.Height ?? 0d;
-            BaselineOffset = CalculateBaseline(numeratorHeight, FontSize, FontFamily);
+            var numeratorWidth = numerator?.DesiredSize.Width ?? 0d;
+            var denominatorHeight = denominator?.DesiredSize.Height ?? 0d;
+            var denominatorWidth = denominator?.DesiredSize.Width ?? 0d;
+
+            var height = numeratorHeight + denominatorHeight + 3d;
+            var width = Math.Max(numeratorWidth, denominatorWidth);
             
-            var height = (numerator?.DesiredSize.Height ?? 0d) + (denominator?.DesiredSize.Height ?? 0d) + 3d;
-            var width = Math.Max(numerator?.DesiredSize.Width ?? 0d, denominator?.DesiredSize.Width ?? 0d);
-            return new Size(Math.Min(width, availableSize.Width), Math.Min(height, availableSize.Height));
+            BaselineOffset = CalculateBaseline(numeratorHeight, FontSize, FontFamily);
+
+            return new Size(width, height);
         }
         
         private static double CalculateBaseline(double numeratorHeight, double fontSize, FontFamily fontFamily)
@@ -54,6 +104,30 @@ namespace Calculator.Controls
             var tb = new TextBlock { Text = "Fg", FontSize = fontSize, FontFamily = fontFamily };
             tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             return tb.BaselineOffset/2d + numeratorHeight;
+        }
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            var numeratorHeight = Numerator?.DesiredSize.Height ?? 0.0;
+            var numeratorWidth = Numerator?.DesiredSize.Width ?? 0.0;
+            var denominatorHeight = Denominator?.DesiredSize.Height ?? 0.0d;
+            var denominatorWidth = Denominator?.DesiredSize.Width ?? 0.0d;
+            var lineHeight = LineHeight;
+
+            var height = numeratorHeight + lineHeight + denominatorHeight;
+            var width = Math.Max(numeratorWidth, denominatorWidth);
+
+            var numeratorLeft = (width - numeratorWidth)/2.0;
+            var lineBottom = numeratorHeight + lineHeight;
+            var denominatorLeft = (width - denominatorWidth)/2.0;
+
+            LineWidth = width;
+            NumeratorLeft = numeratorLeft;
+            LineTop = numeratorHeight + 2;
+            DenominatorTop = lineBottom + 4;
+            DenominatorLeft = denominatorLeft;
+
+            return base.ArrangeOverride(new Size(width, height));
         }
     }
 }
