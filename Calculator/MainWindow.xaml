@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Calculator"
         xmlns:c="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="800">
+        Title="MainWindow" Height="350" Width="800" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}" 
+        Background="{DynamicResource MaterialDesignPaper}" 
+        FontFamily="{StaticResource NotoSans}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,29 +21,29 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="0" Grid.Column="2" Background="Beige" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
+        <Border Grid.Row="0" Grid.Column="2" Background="{Binding Source={StaticResource Primary300}, Converter={StaticResource ColorToBrush}}" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
             <c:Root FontSize="36">
-                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36" FontFamily="Segoe IU Symbol"/>
+                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}" FontStyle="Oblique"/>
             </c:Root>
         </Border>
 
         <Border Grid.Row="0" Grid.Column="0" Background="Beige"  Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
             <c:AlignPanel>
-                <TextBlock Text="x=" Background="Transparent" FontSize="36"/>
+                <TextBlock Text="x=" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
             <c:Fraction LineWidth="5" x:Name="Fraction" FontSize="36" LineHeight="3.6">
                 <c:Fraction.Numerator>
                     <c:AlignPanel>
-                            <TextBlock Text="-b+" Background="Transparent" FontSize="36"/>
+                            <TextBlock Text="-b+" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
                             <c:Root FontSize="36">
                                 <c:Root.Index>
-                                    <TextBlock Text="2" FontSize="36" />
+                                    <TextBlock Text="2" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
                                 </c:Root.Index>
-                                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36"/>
+                                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}" FontWeight="Bold"/>
                             </c:Root>
                         </c:AlignPanel>
                 </c:Fraction.Numerator>
                 <c:Fraction.Denominator>
-                    <TextBlock Text="2a" Background="Transparent" FontSize="36"/>
+                        <TextBlock Text="2a" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
                 </c:Fraction.Denominator>
             </c:Fraction>
             </c:AlignPanel>
@@ -49,9 +52,9 @@
         <Border Grid.Row="0" Grid.Column="1" Background="AliceBlue" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
             <c:Root x:Name="RootElement" FontSize="36">
                 <c:Root.Index>
-                    <TextBlock Text="n" FontSize="36" />
+                    <TextBlock Text="n" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
                 </c:Root.Index>
-                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36"/>
+                <TextBlock Text="b²-4ac" Background="Transparent" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
             </c:Root>
         </Border>
 

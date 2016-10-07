@@ -1,0 +1,1 @@
+﻿See [Guidelines for tile and icon assets](https://msdn.microsoft.com/en-us/windows/uwp/controls-and-patterns/tiles-and-notifications-app-assets) for more information. 
