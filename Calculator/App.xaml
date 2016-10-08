@@ -69,32 +69,44 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        
-                                        <Border Grid.Column="0" Grid.Row="1" Background="{StaticResource MaterialDesignPaper}" Margin="{Binding Source={x:Static shell:SystemParameters2.Current}, Path=WindowNonClientFrameThickness}">
+
+                                        <Border Grid.Column="0" Grid.Row="1" Background="{StaticResource MaterialDesignPaper}" Margin="0">
                                             <AdornerDecorator>
                                                 <ContentPresenter Content="{TemplateBinding Content}" />
                                             </AdornerDecorator>
                                         </Border>
 
-                                        <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="True" Background="{StaticResource MaterialDesignPaper}">
-                                            <TextBlock x:Name="PART_WindowCaptionText" DockPanel.Dock="Left" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="36,0,0,0" Foreground="White"/>
+                                        <DockPanel Grid.Column="0" Grid.Row="0" LastChildFill="True" Background="{Binding Source={StaticResource Primary500}, Converter={StaticResource ColorToBrush}}">
                                             <Image x:Name="PART_WindowCaptionIcon" DockPanel.Dock="Left" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).ResizeBorderThickness}" Width="{Binding Source={x:Static shell:SystemParameters2.Current}, Path=SmallIconSize.Width}" WindowChrome.IsHitTestVisibleInChrome="True"/>
-                                            <Button DockPanel.Dock="Right" x:Name="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <TextBlock x:Name="PART_WindowCaptionText" DockPanel.Dock="Left" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="36,3,0,0" FontFamily="Segoe UI" FontSize="14" Foreground="White"/>
+                                            
+                                            <Button DockPanel.Dock="Right" x:Name="Close" Command="{x:Static SystemCommands.CloseWindowCommand}" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                                                 <Grid Width="16" Height="25">
                                                     <Path Data="M0,0 L8,8 M0,8 L8,0 Z" Width="9" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="2"  />
                                                 </Grid>
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                                        <Setter Property="Foreground" Value="White"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="Red"></Setter>
+                                                                <Setter Property="Background" Value="Red"></Setter>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
                                             </Button>
-                                            <Button DockPanel.Dock="Right" x:Name="Restore" Command="{x:Static SystemCommands.RestoreWindowCommand}"  Visibility="Collapsed"  WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Button DockPanel.Dock="Right" x:Name="Restore" Command="{x:Static SystemCommands.RestoreWindowCommand}"  Visibility="Collapsed"  shell:WindowChrome.IsHitTestVisibleInChrome="True">
                                                 <Grid Width="16" Height="25" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
                                                     <Path Data="M2,0 L8,0 L8,6 M0,3 L6,3 M0,2 L6,2 L6,8 L0,8 Z" Width="8" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="1"  />
                                                 </Grid>
                                             </Button>
-                                            <Button DockPanel.Dock="Right" x:Name="Maximize" Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <Button DockPanel.Dock="Right" x:Name="Maximize" Command="{x:Static SystemCommands.MaximizeWindowCommand}" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                                                 <Grid Width="16" Height="25">
                                                     <Path Data="M0,1 L9,1 L9,8 L0,8 Z" Width="9" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="2"  />
                                                 </Grid>
                                             </Button>
-                                            <Button DockPanel.Dock="Right" x:Name="Minimize" Command="{x:Static SystemCommands.MinimizeWindowCommand}">
+                                            <Button DockPanel.Dock="Right" x:Name="Minimize" Command="{x:Static SystemCommands.MinimizeWindowCommand}" shell:WindowChrome.IsHitTestVisibleInChrome="True">
                                                 <Grid Width="16" Height="25" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
                                                     <Path Data="M0,8 L5,8 L5,7 L0,7" Width="8" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="1"  />
                                                 </Grid>
@@ -104,11 +116,13 @@
                                     </Grid>
                                     
                                     <ControlTemplate.Triggers>
+                                        <Trigger SourceName="Close" Property="Button.IsMouseOver" Value="True">
+                                            <Setter Property="Button.Background" Value="Red" />
+                                        </Trigger>
                                         <Trigger SourceName="PART_WindowCaptionIcon" Property="Source" Value="{x:Null}">
                                             <Setter TargetName="PART_WindowCaptionIcon" Property="Visibility" Value="Collapsed" />
                                             <Setter TargetName="PART_WindowCaptionText" Property="Margin" Value="4,4,0,0" />
                                         </Trigger>
-                                        
                                         <Trigger Property="WindowState" Value="Maximized">
                                             <Setter TargetName="Maximize" Property="Visibility" Value="Collapsed" />
                                             <Setter TargetName="Restore" Property="Visibility" Value="Visible" />
@@ -117,7 +131,6 @@
                                             <Setter TargetName="Maximize" Property="Visibility" Value="Visible" />
                                             <Setter TargetName="Restore" Property="Visibility" Value="Collapsed" />
                                         </Trigger>
-                                       
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>

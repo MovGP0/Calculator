@@ -8,7 +8,8 @@
         xmlns:keypad="clr-namespace:Calculator.Keypad;assembly=Calculator.Keypad"
         xmlns:styling="clr-namespace:Calculator.Styling;assembly=Calculator.Styling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" MinHeight="600" MinWidth="800" Style="{StaticResource StandardStyle}" >
+        Title="MainWindow" Height="600" Width="800" MinHeight="600" MinWidth="800" 
+        Style="{StaticResource StandardStyle}" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
