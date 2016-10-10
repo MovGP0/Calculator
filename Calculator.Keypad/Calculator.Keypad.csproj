@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Development.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -58,7 +64,12 @@
     <Compile Include="Keypad.xaml.cs">
       <DependentUpon>Keypad.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeypadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrigDialog.xaml.cs">
+      <DependentUpon>TrigDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrigDialogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Keypad.xaml">
@@ -69,11 +80,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TrigDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Development.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Controls\Calculator.Controls.csproj">
+      <Project>{EDCAED3E-E410-48E4-B28C-B186C7F01251}</Project>
+      <Name>Calculator.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
       <Project>{bd4112dd-6462-4a9c-8ad3-3548c145421c}</Project>
       <Name>Calculator.Styling</Name>

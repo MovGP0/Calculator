@@ -7,67 +7,39 @@
         xmlns:c="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
         xmlns:keypad="clr-namespace:Calculator.Keypad;assembly=Calculator.Keypad"
         xmlns:styling="clr-namespace:Calculator.Styling;assembly=Calculator.Styling"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" MinHeight="600" MinWidth="800" 
-        Style="{StaticResource StandardStyle}" >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        Title="Calculator" Height="600" Width="560" MinHeight="600" MinWidth="560" 
+        Style="{StaticResource StandardStyle}" Icon="Assets/Icon.ico" >
+    <materialDesign:DialogHost Identifier="WindowDialog">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="212" VerticalAlignment="Top">
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                  DockPanel.Dock="Top"
+                                  HorizontalAlignment="Right" Margin="16"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel LastChildFill="True">
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Top">
+                    <DockPanel>
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" x:Name="MenuToggleButton"/>
+                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                            <StackPanel>
+                                <Button Content="Hello World" />
+                                <Separator />
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Calculator</TextBlock>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
+                <Grid>
 
-        <Border Grid.Row="0" Grid.Column="2" Background="{Binding Source={StaticResource Primary300}, Converter={StaticResource ColorToBrush}}" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
-            <c:Root FontSize="36" Foreground="White">
-                <TextBlock Text="b²-4ac" FontSize="36" FontFamily="{StaticResource NotoSans}" FontStyle="Oblique"/>
-            </c:Root>
-        </Border>
-
-        <Border Grid.Row="0" Grid.Column="0" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <c:AlignPanel>
-                <TextBlock Text="x=" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-                <c:Fraction LineWidth="5" x:Name="Fraction" FontSize="36" LineHeight="3.6">
-                    <c:Fraction.Numerator>
-                        <c:AlignPanel>
-                            <TextBlock Text="-b+" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-                            <c:Root FontSize="36">
-                                <c:Root.Index>
-                                    <TextBlock Text="2" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-                                </c:Root.Index>
-                                <TextBlock Text="b²-4ac" FontSize="36" FontFamily="{StaticResource NotoSans}" FontWeight="Bold"/>
-                            </c:Root>
-                        </c:AlignPanel>
-                    </c:Fraction.Numerator>
-                    <c:Fraction.Denominator>
-                        <TextBlock Text="2a" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-                    </c:Fraction.Denominator>
-                </c:Fraction>
-            </c:AlignPanel>
-        </Border>
-
-        <Border Grid.Row="0" Grid.Column="1" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <c:Root x:Name="RootElement" FontSize="36">
-                <c:Root.Index>
-                    <TextBlock Text="n" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-                </c:Root.Index>
-                <TextBlock Text="b²-4ac" FontSize="36" FontFamily="{StaticResource NotoSans}"/>
-            </c:Root>
-        </Border>
-
-        <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="4">
-            <keypad:Keypad></keypad:Keypad>
-        </Border>
-
-        <Border Grid.Row="1" Grid.Column="1" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
-
-        </Border>
-
-        <Border Grid.Row="1" Grid.Column="2" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top">
-
-        </Border>
-    </Grid>
+                </Grid>
+                <!--<ContentControl Margin="16" Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />-->
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
 </Window>

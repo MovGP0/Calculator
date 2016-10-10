@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using Calculator.Controls;
 
 namespace Calculator
@@ -17,15 +15,12 @@ namespace Calculator
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
-
-            var iconUri = new Uri("pack://application:,,,/Assets/Square150x150Logo.scale-200.ico", UriKind.RelativeOrAbsolute);
-            Icon = BitmapFrame.Create(iconUri);
         }
 
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var rootAdorner = new BaselineAdorner(RootElement);
-            var fractionAdorner = new BaselineAdorner(Fraction);
+            //var rootAdorner = new BaselineAdorner(RootElement);
+            //var fractionAdorner = new BaselineAdorner(Fraction);
 
             //AdornerLayer.GetAdornerLayer(RootElement).Add(rootAdorner);
             //AdornerLayer.GetAdornerLayer(Fraction).Add(fractionAdorner);

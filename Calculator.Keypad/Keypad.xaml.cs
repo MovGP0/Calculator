@@ -5,6 +5,7 @@
         public Keypad()
         {
             InitializeComponent();
+            DataContext = new KeypadViewModel();
         }
     }
 }

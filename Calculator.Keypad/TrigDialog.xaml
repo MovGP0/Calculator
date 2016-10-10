@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Calculator.Keypad.TrigDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="176" d:DesignWidth="213" Width="213" Height="176" Background="{StaticResource MaterialDesignPaper}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71" />
+            <ColumnDefinition Width="71" />
+            <ColumnDefinition Width="71" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="0" Content="sin" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>sin</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="0" Grid.Column="1" Content="cos" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>cos</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="0" Grid.Column="2" Content="tan" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>tan</system:String>
+            </Button.CommandParameter>
+        </Button>
+
+        <Button Grid.Row="1" Grid.Column="0" Content="asin" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>asin</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" Content="acos" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>acos</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="2" Content="atan" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>atan</system:String>
+            </Button.CommandParameter>
+        </Button>
+
+        <Button Grid.Row="2" Grid.Column="0" Content="csc" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>csc</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="1" Content="sec" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>sec</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="2" Content="cot" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>cot</system:String>
+            </Button.CommandParameter>
+        </Button>
+
+        <Button Grid.Row="3" Grid.Column="0" Content="acsc" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>acsc</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="1" Content="asec" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>asec</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="2" Content="acot" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
+            <Button.CommandParameter>
+                <system:String>acot</system:String>
+            </Button.CommandParameter>
+        </Button>
+    </Grid>
+</UserControl>
