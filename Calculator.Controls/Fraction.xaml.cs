@@ -8,14 +8,14 @@ namespace Calculator.Controls
     public sealed partial class Fraction
     {
         #region DependencyProperties
-        private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(UIElement), typeof(Fraction), new PropertyMetadata(default(UIElement)));
+        private static readonly DependencyProperty NumeratorProperty = DependencyProperty.Register(nameof(Numerator), typeof(UIElement), typeof(Fraction), new FrameworkPropertyMetadata(default(UIElement)) {AffectsMeasure = true} );
         public UIElement Numerator
         {
             get { return (UIElement)GetValue(NumeratorProperty); }
             set { SetValue(NumeratorProperty, value); }
         }
 
-        private static readonly DependencyProperty DenominatorProperty = DependencyProperty.Register(nameof(Denominator), typeof(UIElement), typeof(Fraction), new PropertyMetadata(default(UIElement)));
+        private static readonly DependencyProperty DenominatorProperty = DependencyProperty.Register(nameof(Denominator), typeof(UIElement), typeof(Fraction), new FrameworkPropertyMetadata(default(UIElement)) {AffectsMeasure = true});
         public UIElement Denominator
         {
             get { return (UIElement)GetValue(DenominatorProperty); }
@@ -29,18 +29,11 @@ namespace Calculator.Controls
             set { SetValue(BaselineOffsetProperty, value); }
         }
 
-        public static readonly DependencyProperty LineHeightProperty = DependencyProperty.Register(nameof(LineHeight), typeof(double), typeof(Fraction), new PropertyMetadata(1.0));
-        public double LineHeight
+        public static readonly DependencyProperty LineThicknessProperty = DependencyProperty.Register(nameof(LineThickness), typeof(double), typeof(Fraction), new PropertyMetadata(1.0));
+        public double LineThickness
         {
-            get { return (double) GetValue(LineHeightProperty); }
-            set { SetValue(LineHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty LineWidthProperty = DependencyProperty.Register(nameof(LineWidth), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
-        public double LineWidth
-        {
-            get { return (double) GetValue(LineWidthProperty); }
-            set { SetValue(LineWidthProperty, value); }
+            get { return (double) GetValue(LineThicknessProperty); }
+            set { SetValue(LineThicknessProperty, value); }
         }
         
         public static readonly DependencyProperty NumeratorLeftProperty = DependencyProperty.Register(nameof(NumeratorLeft), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
@@ -49,14 +42,7 @@ namespace Calculator.Controls
             get { return (double) GetValue(NumeratorLeftProperty); }
             set { SetValue(NumeratorLeftProperty, value); }
         }
-
-        public static readonly DependencyProperty LineTopProperty = DependencyProperty.Register(nameof(LineTop), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
-        public double LineTop
-        {
-            get { return (double) GetValue(LineTopProperty); }
-            set { SetValue(LineTopProperty, value); }
-        }
-
+        
         public static readonly DependencyProperty DenominatorLeftProperty = DependencyProperty.Register(nameof(DenominatorLeft), typeof(double), typeof(Fraction), new PropertyMetadata(default(double)));
         public double DenominatorLeft
         {
@@ -90,12 +76,15 @@ namespace Calculator.Controls
             var numeratorWidth = numerator?.DesiredSize.Width ?? 0d;
             var denominatorHeight = denominator?.DesiredSize.Height ?? 0d;
             var denominatorWidth = denominator?.DesiredSize.Width ?? 0d;
+            var lineHeight = FontSize/10.0;
+            var linePadding = lineHeight;
 
-            var height = numeratorHeight + denominatorHeight + 3d;
-            var width = Math.Max(numeratorWidth, denominatorWidth);
+            var height = Margin.Top + numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight + Margin.Bottom;
+            var width = Margin.Left + Math.Max(numeratorWidth, denominatorWidth) + Margin.Right;
             
             BaselineOffset = CalculateBaseline(numeratorHeight, FontSize, FontFamily);
-
+            LineThickness = lineHeight;
+            
             return new Size(width, height);
         }
         
@@ -112,22 +101,34 @@ namespace Calculator.Controls
             var numeratorWidth = Numerator?.DesiredSize.Width ?? 0.0;
             var denominatorHeight = Denominator?.DesiredSize.Height ?? 0.0d;
             var denominatorWidth = Denominator?.DesiredSize.Width ?? 0.0d;
-            var lineHeight = LineHeight;
+            var lineHeight = LineThickness;
+            var linePadding = lineHeight;
 
-            var height = numeratorHeight + lineHeight + denominatorHeight;
-            var width = Math.Max(numeratorWidth, denominatorWidth);
+            var maxWidth = Math.Max(numeratorWidth, denominatorWidth);
 
-            var numeratorLeft = (width - numeratorWidth)/2.0;
-            var lineBottom = numeratorHeight + lineHeight;
-            var denominatorLeft = (width - denominatorWidth)/2.0;
+            NumeratorLeft = (maxWidth-numeratorWidth)/2.0;
+            DenominatorTop = Padding.Top + numeratorHeight + linePadding + lineHeight + linePadding;
+            DenominatorLeft = (maxWidth-denominatorWidth)/2.0;
+            
+            var width = Padding.Left + Math.Max(denominatorWidth, numeratorWidth) + Padding.Right;
+            var height = Padding.Top + numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight + Padding.Bottom;
 
-            LineWidth = width;
-            NumeratorLeft = numeratorLeft;
-            LineTop = numeratorHeight + 2;
-            DenominatorTop = lineBottom + 4;
-            DenominatorLeft = denominatorLeft;
+            base.ArrangeOverride(new Size(width, height));
 
-            return base.ArrangeOverride(new Size(width, height));
+            var lineY = Padding.Top + numeratorHeight + linePadding + lineHeight/2.0;
+            _leftPoint = new Point(0, lineY);
+            _rightPoint = new Point(width, lineY);
+
+            return new Size(width, height);
+        }
+
+        private Point _leftPoint;
+        private Point _rightPoint;
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            dc.DrawLine(new Pen(Foreground, LineThickness), _leftPoint, _rightPoint);
+            dc.DrawLine(new Pen(new SolidColorBrush(Colors.Red) {Opacity = 0.2}, FontSize/10.0), new Point(0,BaselineOffset), new Point(ActualWidth,BaselineOffset));
         }
     }
 }

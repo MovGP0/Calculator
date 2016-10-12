@@ -12,9 +12,8 @@
         <ControlTemplate x:Key="FractionTemplate" TargetType="controls:Fraction">
             <AdornerDecorator>
                 <Canvas DataContext="{Binding ElementName=This}">
-                    <ContentPresenter Content="{Binding Numerator}" Canvas.Left="{Binding NumeratorLeft}" Canvas.Top="0" />
-                    <Border Background="{Binding Foreground}" Canvas.Top="{Binding LineTop}" Canvas.Left="0" Height="{Binding LineHeight}" Width="{Binding LineWidth}" />
-                    <ContentPresenter Content="{Binding Denominator}" HorizontalAlignment="Center" Canvas.Left="{Binding DenominatorLeft}" Canvas.Top="{Binding DenominatorTop}" />
+                    <ContentPresenter Content="{Binding Numerator}" Canvas.Left="{Binding NumeratorLeft}" Canvas.Top="0" Canvas.ZIndex="0" />
+                    <ContentPresenter Content="{Binding Denominator}" Canvas.Left="{Binding DenominatorLeft}" Canvas.Top="{Binding DenominatorTop}" Canvas.ZIndex="0" />
                 </Canvas>
             </AdornerDecorator>
         </ControlTemplate>

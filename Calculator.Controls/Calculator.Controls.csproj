@@ -71,7 +71,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Root.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Scalar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Set.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,6 +99,9 @@
       <DependentUpon>Fraction.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\HighlightAdorner.cs" />
+    <Compile Include="Pow.xaml.cs">
+      <DependentUpon>Pow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +119,12 @@
       <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\SelectionAdorner.cs" />
+    <Compile Include="Scalar.xaml.cs">
+      <DependentUpon>Scalar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Set.xaml.cs">
+      <DependentUpon>Set.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiElementExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Calculator.Controls.Scalar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Calculator.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="This" Template="{DynamicResource ScalarTemplate}">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ScalarTemplate" TargetType="local:Scalar">
+            <AdornerDecorator DataContext="{Binding ElementName=This}">
+                <Canvas>
+                    <TextBlock Canvas.Left="{Binding Padding.Left}" Canvas.Right="{Binding Padding.Right}"
+                        Text="{Binding Text}" FontStyle="Italic" FontWeight="Normal" 
+                               FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="{Binding Padding}" />
+                </Canvas>
+            </AdornerDecorator>
+        </ControlTemplate>
+    </UserControl.Resources>
+</UserControl>

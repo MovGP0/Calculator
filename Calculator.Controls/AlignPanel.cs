@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Calculator.Controls
 {
@@ -51,14 +52,13 @@ namespace Calculator.Controls
                 var offset = child.GetBaselineOffset();
                 
                 rcChild.X += previousChildSize;
-                rcChild.Y = maximumOffset - offset;
+                rcChild.Y = maximumOffset-offset;
 
                 previousChildSize = child.DesiredSize.Width;
                 rcChild.Width = child.DesiredSize.Width;
+                rcChild.Height = child.DesiredSize.Height;
 
-                rcChild.Height = Math.Max(arrangeSize.Height - offset, child.DesiredSize.Height);
-
-                child.Arrange(rcChild);
+                child.Arrange(new Rect(rcChild.Location, rcChild.Size));
             }
 
             var height = children.Select(c => new {
@@ -69,6 +69,11 @@ namespace Calculator.Controls
             var width = children.Sum(c => c.DesiredSize.Width);
 
             return new Size(width, height);
+        }
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            dc.DrawLine(new Pen(new SolidColorBrush(Colors.Orange){ Opacity = 0.2 }, 2.4), new Point(0,BaselineOffset), new Point(ActualWidth,BaselineOffset));
         }
     }
 }

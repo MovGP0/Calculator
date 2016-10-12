@@ -49,6 +49,14 @@ namespace Calculator.Controls
             set { SetValue(BaselineOffsetProperty, value); }
         }
 
+        public static readonly DependencyProperty LineThicknessProperty = DependencyProperty.Register(nameof(LineThickness), typeof(double), typeof(Root), new PropertyMetadata(default(double)));
+
+        public double LineThickness
+        {
+            get { return (double) GetValue(LineThicknessProperty); }
+            set { SetValue(LineThicknessProperty, value); }
+        }
+
         #endregion
 
         private const double Scale = 0.8;
@@ -65,6 +73,8 @@ namespace Calculator.Controls
             Index?.Measure(childSize);
             (Content as UIElement)?.Measure(childSize);
 
+            LineThickness = FontSize/10.0;
+
             var index = Index;
             var content = Content as UIElement;
             var indexHeight = index?.DesiredSize.Height ?? 0d * Scale;
@@ -76,11 +86,10 @@ namespace Calculator.Controls
             var width = indexWidth + contentWidth + rootWidth;
 
             var middleOffset = Math.Max(indexHeight, contentHeight/2.0) + 3.0;
-            var height = middleOffset + contentHeight/2.0;
-            var contentTop = middleOffset - contentHeight/2.0 - 2.0;
+            var height = middleOffset + contentHeight/2.0 + LineThickness *4.0;
+            var contentTop = middleOffset - contentHeight/2.0 + 2.0*LineThickness;
             
             BaselineOffset = contentTop + content.GetBaselineOffset();
-
             return new Size(width, height);
         }
 
@@ -96,18 +105,18 @@ namespace Calculator.Controls
             var middleOffset = Math.Max(indexHeight, contentHeight/2.0) + 3.0;
             var height = middleOffset + contentHeight/2.0;
             var width = indexWidth + contentWidth + rootWidth;
-            var contentTop = middleOffset - contentHeight/2.0 - 2.0;
+            var topLineY = middleOffset - contentHeight/2.0 + LineThickness/2.0;
             var contentLeft = indexWidth + rootWidth;
 
             ContentX = contentLeft;
-            ContentY = contentTop;
+            ContentY = topLineY + LineThickness;
             Points = new PointCollection
             {
                 new Point(0, middleOffset), // left point
                 new Point(indexWidth, middleOffset), // straight line
-                new Point(indexWidth + rootWidth/2.0, height), // bottom point
-                new Point(indexWidth + rootWidth, contentTop), // top point
-                new Point(width, contentTop) // top right point
+                new Point(indexWidth + rootWidth/2.0, height + LineThickness), // bottom point
+                new Point(indexWidth + rootWidth, topLineY), // top point
+                new Point(width, topLineY) // top right point
             };
 
             return base.ArrangeOverride(arrangeBounds);
