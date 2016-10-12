@@ -15,6 +15,7 @@ namespace Calculator.Keypad
         private ISubject<Event, Event> ReplaySubject { get; }
         public ICommand KeyUpCommand => new Command<KeyEventArgs>(OnKeyUp);
         public ICommand OpenTrigDialogCommand => new Command(OpenTrigDialog);
+        public ICommand OpenSetsDialogCommand => new Command(OpenSetsDialog);
 
         public KeypadViewModel()
         {
@@ -54,6 +55,17 @@ namespace Calculator.Keypad
             ReplaySubject.OnNext(@event);
         }
 
+        private async void OpenSetsDialog(object o)
+        {
+            // TODO: use DI here
+            var view = new SetsDialog
+            {
+                // DataContext = new SetsDialogViewModel()
+            };
+            
+            var result = (string)await DialogHost.Show(view, "RootDialog");
+        }
+
         private static Event MapTrigDialogResultToEvent(string result)
         {
             return result.Match()
@@ -69,6 +81,9 @@ namespace Calculator.Keypad
                 .With("acsc", new AcscEvent())
                 .With("asec", new AsecEvent())
                 .With("acot", new AcotEvent())
+                .With("degree", new DegreeAngleEvent())
+                .With("rad", new RadiantAngleEvent())
+                .With("gon", new GonAngleEvent())
                 .ElseException();
         }
     }

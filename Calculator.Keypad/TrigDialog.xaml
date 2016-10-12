@@ -6,7 +6,7 @@
              xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="176" d:DesignWidth="213" Width="213" Height="176" Background="{StaticResource MaterialDesignPaper}">
+             d:DesignHeight="176" d:DesignWidth="213" Width="284" Height="176" Background="{StaticResource MaterialDesignPaper}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
@@ -15,6 +15,7 @@
             <RowDefinition Height="44" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71" />
             <ColumnDefinition Width="71" />
             <ColumnDefinition Width="71" />
             <ColumnDefinition Width="71" />
@@ -34,6 +35,11 @@
                 <system:String>tan</system:String>
             </Button.CommandParameter>
         </Button>
+        <Button Grid.Row="0" Grid.Column="3" Content="° &quot; '" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="61">
+            <Button.CommandParameter>
+                <system:String>degree</system:String>
+            </Button.CommandParameter>
+        </Button>
 
         <Button Grid.Row="1" Grid.Column="0" Content="asin" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
             <Button.CommandParameter>
@@ -50,6 +56,11 @@
                 <system:String>atan</system:String>
             </Button.CommandParameter>
         </Button>
+        <Button Grid.Row="1" Grid.Column="3" Content="rad" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="61">
+            <Button.CommandParameter>
+                <system:String>rad</system:String>
+            </Button.CommandParameter>
+        </Button>
 
         <Button Grid.Row="2" Grid.Column="0" Content="csc" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
             <Button.CommandParameter>
@@ -64,6 +75,11 @@
         <Button Grid.Row="2" Grid.Column="2" Content="cot" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Width="61">
             <Button.CommandParameter>
                 <system:String>cot</system:String>
+            </Button.CommandParameter>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="3" Content="gon" Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="61">
+            <Button.CommandParameter>
+                <system:String>gon</system:String>
             </Button.CommandParameter>
         </Button>
 

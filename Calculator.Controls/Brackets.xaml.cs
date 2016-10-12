@@ -61,6 +61,13 @@ namespace Calculator.Controls
             set { SetValue(RightTransformProperty,value); }
         }
 
+        private static readonly DependencyProperty BaselineOffsetProperty = DependencyProperty.Register(nameof(BaselineOffset), typeof(double), typeof(Brackets), new PropertyMetadata(default(double)));
+        public double BaselineOffset
+        {
+            get { return (double)GetValue(BaselineOffsetProperty); }
+            set { SetValue(BaselineOffsetProperty, value); }
+        }
+
         public Brackets()
         {
             InitializeComponent();
@@ -108,6 +115,8 @@ namespace Calculator.Controls
                 contentDesiredHeight,
                 rightDesiredHeight * _scaleFactor
             }.Max();
+            
+            BaselineOffset = content.GetBaselineOffset();
 
             return new Size(width, height);
         }

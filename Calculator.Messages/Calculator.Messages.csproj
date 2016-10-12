@@ -56,12 +56,15 @@
     <Compile Include="Events\Trigonometric\AcosEvent.cs" />
     <Compile Include="Events\Trigonometric\AcotEvent.cs" />
     <Compile Include="Events\Trigonometric\AcscEvent.cs" />
+    <Compile Include="Events\Trigonometric\DegreeAngleEvent.cs" />
     <Compile Include="Events\Trigonometric\AsecEvent.cs" />
     <Compile Include="Events\Trigonometric\AsinEvent.cs" />
     <Compile Include="Events\Trigonometric\AtanEvent.cs" />
     <Compile Include="Events\Trigonometric\CosEvent.cs" />
     <Compile Include="Events\Trigonometric\CotEvent.cs" />
     <Compile Include="Events\Trigonometric\CscEvent.cs" />
+    <Compile Include="Events\Trigonometric\GonAngleEvent.cs" />
+    <Compile Include="Events\Trigonometric\RadiantAngleEvent.cs" />
     <Compile Include="Events\Trigonometric\SecEvent.cs" />
     <Compile Include="Events\Trigonometric\SinEvent.cs" />
     <Compile Include="Events\Trigonometric\TanEvent.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Calculator.Controls;
 
@@ -19,11 +20,8 @@ namespace Calculator
 
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
-            //var rootAdorner = new BaselineAdorner(RootElement);
-            //var fractionAdorner = new BaselineAdorner(Fraction);
-
-            //AdornerLayer.GetAdornerLayer(RootElement).Add(rootAdorner);
-            //AdornerLayer.GetAdornerLayer(Fraction).Add(fractionAdorner);
+            //var rootAdorner = new BaselineAdorner(BaselineElement);
+            //AdornerLayer.GetAdornerLayer(BaselineElement).Add(rootAdorner);
         }
 
         private void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)

@@ -9,7 +9,7 @@
         xmlns:styling="clr-namespace:Calculator.Styling;assembly=Calculator.Styling"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Calculator" Height="600" Width="560" MinHeight="600" MinWidth="560" 
+        Title="Calculator" Height="600" Width="640" MinHeight="600" MinWidth="640" 
         Style="{StaticResource StandardStyle}" Icon="Assets/Icon.ico" >
     <materialDesign:DialogHost Identifier="WindowDialog">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
@@ -22,23 +22,123 @@
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <DockPanel LastChildFill="True">
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Top">
-                    <DockPanel>
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" x:Name="MenuToggleButton"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                            <StackPanel>
-                                <Button Content="Hello World" />
-                                <Separator />
-                            </StackPanel>
-                        </materialDesign:PopupBox>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Calculator</TextBlock>
-                    </DockPanel>
-                </materialDesign:ColorZone>
                 <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
-                <Grid>
-
-                </Grid>
-                <!--<ContentControl Margin="16" Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />-->
+                <DockPanel LastChildFill="False">
+                    <Border DockPanel.Dock="Top" Margin="4">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%0:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+                            <TextBlock Text="ax²+bx+c=0" FontStyle="Italic" Foreground="White" FontSize="24" />
+                        </c:AlignPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top" Margin="4">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%1:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+                            <TextBlock Text="solve(" FontSize="24" Foreground="White" />
+                            <TextBlock Text="%0" FontSize="24" Foreground="{StaticResource SecondaryAccentBrush}" />
+                            <TextBlock Text=",x)" FontSize="24" Foreground="White" />
+                        </c:AlignPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top" Margin="4">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%2:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+                            <c:Brackets>
+                                <c:Brackets.Left>
+                                    <TextBlock Text="{}{" />
+                                </c:Brackets.Left>
+                                <c:Brackets.Right>
+                                    <TextBlock Text="{}}" />
+                                </c:Brackets.Right>
+                                <c:AlignPanel HorizontalAlignment="Left">
+                                    <!-- Quadratic formula -->
+                                        <c:AlignPanel DockPanel.Dock="Left" HorizontalAlignment="Left">
+                                        <TextBlock Background="Yellow" DockPanel.Dock="Left" Text="x=" FontStyle="Italic" FontSize="24" Foreground="White" />
+                                        <c:Fraction Background="Yellow" DockPanel.Dock="Left" FontSize="24" Foreground="White">
+                                            <c:Fraction.Numerator>
+                                                <c:AlignPanel Background="Yellow">
+                                                    <TextBlock Background="Yellow" Text="-b±" FontStyle="Italic" />
+                                                    <c:Root Background="Yellow">
+                                                        <TextBlock Background="Yellow" Text="b²-4ac" FontStyle="Italic" />
+                                                    </c:Root>
+                                                </c:AlignPanel>
+                                            </c:Fraction.Numerator>
+                                            <c:Fraction.Denominator>
+                                                <TextBlock Background="Yellow" Text="2a" FontStyle="Italic" />
+                                            </c:Fraction.Denominator>
+                                        </c:Fraction>
+                                    </c:AlignPanel>
+                                    <TextBlock Text=","  Foreground="White" FontSize="24" />
+                                    <!-- Muller's method -->
+                                    <c:AlignPanel HorizontalAlignment="Left">
+                                        <c:Fraction Background="Green" DockPanel.Dock="Left" FontSize="24">
+                                            <c:Fraction.Numerator>
+                                                <TextBlock Background="Green" Text="-2c" FontStyle="Italic" />
+                                            </c:Fraction.Numerator>
+                                            <c:Fraction.Denominator>
+                                                <c:AlignPanel Background="Green">
+                                                    <TextBlock Background="Green" Text="b±" />
+                                                    <c:Root Background="Green">
+                                                        <TextBlock Background="Green" Text="b²-4ac" FontStyle="Italic" />
+                                                    </c:Root>
+                                                </c:AlignPanel>
+                                            </c:Fraction.Denominator>
+                                        </c:Fraction>
+                                    </c:AlignPanel>
+                                    <TextBlock Text="," Foreground="White" FontSize="24" />
+                                    <!-- Reduced quadratic equation -->
+                                    <c:Fraction Background="Blue" FontSize="24">
+                                        <c:Fraction.Numerator>
+                                            <c:AlignPanel>
+                                                <TextBlock Text="-" Foreground="White" FontSize="24" />
+                                                <c:Fraction Foreground="White">
+                                                    <c:Fraction.Numerator>
+                                                        <TextBlock Text="b" Foreground="White" FontSize="24" />
+                                                    </c:Fraction.Numerator>
+                                                    <c:Fraction.Denominator>
+                                                        <TextBlock Text="a" Foreground="White" FontSize="24" />
+                                                    </c:Fraction.Denominator>
+                                                </c:Fraction>
+                                                <TextBlock Text="±" Foreground="White" FontSize="24" />
+                                                <c:Root Foreground="White">
+                                                    <c:AlignPanel>
+                                                        <c:Brackets Foreground="White">
+                                                            <c:Brackets.Left>
+                                                                <TextBlock Text="(" Foreground="White" FontSize="24" />
+                                                            </c:Brackets.Left>
+                                                            <c:Brackets.Right>
+                                                                <TextBlock Text=")" Foreground="White" FontSize="24" />
+                                                            </c:Brackets.Right>
+                                                            <c:Fraction>
+                                                                <c:Fraction.Numerator>
+                                                                    <TextBlock Text="b" Foreground="White" FontSize="24" />
+                                                                </c:Fraction.Numerator>
+                                                                <c:Fraction.Denominator>
+                                                                    <TextBlock Text="a" Foreground="White" FontSize="24" />
+                                                                </c:Fraction.Denominator>
+                                                            </c:Fraction>
+                                                        </c:Brackets>
+                                                        <TextBlock Text="²-4" FontSize="24" />
+                                                        <c:Fraction>
+                                                            <c:Fraction.Numerator>
+                                                                <TextBlock Text="c" FontSize="24" />
+                                                            </c:Fraction.Numerator>
+                                                            <c:Fraction.Denominator>
+                                                                <TextBlock Text="a" FontSize="24" />
+                                                            </c:Fraction.Denominator>
+                                                        </c:Fraction>
+                                                    </c:AlignPanel>
+                                                </c:Root>
+                                            </c:AlignPanel>
+                                        </c:Fraction.Numerator>
+                                        <c:Fraction.Denominator>
+                                            <TextBlock Text="2" />
+                                        </c:Fraction.Denominator>
+                                    </c:Fraction>
+                                </c:AlignPanel>
+                            </c:Brackets>
+                        </c:AlignPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top" />
+                </DockPanel>
             </DockPanel>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
