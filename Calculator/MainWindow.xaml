@@ -3,162 +3,149 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Calculator"
         xmlns:c="clr-namespace:Calculator.Controls;assembly=Calculator.Controls"
         xmlns:keypad="clr-namespace:Calculator.Keypad;assembly=Calculator.Keypad"
-        xmlns:styling="clr-namespace:Calculator.Styling;assembly=Calculator.Styling"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Calculator" Height="600" Width="640" MinHeight="600" MinWidth="640" 
         Style="{StaticResource StandardStyle}" Icon="Assets/Icon.ico" >
     <materialDesign:DialogHost Identifier="WindowDialog">
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel MinWidth="212" VerticalAlignment="Top">
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                  DockPanel.Dock="Top"
-                                  HorizontalAlignment="Right" Margin="16"
-                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                </DockPanel>
-            </materialDesign:DrawerHost.LeftDrawerContent>
-            <DockPanel LastChildFill="True">
-                <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
-                <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <DockPanel LastChildFill="False">
-                        <Border DockPanel.Dock="Top" Margin="4">
-                            <c:AlignPanel HorizontalAlignment="Left">
-                                <TextBlock Text="%0:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
-                                <TextBlock Text="ax²+bx+c=0" FontStyle="Italic" Foreground="White" FontSize="24" />
-                            </c:AlignPanel>
-                        </Border>
-                        <Border DockPanel.Dock="Top" Margin="4">
-                            <c:AlignPanel HorizontalAlignment="Left">
-                                <TextBlock Text="%1:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
-                                <TextBlock Text="solve(" FontSize="24" Foreground="White" />
-                                <TextBlock Text="%0" FontSize="24" Foreground="{StaticResource SecondaryAccentBrush}" />
-                                <TextBlock Text=",x)" FontSize="24" Foreground="White" />
-                            </c:AlignPanel>
-                        </Border>
-                        <Border DockPanel.Dock="Top" Margin="4" HorizontalAlignment="Left">
-                            <c:AlignPanel HorizontalAlignment="Left">
-                                <TextBlock Text="%2:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
 
-                                <c:Scalar Text="x=" FontSize="24" Foreground="White" />
-                                <c:Set FontSize="24" Foreground="White">
-                                    <c:AlignPanel HorizontalAlignment="Left">
-                                        <!--Quadratic formula-->
-                                            <c:Fraction FontSize="24" Foreground="White">
-                                                <c:Fraction.Numerator>
+        <DockPanel LastChildFill="True">
+            <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
+            <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <DockPanel LastChildFill="False">
+                    <Border DockPanel.Dock="Top" Margin="4">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%0:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+                            <TextBlock Text="ax²+bx+c=0" FontStyle="Italic" Foreground="White" FontSize="24" />
+                        </c:AlignPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top" Margin="4">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%1:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+                            <TextBlock Text="solve(" FontSize="24" Foreground="White" />
+                            <TextBlock Text="%0" FontSize="24" Foreground="{StaticResource SecondaryAccentBrush}" />
+                            <TextBlock Text=",x)" FontSize="24" Foreground="White" />
+                        </c:AlignPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top" Margin="4" HorizontalAlignment="Left">
+                        <c:AlignPanel HorizontalAlignment="Left">
+                            <TextBlock Text="%2:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="24" Padding="0,0,16,0" />
+
+                            <c:Scalar Text="x=" FontSize="24" Foreground="White" />
+                            <c:Set FontSize="24" Foreground="White">
+                                <c:AlignPanel HorizontalAlignment="Left">
+                                    <!--Quadratic formula-->
+                                    <c:Fraction FontSize="24" Foreground="White">
+                                        <c:Fraction.Numerator>
+                                            <c:AlignPanel>
+                                                <c:Scalar Text="-b±" />
+                                                <c:Root>
                                                     <c:AlignPanel>
-                                                        <c:Scalar Text="-b±" />
-                                                        <c:Root>
-                                                            <c:AlignPanel>
-                                                                <c:Pow Margin="0">
-                                                                    <c:Pow.Exponent>
-                                                                        <c:Scalar Text="2" />
-                                                                    </c:Pow.Exponent>
-                                                                    <c:Scalar Text="b" />
-                                                                </c:Pow>
-                                                                <c:Scalar Text="-4ac" />
-                                                            </c:AlignPanel>
-                                                        </c:Root>
-                                                    </c:AlignPanel>
-                                                </c:Fraction.Numerator>
-                                                <c:Fraction.Denominator>
-                                                    <c:Scalar Text="2a" />
-                                                </c:Fraction.Denominator>
-                                            </c:Fraction>
-                                        
-                                        <c:Scalar Text="," Padding="4,0,8,0" />
-                                        <!--Muller's method-->
-                                       
-                                        <c:Fraction>
-                                            <c:Fraction.Numerator>
-                                                <c:Scalar Text="-2c" />
-                                            </c:Fraction.Numerator>
-                                            <c:Fraction.Denominator>
-                                                <c:AlignPanel>
-                                                    <c:Scalar Text="b±" />
-                                                    <c:Root>
-                                                        <c:AlignPanel>
-                                                            <c:Pow>
-                                                                <c:Pow.Exponent>
-                                                                    <c:Scalar Text="2" />
-                                                                </c:Pow.Exponent>
-                                                                <c:Scalar Text="b" />
-                                                            </c:Pow>
-                                                            <c:Scalar Text="-4ac" />
-                                                        </c:AlignPanel>
-                                                    </c:Root>
-                                                </c:AlignPanel>
-                                            </c:Fraction.Denominator>
-                                        </c:Fraction>
-                                        
-                                        <c:Scalar Text="," Padding="4,0,8,0" />
-                                        
-                                        <!--Reduced quadratic equation-->
-                                        <c:Fraction Background="Blue" FontSize="24">
-                                            <c:Fraction.Numerator>
-                                                <c:AlignPanel>
-                                                    <c:Scalar Text="-" />
-                                                    <c:Fraction Foreground="White">
-                                                        <c:Fraction.Numerator>
+                                                        <c:Pow Margin="0">
+                                                            <c:Pow.Exponent>
+                                                                <c:Scalar Text="2" />
+                                                            </c:Pow.Exponent>
                                                             <c:Scalar Text="b" />
-                                                        </c:Fraction.Numerator>
-                                                        <c:Fraction.Denominator>
-                                                            <c:Scalar Text="a" />
-                                                        </c:Fraction.Denominator>
-                                                    </c:Fraction>
-                                                    <c:Scalar Text="±" />
-                                                    <c:Root Foreground="White">
-                                                        <c:AlignPanel>
-                                                            <c:Pow>
-                                                                <c:Pow.Exponent>
-                                                                    <c:Scalar Text="2" />
-                                                                </c:Pow.Exponent>
-                                                                <c:Brackets Foreground="White">
-                                                                    <c:Brackets.Left>
-                                                                        <c:Scalar Text="(" />
-                                                                    </c:Brackets.Left>
-                                                                    <c:Brackets.Right>
-                                                                        <c:Scalar Text=")" />
-                                                                    </c:Brackets.Right>
-                                                                    <c:Fraction>
-                                                                        <c:Fraction.Numerator>
-                                                                            <c:Scalar Text="b" />
-                                                                        </c:Fraction.Numerator>
-                                                                        <c:Fraction.Denominator>
-                                                                            <c:Scalar Text="a" />
-                                                                        </c:Fraction.Denominator>
-                                                                    </c:Fraction>
-                                                                </c:Brackets>
-                                                            </c:Pow>
-                                                            <c:Scalar Text="-4" />
-                                                            <c:Fraction>
-                                                                <c:Fraction.Numerator>
-                                                                    <c:Scalar Text="c" />
-                                                                </c:Fraction.Numerator>
-                                                                <c:Fraction.Denominator>
-                                                                    <c:Scalar Text="a" />
-                                                                </c:Fraction.Denominator>
-                                                            </c:Fraction>
-                                                        </c:AlignPanel>
-                                                    </c:Root>
-                                                </c:AlignPanel>
-                                            </c:Fraction.Numerator>
-                                            <c:Fraction.Denominator>
-                                                <c:Scalar Text="2" />
-                                            </c:Fraction.Denominator>
-                                        </c:Fraction>
-                                    </c:AlignPanel>
-                                </c:Set>
-                            </c:AlignPanel>
-                        </Border>
+                                                        </c:Pow>
+                                                        <c:Scalar Text="-4ac" />
+                                                    </c:AlignPanel>
+                                                </c:Root>
+                                            </c:AlignPanel>
+                                        </c:Fraction.Numerator>
+                                        <c:Fraction.Denominator>
+                                            <c:Scalar Text="2a" />
+                                        </c:Fraction.Denominator>
+                                    </c:Fraction>
 
-                        <Border DockPanel.Dock="Top" />
-                    </DockPanel>
-                </ScrollViewer>
-            </DockPanel>
-        </materialDesign:DrawerHost>
+                                    <c:Scalar Text="," Padding="4,0,8,0" />
+                                    <!--Muller's method-->
+
+                                    <c:Fraction>
+                                        <c:Fraction.Numerator>
+                                            <c:Scalar Text="-2c" />
+                                        </c:Fraction.Numerator>
+                                        <c:Fraction.Denominator>
+                                            <c:AlignPanel>
+                                                <c:Scalar Text="b±" />
+                                                <c:Root>
+                                                    <c:AlignPanel>
+                                                        <c:Pow>
+                                                            <c:Pow.Exponent>
+                                                                <c:Scalar Text="2" />
+                                                            </c:Pow.Exponent>
+                                                            <c:Scalar Text="b" />
+                                                        </c:Pow>
+                                                        <c:Scalar Text="-4ac" />
+                                                    </c:AlignPanel>
+                                                </c:Root>
+                                            </c:AlignPanel>
+                                        </c:Fraction.Denominator>
+                                    </c:Fraction>
+
+                                    <c:Scalar Text="," Padding="4,0,8,0" />
+
+                                    <!--Reduced quadratic equation-->
+                                    <c:Fraction Background="Blue" FontSize="24">
+                                        <c:Fraction.Numerator>
+                                            <c:AlignPanel>
+                                                <c:Scalar Text="-" />
+                                                <c:Fraction Foreground="White">
+                                                    <c:Fraction.Numerator>
+                                                        <c:Scalar Text="b" />
+                                                    </c:Fraction.Numerator>
+                                                    <c:Fraction.Denominator>
+                                                        <c:Scalar Text="a" />
+                                                    </c:Fraction.Denominator>
+                                                </c:Fraction>
+                                                <c:Scalar Text="±" />
+                                                <c:Root Foreground="White">
+                                                    <c:AlignPanel>
+                                                        <c:Pow>
+                                                            <c:Pow.Exponent>
+                                                                <c:Scalar Text="2" />
+                                                            </c:Pow.Exponent>
+                                                            <c:Parentheses>
+                                                                <c:Fraction>
+                                                                    <c:Fraction.Numerator>
+                                                                        <c:Scalar Text="b" />
+                                                                    </c:Fraction.Numerator>
+                                                                    <c:Fraction.Denominator>
+                                                                        <c:Scalar Text="a" />
+                                                                    </c:Fraction.Denominator>
+                                                                </c:Fraction>
+                                                            </c:Parentheses>
+                                                        </c:Pow>
+                                                        <c:Scalar Text="-4" />
+                                                        <c:Fraction>
+                                                            <c:Fraction.Numerator>
+                                                                <c:Scalar Text="c" />
+                                                            </c:Fraction.Numerator>
+                                                            <c:Fraction.Denominator>
+                                                                <c:Scalar Text="a" />
+                                                            </c:Fraction.Denominator>
+                                                        </c:Fraction>
+                                                    </c:AlignPanel>
+                                                </c:Root>
+                                            </c:AlignPanel>
+                                        </c:Fraction.Numerator>
+                                        <c:Fraction.Denominator>
+                                            <c:Scalar Text="2" />
+                                        </c:Fraction.Denominator>
+                                    </c:Fraction>
+                                </c:AlignPanel>
+                            </c:Set>
+                        </c:AlignPanel>
+                    </Border>
+                    <Border>
+                        <c:Parentheses FontSize="24" Foreground="White">
+                            <c:Scalar Text="2" />
+                        </c:Parentheses>
+                    </Border>
+                    <Border DockPanel.Dock="Top" />
+                </DockPanel>
+            </ScrollViewer>
+        </DockPanel>
     </materialDesign:DialogHost>
 </Window>

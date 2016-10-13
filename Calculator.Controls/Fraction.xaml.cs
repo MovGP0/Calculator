@@ -128,7 +128,6 @@ namespace Calculator.Controls
         protected override void OnRender(DrawingContext dc)
         {
             dc.DrawLine(new Pen(Foreground, LineThickness), _leftPoint, _rightPoint);
-            dc.DrawLine(new Pen(new SolidColorBrush(Colors.Red) {Opacity = 0.2}, FontSize/10.0), new Point(0,BaselineOffset), new Point(ActualWidth,BaselineOffset));
         }
     }
 }

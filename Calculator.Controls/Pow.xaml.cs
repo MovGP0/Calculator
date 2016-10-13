@@ -7,6 +7,25 @@ namespace Calculator.Controls
     public partial class Pow
     {
         #region Dependent Properties
+
+        public static readonly DependencyProperty CanvasHeightProperty = DependencyProperty.Register(
+            nameof(CanvasHeight), typeof(double), typeof(Pow), new PropertyMetadata(default(double)));
+
+        public double CanvasHeight
+        {
+            get { return (double) GetValue(CanvasHeightProperty); }
+            set { SetValue(CanvasHeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty CanvasWidthProperty = DependencyProperty.Register(
+            nameof(CanvasWidth), typeof(double), typeof(Pow), new PropertyMetadata(default(double)));
+
+        public double CanvasWidth
+        {
+            get { return (double) GetValue(CanvasWidthProperty); }
+            set { SetValue(CanvasWidthProperty, value); }
+        }
+
         public static readonly DependencyProperty ExponentProperty = DependencyProperty.Register(nameof(Exponent), typeof(UIElement), typeof(Pow), new PropertyMetadata(default(UIElement)));
 
         public UIElement Exponent
@@ -73,8 +92,14 @@ namespace Calculator.Controls
 
             var midlineOffset = Math.Max(contentHeight/2.0, exponentHeight);
 
-            var height = Padding.Top + FontSize / 5.0 + midlineOffset + contentHeight/2.0 + Padding.Bottom;
-            var width = Padding.Left + contentWidth + exponentWidth + Padding.Right;
+            var canvasWidth = contentWidth + exponentWidth;
+            var canvasHeight = midlineOffset + contentHeight/2.0 + FontSize/5.0;
+
+            var height = Padding.Top + canvasHeight + Padding.Bottom;
+            var width = Padding.Left + canvasWidth + Padding.Right;
+
+            CanvasWidth = canvasWidth;
+            CanvasHeight = canvasHeight;
 
             return new Size(width, height);
         }
@@ -91,22 +116,17 @@ namespace Calculator.Controls
 
             var midlineOffset = Math.Max(contentHeight/2.0, exponentHeight);
 
-            var height = Padding.Top + FontSize / 5.0 + midlineOffset + contentHeight/2.0 + Padding.Bottom;
+            var height = Padding.Top + FontSize/5.0 + midlineOffset + contentHeight/2.0 + Padding.Bottom;
             var width = Padding.Left + contentWidth + exponentWidth + Padding.Right;
             
             base.ArrangeOverride(arrangeBounds);
 
             ExponentTransform = new ScaleTransform(Scale, Scale, 0, 0);
             ExponentX = contentWidth;
-            ContentY = Padding.Top + Math.Min(exponentHeight - midlineOffset, 0.0) + FontSize / 5.0;
+            ContentY = Padding.Top + Math.Min(exponentHeight - midlineOffset, 0.0) + 0;
             BaselineOffset = content.GetBaselineOffset();
 
             return new Size(width, height);
-        }
-
-        protected override void OnRender(DrawingContext dc)
-        {
-            dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Orange, FontSize/10.0), new Rect(new Size(base.ActualWidth, base.ActualHeight)));
         }
     }
 }

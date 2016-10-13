@@ -71,6 +71,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Parentheses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +103,9 @@
       <DependentUpon>Fraction.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\HighlightAdorner.cs" />
+    <Compile Include="Parentheses.xaml.cs">
+      <DependentUpon>Parentheses.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pow.xaml.cs">
       <DependentUpon>Pow.xaml</DependentUpon>
     </Compile>
