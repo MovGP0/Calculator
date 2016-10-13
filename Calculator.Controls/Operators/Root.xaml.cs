@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Operators
 {
     public partial class Root
     {

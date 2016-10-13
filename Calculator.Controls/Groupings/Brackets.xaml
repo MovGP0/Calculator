@@ -1,13 +1,12 @@
-﻿<UserControl x:Class="Calculator.Controls.Brackets"
+﻿<UserControl x:Class="Calculator.Controls.Groupings.Brackets"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Calculator.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="This" Template="{DynamicResource BracketsTemplate}">
-    <UserControl.Resources>
-        <ControlTemplate x:Key="BracketsTemplate" TargetType="local:Brackets">
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="This">
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
             <AdornerDecorator>
                 <Canvas DataContext="{Binding ElementName=This}">
                     <ContentPresenter Content="{Binding Left}" Canvas.Left="{Binding LeftX}" RenderTransform="{Binding LeftTransform}" />
@@ -16,5 +15,5 @@
                 </Canvas>
             </AdornerDecorator>
         </ControlTemplate>
-    </UserControl.Resources>
+    </UserControl.Template>
 </UserControl>

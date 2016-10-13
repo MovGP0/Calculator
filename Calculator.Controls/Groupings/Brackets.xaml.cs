@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Groupings
 {
     public partial class Brackets
     {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Operators
 {
     public sealed partial class Fraction
     {

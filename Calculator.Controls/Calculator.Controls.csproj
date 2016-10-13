@@ -63,50 +63,54 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Brackets.xaml">
+    <Page Include="Groupings\Brackets.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Fraction.xaml">
+    <Page Include="Operators\Fraction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Parentheses.xaml">
+    <Page Include="Groupings\Parentheses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pow.xaml">
+    <Page Include="Operators\Pow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Root.xaml">
+    <Page Include="Operators\Root.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Scalar.xaml">
+    <Page Include="Variables\Tensor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Variables\Scalar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Set.xaml">
+    <Page Include="Groupings\Set.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlignPanel.cs" />
+    <Compile Include="Groupings\AlignPanel.cs" />
     <Compile Include="Adorners\BaselineAdorner.cs" />
-    <Compile Include="Brackets.xaml.cs">
+    <Compile Include="Groupings\Brackets.xaml.cs">
       <DependentUpon>Brackets.xaml</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
-    <Compile Include="Fraction.xaml.cs">
+    <Compile Include="Operators\Fraction.xaml.cs">
       <DependentUpon>Fraction.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\HighlightAdorner.cs" />
-    <Compile Include="Parentheses.xaml.cs">
+    <Compile Include="Groupings\Parentheses.xaml.cs">
       <DependentUpon>Parentheses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pow.xaml.cs">
+    <Compile Include="Operators\Pow.xaml.cs">
       <DependentUpon>Pow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -122,14 +126,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Root.xaml.cs">
+    <Compile Include="Operators\Root.xaml.cs">
       <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\SelectionAdorner.cs" />
-    <Compile Include="Scalar.xaml.cs">
+    <Compile Include="Variables\Tensor.xaml.cs">
+      <DependentUpon>Tensor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Variables\Scalar.xaml.cs">
       <DependentUpon>Scalar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Set.xaml.cs">
+    <Compile Include="Groupings\Set.xaml.cs">
       <DependentUpon>Set.xaml</DependentUpon>
     </Compile>
     <Compile Include="UiElementExtensions.cs" />

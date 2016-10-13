@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Groupings
 {
     public sealed class AlignPanel : Panel
     {

@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Adorners
 {
     /// <summary>
     /// Adds a flashing cursor to an given UI element.

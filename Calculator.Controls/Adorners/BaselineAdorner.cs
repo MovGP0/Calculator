@@ -2,7 +2,7 @@
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Adorners
 {
     public sealed class BaselineAdorner : Adorner
     {

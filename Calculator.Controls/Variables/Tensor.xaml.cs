@@ -2,14 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Calculator.Controls
+namespace Calculator.Controls.Variables
 {
-    /// <summary>
-    /// Interaction logic for Scalar.xaml
-    /// </summary>
-    public partial class Scalar
+    public partial class Tensor
     {
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Scalar), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Tensor), new PropertyMetadata(default(string)));
 
         public string Text
         {
@@ -18,7 +15,7 @@ namespace Calculator.Controls
         }
 
         public static readonly DependencyProperty BaselineOffsetProperty = DependencyProperty.Register(
-            nameof(BaselineOffset), typeof(double), typeof(Scalar), new PropertyMetadata(default(double)));
+            nameof(BaselineOffset), typeof(double), typeof(Tensor), new PropertyMetadata(default(double)));
 
         public double BaselineOffset
         {
@@ -26,9 +23,9 @@ namespace Calculator.Controls
             set { SetValue(BaselineOffsetProperty, value); }
         }
 
-        static Scalar()
+        static Tensor()
         {
-            FontSizeProperty.OverrideMetadata(typeof(Scalar), 
+            FontSizeProperty.OverrideMetadata(typeof(Tensor), 
                 new FrameworkPropertyMetadata(SystemFonts.MessageFontSize, FrameworkPropertyMetadataOptions.Inherits, OnMeasureInvalidated));
         }
 
@@ -48,7 +45,7 @@ namespace Calculator.Controls
             }
         }
 
-        public Scalar()
+        public Tensor()
         {
             InitializeComponent();
         }
