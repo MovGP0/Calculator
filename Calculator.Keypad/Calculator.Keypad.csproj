@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Development.snk</AssemblyOriginatorKeyFile>
@@ -51,6 +51,10 @@
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.1.0.657, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.1.0.657\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MemBus, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MemBus.3.2.0\lib\net46\MemBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -143,10 +147,6 @@
     <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
       <Project>{bd4112dd-6462-4a9c-8ad3-3548c145421c}</Project>
       <Name>Calculator.Styling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MemBus\MemBus.csproj">
-      <Project>{b864c68a-dad0-4670-89f0-950e4a830e1a}</Project>
-      <Name>MemBus</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

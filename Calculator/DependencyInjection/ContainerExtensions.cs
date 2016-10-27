@@ -3,6 +3,7 @@ using Calculator.Messages;
 using DryIoc;
 using MemBus;
 using MemBus.Configurators;
+using Serilog;
 
 namespace Calculator.DependencyInjection
 {
@@ -14,19 +15,32 @@ namespace Calculator.DependencyInjection
             return container;
         }
 
-        public static IContainer SetupMessageBus(this IContainer resolver)
+        public static IContainer SetupMessageBus(this IContainer container)
         {
-            resolver.RegisterDelegate(resoler => BusSetup.StartWith<Conservative>().Construct(), Reuse.Singleton, serviceKey: BusTypes.CommandBus);
-            resolver.RegisterDelegate(resoler => BusSetup.StartWith<Fast>().Construct(), Reuse.Singleton, serviceKey: BusTypes.EventBus);
-            resolver.RegisterDelegate<ICommandBus>(r => new CommandBus(r.Resolve<IBus>(BusTypes.CommandBus)), Reuse.Singleton);
-            resolver.RegisterDelegate<IEventBus>(r => new EventBus(r.Resolve<IBus>(BusTypes.EventBus)), Reuse.Singleton);
-            return resolver;
+            container.RegisterDelegate(resoler => BusSetup.StartWith<Conservative>().Construct(), Reuse.Singleton, serviceKey: BusTypes.CommandBus);
+            container.RegisterDelegate(resoler => BusSetup.StartWith<Fast>().Construct(), Reuse.Singleton, serviceKey: BusTypes.EventBus);
+            container.RegisterDelegate<ICommandBus>(r => new CommandBus(r.Resolve<IBus>(BusTypes.CommandBus)), Reuse.Singleton);
+            container.RegisterDelegate<IEventBus>(r => new EventBus(r.Resolve<IBus>(BusTypes.EventBus)), Reuse.Singleton);
+            return container;
         }
 
-        public static IContainer SetupPages(this IContainer resolver)
+        public static IContainer SetupPages(this IContainer container)
         {
-            resolver.Register<Pages.MainWindow>();
-            return resolver;
+            container.Register<Pages.MainWindow>();
+            return container;
+        }
+
+        public static IContainer SetupLogging(this IContainer container)
+        {
+            container.RegisterDelegate(_ => SetupLogger(), Reuse.Singleton);
+            return container;
+        }
+
+        private static ILogger SetupLogger()
+        {
+            return new LoggerConfiguration()
+                .WriteTo.LiterateConsole()
+                .CreateLogger();
         }
     }
 }

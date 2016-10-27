@@ -3,7 +3,7 @@ using DryIoc;
 
 namespace Calculator.DependencyInjection
 {
-    public static class ResourceLocator
+    public static class ResolverFactory
     {
         public static IResolver Get()
         {
@@ -15,6 +15,7 @@ namespace Calculator.DependencyInjection
         private static IResolver Setup()
         {
             return new Container()
+                .SetupLogging()
                 .SetupKeypad()
                 .SetupMessageBus()
                 .SetupPages();
