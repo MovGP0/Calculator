@@ -13,6 +13,9 @@
             <i:InvokeCommandAction Command="{Binding KeyUpCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <d:Control.DataContext>
+        <local:KeypadViewModel />
+    </d:Control.DataContext>
     <Control.Resources>
         <ControlTemplate x:Key="KeypadTemplate" TargetType="local:Keypad">
             <materialDesign:DialogHost Identifier="RootDialog">

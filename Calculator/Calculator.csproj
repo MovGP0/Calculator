@@ -39,7 +39,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Calculator_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Development.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Square150x150Logo.scale-200.ico</ApplicationIcon>
@@ -58,6 +58,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -86,6 +87,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DependencyInjection\ContainerExtensions.cs" />
+    <Compile Include="DependencyInjection\ResourceLocator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -110,7 +113,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Assets\Readme.md" />
-    <None Include="Calculator_TemporaryKey.pfx" />
+    <None Include="Development.snk" />
     <None Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -133,9 +136,21 @@
       <Project>{20fe640a-a9a1-4759-9cd5-87402f2d9cd5}</Project>
       <Name>Calculator.Keypad</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Calculator.Messages\Calculator.Messages.csproj">
+      <Project>{2708AE29-8665-4AF1-8B70-A8BADFD04600}</Project>
+      <Name>Calculator.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
       <Project>{BD4112DD-6462-4A9C-8AD3-3548C145421C}</Project>
       <Name>Calculator.Styling</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DryIoc\DryIoc.csproj">
+      <Project>{71e11908-71ae-49ca-ad2a-7648b915b522}</Project>
+      <Name>DryIoc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MemBus\MemBus.csproj">
+      <Project>{b864c68a-dad0-4670-89f0-950e4a830e1a}</Project>
+      <Name>MemBus</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

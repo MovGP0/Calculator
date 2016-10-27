@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Styling", "Calcu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Messages", "Calculator.Messages\Calculator.Messages.csproj", "{2708AE29-8665-4AF1-8B70-A8BADFD04600}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DryIoc", "DryIoc\DryIoc.csproj", "{71E11908-71AE-49CA-AD2A-7648B915B522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemBus", "MemBus\MemBus.csproj", "{B864C68A-DAD0-4670-89F0-950E4A830E1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{2708AE29-8665-4AF1-8B70-A8BADFD04600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2708AE29-8665-4AF1-8B70-A8BADFD04600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2708AE29-8665-4AF1-8B70-A8BADFD04600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71E11908-71AE-49CA-AD2A-7648B915B522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71E11908-71AE-49CA-AD2A-7648B915B522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71E11908-71AE-49CA-AD2A-7648B915B522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71E11908-71AE-49CA-AD2A-7648B915B522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B864C68A-DAD0-4670-89F0-950E4A830E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B864C68A-DAD0-4670-89F0-950E4A830E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B864C68A-DAD0-4670-89F0-950E4A830E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B864C68A-DAD0-4670-89F0-950E4A830E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

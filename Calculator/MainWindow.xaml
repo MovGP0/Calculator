@@ -13,7 +13,7 @@
         Style="{StaticResource StandardStyle}" Icon="Assets/Icon.ico" >
     <materialDesign:DialogHost Identifier="WindowDialog">
         <DockPanel LastChildFill="True">
-            <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
+            <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" x:Name="PART_Keypad" />
             <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <Border DockPanel.Dock="Top" Margin="4">

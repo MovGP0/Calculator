@@ -1,4 +1,6 @@
-﻿using System.Reactive.Subjects;
+﻿using System.ComponentModel;
+using System.Reactive.Subjects;
+using System.Windows;
 using System.Windows.Input;
 using Calculator.Controls;
 using Calculator.Messages;
@@ -17,12 +19,25 @@ namespace Calculator.Keypad
         public ICommand OpenTrigDialogCommand => new Command(OpenTrigDialog);
         public ICommand OpenSetsDialogCommand => new Command(OpenSetsDialog);
 
-        public KeypadViewModel()
+        // ReSharper disable once SuggestBaseTypeForParameter
+        public KeypadViewModel(IEventBus eventBus)
         {
             ReplaySubject = new ReplaySubject<Event>();
-            MessageBus.Events.Publish(ReplaySubject);
+            eventBus.Publish(ReplaySubject);
         }
         
+        public KeypadViewModel()
+        {
+            if (IsDesignMode())
+            {
+            }
+        }
+
+        private static bool IsDesignMode()
+        {
+           return (bool) DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
+        }
+
         private void OnKeyUp(KeyEventArgs args)
         {
             if(args == null) return;
