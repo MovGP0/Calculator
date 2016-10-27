@@ -1,29 +1,24 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Calculator.DependencyInjection;
 using Calculator.Keypad;
 
-namespace Calculator
+namespace Calculator.Pages
 {
     public partial class MainWindow
     {
-        public MainWindow()
+        public MainWindow(KeypadViewModel keypadViewModel)
         {
             InitializeComponent();
             Loaded += OnLoaded;
-            SetupViewModels();
+
+            PART_Keypad.DataContext = keypadViewModel;
 
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
         }
-
-        private void SetupViewModels()
-        {
-            PART_Keypad.DataContext = ResourceLocator.Get().Resolve(typeof(KeypadViewModel), false);
-        }
-
+        
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
             //var rootAdorner = new BaselineAdorner(BaselineElement);

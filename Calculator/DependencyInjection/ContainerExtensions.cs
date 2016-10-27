@@ -22,5 +22,11 @@ namespace Calculator.DependencyInjection
             resolver.RegisterDelegate<IEventBus>(r => new EventBus(r.Resolve<IBus>(BusTypes.EventBus)), Reuse.Singleton);
             return resolver;
         }
+
+        public static IContainer SetupPages(this IContainer resolver)
+        {
+            resolver.Register<Pages.MainWindow>();
+            return resolver;
+        }
     }
 }

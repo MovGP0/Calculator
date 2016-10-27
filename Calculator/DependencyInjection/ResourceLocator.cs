@@ -16,7 +16,8 @@ namespace Calculator.DependencyInjection
         {
             return new Container()
                 .SetupKeypad()
-                .SetupMessageBus();
+                .SetupMessageBus()
+                .SetupPages();
         }
     }
 }

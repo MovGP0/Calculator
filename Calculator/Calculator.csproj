@@ -44,6 +44,9 @@
   <PropertyGroup>
     <ApplicationIcon>Square150x150Logo.scale-200.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Calculator.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -79,20 +82,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DependencyInjection\ContainerExtensions.cs" />
     <Compile Include="DependencyInjection\ResourceLocator.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -140,6 +135,10 @@
       <Project>{2708AE29-8665-4AF1-8B70-A8BADFD04600}</Project>
       <Name>Calculator.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Calculator.Pages\Calculator.Pages.csproj">
+      <Project>{D7C1CEC1-EDA6-4A54-8180-E98893F4E4D1}</Project>
+      <Name>Calculator.Pages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
       <Project>{BD4112DD-6462-4A9C-8AD3-3548C145421C}</Project>
       <Name>Calculator.Styling</Name>
@@ -170,9 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Square150x150Logo.scale-200.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
