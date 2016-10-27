@@ -76,6 +76,10 @@
     <Resource Include="Fonts\NotoSans-BoldItalic.ttf" />
     <Resource Include="Fonts\NotoSans-Bold.ttf" />
     <None Include="Development.snk" />
+    <None Include="Fonts\NotoSerif-Bold.ttf" />
+    <None Include="Fonts\NotoSerif-BoldItalic.ttf" />
+    <None Include="Fonts\NotoSerif-Italic.ttf" />
+    <None Include="Fonts\NotoSerif-Regular.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

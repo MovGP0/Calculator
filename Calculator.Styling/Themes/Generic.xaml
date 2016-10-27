@@ -5,6 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
             <FontFamily x:Key="NotoSans">pack://application:,,,/Fonts/#NotoSans</FontFamily>
+            <FontFamily x:Key="NotoSerif">pack://application:,,,/Fonts/#NotoSerif</FontFamily>
             <FontFamily x:Key="NotoSansSymbols">pack://application:,,,/Fonts/#NotoSansSymbols</FontFamily>
         </ResourceDictionary>
         <ResourceDictionary>
