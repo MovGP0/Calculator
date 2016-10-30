@@ -13,6 +13,9 @@ namespace Calculator.Controls.Groupings
             set { SetValue(BaselineOffsetProperty, value); }
         }
 
+        private double _width;
+        private double _height;
+
         protected override Size MeasureOverride(Size availableSize)
         {
             var childSize = new Size(double.PositiveInfinity, availableSize.Height);
@@ -31,6 +34,9 @@ namespace Calculator.Controls.Groupings
             }).Max(c => c.Height + maximumOffset - c.Offset);
 
             var width = children.Sum(c => c.DesiredSize.Width);
+
+            _width = width;
+            _height = height;
 
             BaselineOffset = maximumOffset;
 
@@ -58,15 +64,8 @@ namespace Calculator.Controls.Groupings
 
                 child.Arrange(new Rect(rcChild.Location, rcChild.Size));
             }
-
-            var height = children.Select(c => new {
-                c.DesiredSize.Height,
-                Offset = c.GetBaselineOffset()
-            }).Max(c => c.Height + maximumOffset - c.Offset);
-
-            var width = children.Sum(c => c.DesiredSize.Width);
-
-            return new Size(width, height);
+            
+            return new Size(_width, _height);
         }
     }
 }

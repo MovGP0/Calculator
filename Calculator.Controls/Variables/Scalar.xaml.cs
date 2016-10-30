@@ -49,7 +49,10 @@ namespace Calculator.Controls.Variables
         {
             InitializeComponent();
         }
-        
+
+        private double _width;
+        private double _height;
+
         protected override Size MeasureOverride(Size constraint)
         {
             var tb = GetTextblock();
@@ -57,10 +60,10 @@ namespace Calculator.Controls.Variables
             tb.Measure(constraint);
             BaselineOffset = tb.BaselineOffset;
 
-            var width = Padding.Left + tb.DesiredSize.Width + Padding.Right;
-            var height = Padding.Top + tb.DesiredSize.Height + Padding.Bottom;
+            _width = tb.DesiredSize.Width;
+            _height = tb.DesiredSize.Height;
             
-            return new Size(width, height);
+            return new Size(_width, _height);
         }
 
         private TextBlock GetTextblock()
@@ -86,11 +89,8 @@ namespace Calculator.Controls.Variables
             BaselineOffset = tb.BaselineOffset;
 
             base.ArrangeOverride(arrangeBounds);
-
-            var width = Padding.Left + tb.DesiredSize.Width + Padding.Right;
-            var height = Padding.Top + tb.DesiredSize.Height + Padding.Bottom;
-
-            return new Size(width, height);
+            
+            return new Size(_width, _height);
         }
     }
 }

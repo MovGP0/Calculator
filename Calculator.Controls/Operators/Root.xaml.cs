@@ -89,6 +89,12 @@ namespace Calculator.Controls.Operators
             var height = middleOffset + contentHeight/2.0 + LineThickness *4.0;
             var contentTop = middleOffset - contentHeight/2.0 + 2.0*LineThickness;
             
+            if(double.IsNaN(Width) || Math.Abs(Width - width) > double.Epsilon)
+                Width = width;
+
+            if(double.IsNaN(Height) || Math.Abs(Height - height) > double.Epsilon)
+                Height = height;
+
             BaselineOffset = contentTop + content.GetBaselineOffset();
             return new Size(width, height);
         }

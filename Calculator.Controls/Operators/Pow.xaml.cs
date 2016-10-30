@@ -75,7 +75,7 @@ namespace Calculator.Controls.Operators
             InitializeComponent();
         }
 
-        private const double Scale = 0.8;
+        private const double Scale = 0.5;
 
         protected override Size MeasureOverride(Size constraint)
         {
@@ -85,21 +85,25 @@ namespace Calculator.Controls.Operators
             exponent?.Measure(constraint);
             content?.Measure(constraint);
 
-            var exponentHeight = exponent?.DesiredSize.Height ?? 0.0 * Scale;
-            var exponentWidth = exponent?.DesiredSize.Width ?? 0.0 * Scale;
+            var exponentHeight = (exponent?.DesiredSize.Height ?? 0.0) * Scale;
+            var exponentWidth = (exponent?.DesiredSize.Width ?? 0.0) * Scale;
             var contentHeight = content?.DesiredSize.Height ?? 0.0;
             var contentWidth  = content?.DesiredSize.Width ?? 0.0;
 
             var midlineOffset = Math.Max(contentHeight/2.0, exponentHeight);
 
             var canvasWidth = contentWidth + exponentWidth;
-            var canvasHeight = midlineOffset + contentHeight/2.0 + FontSize/5.0;
+            var canvasHeight = midlineOffset + contentHeight/2.0;
 
-            var height = Padding.Top + canvasHeight + Padding.Bottom;
-            var width = Padding.Left + canvasWidth + Padding.Right;
+            var height = canvasHeight;
+            var width = canvasWidth;
 
             CanvasWidth = canvasWidth;
             CanvasHeight = canvasHeight;
+
+            var contentOffset = Math.Max(exponentHeight - contentHeight/2d, 0d);
+            BaselineOffset = content.GetBaselineOffset() + contentOffset;
+            ContentY = contentOffset;
 
             return new Size(width, height);
         }
@@ -116,16 +120,14 @@ namespace Calculator.Controls.Operators
 
             var midlineOffset = Math.Max(contentHeight/2.0, exponentHeight);
 
-            var height = Padding.Top + FontSize/5.0 + midlineOffset + contentHeight/2.0 + Padding.Bottom;
-            var width = Padding.Left + contentWidth + exponentWidth + Padding.Right;
+            var height = FontSize/5.0 + midlineOffset + contentHeight/2.0;
+            var width = contentWidth + exponentWidth;
             
             base.ArrangeOverride(arrangeBounds);
 
             ExponentTransform = new ScaleTransform(Scale, Scale, 0, 0);
             ExponentX = contentWidth;
-            ContentY = Padding.Top + Math.Min(exponentHeight - midlineOffset, 0.0) + 0;
-            BaselineOffset = content.GetBaselineOffset();
-
+            
             return new Size(width, height);
         }
     }

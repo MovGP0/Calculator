@@ -79,10 +79,10 @@ namespace Calculator.Controls.Operators
             var lineHeight = FontSize/10.0;
             var linePadding = lineHeight;
 
-            var height = Margin.Top + numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight + Margin.Bottom;
-            var width = Margin.Left + Math.Max(numeratorWidth, denominatorWidth) + Margin.Right;
+            var height = numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight;
+            var width = Math.Max(numeratorWidth, denominatorWidth);
             
-            BaselineOffset = CalculateBaseline(numeratorHeight, FontSize, FontFamily);
+            BaselineOffset = CalculateBaseline(numeratorHeight - lineHeight, FontSize, FontFamily);
             LineThickness = lineHeight;
             
             return new Size(width, height);
@@ -107,15 +107,15 @@ namespace Calculator.Controls.Operators
             var maxWidth = Math.Max(numeratorWidth, denominatorWidth);
 
             NumeratorLeft = (maxWidth-numeratorWidth)/2.0;
-            DenominatorTop = Padding.Top + numeratorHeight + linePadding + lineHeight + linePadding;
+            DenominatorTop = numeratorHeight + linePadding + lineHeight + linePadding;
             DenominatorLeft = (maxWidth-denominatorWidth)/2.0;
             
-            var width = Padding.Left + Math.Max(denominatorWidth, numeratorWidth) + Padding.Right;
-            var height = Padding.Top + numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight + Padding.Bottom;
+            var width = Math.Max(denominatorWidth, numeratorWidth);
+            var height = numeratorHeight + linePadding + lineHeight + linePadding + denominatorHeight;
 
             base.ArrangeOverride(new Size(width, height));
 
-            var lineY = Padding.Top + numeratorHeight + linePadding + lineHeight/2.0;
+            var lineY = numeratorHeight + linePadding + lineHeight/2.0;
             _leftPoint = new Point(0, lineY);
             _rightPoint = new Point(width, lineY);
 
