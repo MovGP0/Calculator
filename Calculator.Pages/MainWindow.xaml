@@ -9,20 +9,20 @@
         xmlns:o="clr-namespace:Calculator.Controls.Operators;assembly=Calculator.Controls"
         xmlns:g="clr-namespace:Calculator.Controls.Groupings;assembly=Calculator.Controls"
         mc:Ignorable="d"
-        Title="Calculator" Height="600" Width="640" MinHeight="600" MinWidth="640" 
-        Style="{StaticResource StandardStyle}" Icon="Assets/Icon.ico" >
+        Title="Calculator" Height="1134.007" Width="1164.186" MinHeight="600" MinWidth="640" 
+        Style="{StaticResource StandardStyle}" FontFamily="{StaticResource NotoSans}" Icon="Assets/Icon.ico" >
     <materialDesign:DialogHost Identifier="WindowDialog">
         <DockPanel LastChildFill="True">
             <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" x:Name="PART_Keypad" />
             <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <DockPanel.LayoutTransform>
-                        <ScaleTransform CenterX="0" CenterY="0" ScaleX="3" ScaleY="3"/>
+                        <ScaleTransform CenterX="0" CenterY="0" ScaleX="5" ScaleY="5"/>
                     </DockPanel.LayoutTransform>
                     <Border DockPanel.Dock="Top" Margin="4">
                         <g:AlignPanel HorizontalAlignment="Left">
                             <v:Scalar Text="%0:" FontStyle="Italic" Foreground="{StaticResource SecondaryAccentBrush}" FontSize="12" Padding="0,0,16,0" />
-                            <v:Scalar Text="ax²+bx+c=0" FontStyle="Italic" Foreground="White" FontSize="12" />
+                            <v:Scalar Text="ax²+gbx+c=0" FontStyle="Italic" Foreground="White" FontSize="12" />
                         </g:AlignPanel>
                     </Border>
                     <Border DockPanel.Dock="Top" Margin="4">
@@ -57,7 +57,7 @@
                                                                         <v:Scalar Text="2" />
                                                                     </o:Fraction.Denominator>
                                                                 </o:Fraction>
-                                                                
+
                                                             </o:Pow.Exponent>
                                                             <v:Scalar Text="b" />
                                                         </o:Pow>
@@ -152,12 +152,29 @@
                     </Border>
                     <Border>
                         <g:Parentheses FontSize="12" Foreground="White">
-                            <v:Scalar Text="2" />
+                            <g:AlignPanel>
+                                <v:Scalar Text="l" />
+                                <v:Constant Text="=" />
+                                <v:Constant Text="2" />
+                                <v:Unit Text="m" />
+                            </g:AlignPanel>
+                        </g:Parentheses>
+                    </Border>
+                    <Border>
+                        <g:Parentheses FontSize="12" Foreground="White">
+                            <g:AlignPanel>
+                                <v:Constant Text="dim" />
+                                <g:Parentheses FontSize="12" Foreground="White">
+                                    <v:Scalar Text="l" />
+                                </g:Parentheses>
+                                <v:Constant Text="=" />
+                                <v:Dimension Text="L" />
+                            </g:AlignPanel>
                         </g:Parentheses>
                     </Border>
                     <Border DockPanel.Dock="Top" />
                 </DockPanel>
-                
+
             </ScrollViewer>
         </DockPanel>
     </materialDesign:DialogHost>

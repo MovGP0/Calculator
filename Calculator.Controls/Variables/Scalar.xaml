@@ -5,15 +5,4 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" x:Name="This" >
-    <UserControl.Template>
-        <ControlTemplate TargetType="UserControl">
-            <AdornerDecorator DataContext="{Binding ElementName=This}">
-                <Canvas>
-                    <TextBlock Canvas.Left="{Binding Padding.Left}" Canvas.Right="{Binding Padding.Right}"
-                        Text="{Binding Text}" FontStyle="Italic" FontWeight="Normal" 
-                               FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="{Binding Padding}" />
-                </Canvas>
-            </AdornerDecorator>
-        </ControlTemplate>
-    </UserControl.Template>
 </UserControl>

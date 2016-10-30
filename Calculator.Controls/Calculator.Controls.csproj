@@ -84,6 +84,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Variables\Constant.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Variables\Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Variables\Unit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Variables\Dimension.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Variables\Tensor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,6 +151,15 @@
       <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adorners\SelectionAdorner.cs" />
+    <Compile Include="Variables\Constant.xaml.cs">
+      <DependentUpon>Constant.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Variables\Unit.xaml.cs">
+      <DependentUpon>Unit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Variables\Dimension.xaml.cs">
+      <DependentUpon>Dimension.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Variables\Tensor.xaml.cs">
       <DependentUpon>Tensor.xaml</DependentUpon>
     </Compile>
@@ -152,6 +181,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
+      <Project>{bd4112dd-6462-4a9c-8ad3-3548c145421c}</Project>
+      <Name>Calculator.Styling</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
