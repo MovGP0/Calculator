@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Reactive.Subjects;
 using System.Windows;
 using System.Windows.Input;
@@ -18,16 +19,28 @@ namespace Calculator.Keypad
         public ICommand KeyUpCommand => new Command<KeyEventArgs>(OnKeyUp);
         public ICommand OpenTrigDialogCommand => new Command(OpenTrigDialog);
         public ICommand OpenSetsDialogCommand => new Command(OpenSetsDialog);
+        private Func<TrigDialog> TrigDialogFactory { get; }
+        private Func<TrigDialogViewModel> TrigDialogViewModel { get; }
+        private Func<SetsDialog> SetsDialogFactory { get; }
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        public KeypadViewModel(IEventBus eventBus)
+        public KeypadViewModel(
+            IEventBus eventBus, 
+            Func<TrigDialog> trigDialogFactory, 
+            Func<TrigDialogViewModel> trigDialogViewModel, 
+            Func<SetsDialog> setsDialogFactory)
         {
+            TrigDialogFactory = trigDialogFactory;
+            TrigDialogViewModel = trigDialogViewModel;
+            SetsDialogFactory = setsDialogFactory;
+
             ReplaySubject = new ReplaySubject<Event>();
             eventBus.Publish(ReplaySubject);
         }
         
-        public KeypadViewModel()
+        public KeypadViewModel(Func<SetsDialog> setsDialogFactory)
         {
+            SetsDialogFactory = setsDialogFactory;
             if (IsDesignMode())
             {
             }
@@ -58,11 +71,8 @@ namespace Calculator.Keypad
         
         private async void OpenTrigDialog(object o)
         {
-            // TODO: use DI here
-            var view = new TrigDialog
-            {
-                DataContext = new TrigDialogViewModel()
-            };
+            var view = TrigDialogFactory();
+            view.DataContext = TrigDialogViewModel();
             
             var result = (string)await DialogHost.Show(view, "RootDialog");
 
@@ -72,12 +82,8 @@ namespace Calculator.Keypad
 
         private async void OpenSetsDialog(object o)
         {
-            // TODO: use DI here
-            var view = new SetsDialog
-            {
-                // DataContext = new SetsDialogViewModel()
-            };
-            
+            var view = SetsDialogFactory();
+            // view.DataContext = new SetsDialogViewModel()
             var result = (string)await DialogHost.Show(view, "RootDialog");
         }
 

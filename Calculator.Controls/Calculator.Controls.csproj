@@ -84,6 +84,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +122,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SelectionControl.cs" />
     <Compile Include="Groupings\AlignPanel.cs" />
     <Compile Include="Adorners\BaselineAdorner.cs" />
     <Compile Include="Groupings\Brackets.xaml.cs">

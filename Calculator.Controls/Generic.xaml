@@ -1,0 +1,29 @@
+﻿<ResourceDictionary 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Calculator.Controls">
+    <Style TargetType="local:SelectionControl">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Canvas x:Name="PART_Canvas"
+                            Background="Transparent">
+                            <Rectangle x:Name="PART_SelectionRectangle" Visibility="Collapsed" StrokeThickness="1" StrokeDashArray="1 1">
+                                <Rectangle.Stroke>
+                                    <SolidColorBrush Opacity="30" Color="Black" />
+                                </Rectangle.Stroke>
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Opacity="70" Color="AliceBlue" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter />
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿using Calculator.Keypad;
+﻿using System;
+using Calculator.Keypad;
 using Calculator.Messages;
 using DryIoc;
 using MemBus;
@@ -9,9 +10,26 @@ namespace Calculator.DependencyInjection
 {
     public static class ContainerExtensions
     {
+        public static IRegistrator RegisterFactory<T>(this IRegistrator container)
+        {
+            container.Register<T>(Reuse.Transient);
+            container.RegisterDelegate<Func<T>>(r => () => r.Resolve<T>());
+            return container;
+        }
+
         public static IContainer SetupKeypad(this IContainer container)
         {
-            container.RegisterDelegate(r => new KeypadViewModel(r.Resolve<IEventBus>()), Reuse.Transient);
+            container.RegisterFactory<TrigDialog>();
+            container.RegisterFactory<TrigDialogViewModel>();
+            container.RegisterFactory<SetsDialog>();
+
+            container.Register(Made.Of(() => new KeypadViewModel(
+                Arg.Of<IEventBus>(), 
+                Arg.Of<Func<TrigDialog>>(), 
+                Arg.Of<Func<TrigDialogViewModel>>(), 
+                Arg.Of<Func<SetsDialog>>())
+                ), Reuse.Transient);
+
             return container;
         }
 

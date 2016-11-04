@@ -17,7 +17,7 @@
             <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <DockPanel.LayoutTransform>
-                        <ScaleTransform CenterX="0" CenterY="0" ScaleX="5" ScaleY="5"/>
+                        <ScaleTransform CenterX="0" CenterY="0" ScaleX="2" ScaleY="2"/>
                     </DockPanel.LayoutTransform>
                     <Border DockPanel.Dock="Top" Margin="4">
                         <g:AlignPanel HorizontalAlignment="Left">
