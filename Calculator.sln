@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{F94C4A3C-763D-4E0D-B62C-195F10BCCAC1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D7C1CEC1-EDA6-4A54-8180-E98893F4E4D1} = {D7C1CEC1-EDA6-4A54-8180-E98893F4E4D1}
+		{65CD49CC-65F5-46B7-A0A4-FA386B6A46FE} = {65CD49CC-65F5-46B7-A0A4-FA386B6A46FE}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Controls", "Calculator.Controls\Calculator.Controls.csproj", "{EDCAED3E-E410-48E4-B28C-B186C7F01251}"

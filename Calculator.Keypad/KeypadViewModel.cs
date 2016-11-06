@@ -38,9 +38,8 @@ namespace Calculator.Keypad
             eventBus.Publish(ReplaySubject);
         }
         
-        public KeypadViewModel(Func<SetsDialog> setsDialogFactory)
+        public KeypadViewModel()
         {
-            SetsDialogFactory = setsDialogFactory;
             if (IsDesignMode())
             {
             }

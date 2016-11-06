@@ -143,6 +143,10 @@
       <Project>{edcaed3e-e410-48e4-b28c-b186c7f01251}</Project>
       <Name>Calculator.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Calculator.GestureRecognizer\Calculator.GestureRecognizer.csproj">
+      <Project>{65cd49cc-65f5-46b7-a0a4-fa386b6a46fe}</Project>
+      <Name>Calculator.GestureRecognizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Keypad\Calculator.Keypad.csproj">
       <Project>{20fe640a-a9a1-4759-9cd5-87402f2d9cd5}</Project>
       <Name>Calculator.Keypad</Name>

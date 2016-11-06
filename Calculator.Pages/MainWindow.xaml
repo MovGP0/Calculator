@@ -8,13 +8,23 @@
         xmlns:v="clr-namespace:Calculator.Controls.Variables;assembly=Calculator.Controls"
         xmlns:o="clr-namespace:Calculator.Controls.Operators;assembly=Calculator.Controls"
         xmlns:g="clr-namespace:Calculator.Controls.Groupings;assembly=Calculator.Controls"
+        xmlns:gesture="clr-namespace:Calculator.GestureRecognizer;assembly=Calculator.GestureRecognizer"
+        xmlns:pages="clr-namespace:Calculator.Pages"
         mc:Ignorable="d"
-        Title="Calculator" Height="1134.007" Width="1164.186" MinHeight="600" MinWidth="640" 
+        Title="Calculator" Height="800" Width="800" MinHeight="600" MinWidth="640" 
         Style="{StaticResource StandardStyle}" FontFamily="{StaticResource NotoSans}" Icon="Assets/Icon.ico" >
     <materialDesign:DialogHost Identifier="WindowDialog">
         <DockPanel LastChildFill="True">
-            <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" x:Name="PART_Keypad" />
-            <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TabControl DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <TabItem Header="Pen">
+                    <pages:GestureRecognizerTraining Height="600" Width="755" />
+                </TabItem>
+                <TabItem Header="Keypad">
+                    <keypad:Keypad x:Name="PART_Keypad" />
+                </TabItem>
+            </TabControl>
+            
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <DockPanel LastChildFill="False">
                     <DockPanel.LayoutTransform>
                         <ScaleTransform CenterX="0" CenterY="0" ScaleX="2" ScaleY="2"/>
@@ -150,7 +160,7 @@
                             </g:Set>
                         </g:AlignPanel>
                     </Border>
-                    <Border>
+                    <Border DockPanel.Dock="Top" Margin="4" HorizontalAlignment="Left">
                         <g:Parentheses FontSize="12" Foreground="White">
                             <g:AlignPanel>
                                 <v:Scalar Text="l" />
@@ -160,7 +170,7 @@
                             </g:AlignPanel>
                         </g:Parentheses>
                     </Border>
-                    <Border>
+                    <Border DockPanel.Dock="Top" Margin="4" HorizontalAlignment="Left">
                         <g:Parentheses FontSize="12" Foreground="White">
                             <g:AlignPanel>
                                 <v:Constant Text="dim" />
@@ -172,7 +182,7 @@
                             </g:AlignPanel>
                         </g:Parentheses>
                     </Border>
-                    <Border DockPanel.Dock="Top" />
+                    <Border DockPanel.Dock="Top" HorizontalAlignment="Left" />
                 </DockPanel>
 
             </ScrollViewer>

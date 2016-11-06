@@ -6,6 +6,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Calculator.Styling;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Calculator.Controls;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Calculator.Pages;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
