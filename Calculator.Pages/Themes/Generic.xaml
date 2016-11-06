@@ -19,11 +19,11 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Width="120" Height="200" Grid.Column="0" Grid.Row="0" Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" />
-                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="1" Grid.Row="0" Strokes="{Binding Sample1}" IsTraining="true" />
-                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="2" Grid.Row="0" Strokes="{Binding Sample2}" IsTraining="true" />
-                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="3" Grid.Row="0" Strokes="{Binding Sample3}" IsTraining="true" />
-                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="4" Grid.Row="0" Strokes="{Binding Sample4}" IsTraining="true" />
-                    <r:GestureRecognizer Width="100" Height="200"  Grid.Column="5" Grid.Row="0" Strokes="{Binding Sample5}" IsTraining="true" />
+                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="1" Grid.Row="0" Strokes="{Binding Sample1, Mode=TwoWay}" IsTraining="true" />
+                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="2" Grid.Row="0" Strokes="{Binding Sample2, Mode=TwoWay}" IsTraining="true" />
+                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="3" Grid.Row="0" Strokes="{Binding Sample3, Mode=TwoWay}" IsTraining="true" />
+                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="4" Grid.Row="0" Strokes="{Binding Sample4, Mode=TwoWay}" IsTraining="true" />
+                    <r:GestureRecognizer Width="100" Height="200" Grid.Column="5" Grid.Row="0" Strokes="{Binding Sample5, Mode=TwoWay}" IsTraining="true" />
                 </Grid>
             </DataTemplate>
 
@@ -32,9 +32,12 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <ListView DataContext="{Binding ElementName=This}" ItemTemplate="{StaticResource PathSampleTemplate}" ItemsSource="{Binding TrainingSet}" />
-                                </ScrollViewer>
+                                <StackPanel DataContext="{Binding ElementName=This}">
+                                    <Button Content="Save" Command="{Binding SaveCommand}" />
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <ListView ItemTemplate="{StaticResource PathSampleTemplate}" ItemsSource="{Binding TrainingSet, Mode=TwoWay}" />
+                                    </ScrollViewer>
+                                </StackPanel>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

@@ -13,7 +13,7 @@ namespace Calculator.GestureRecognizer
         {
             Gestures = new ReadOnlyCollection<Gesture>(gestures);
         }
-
+        
         public IEnumerable<Gesture> Gestures { get; }
 
         #region ISerializable

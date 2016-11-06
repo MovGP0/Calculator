@@ -159,9 +159,7 @@ namespace Calculator.GestureRecognizer
                 h => partCanvas.PreviewMouseLeftButtonDown += h,
                 h => partCanvas.PreviewMouseLeftButtonDown -= h);
             Subscriptions.Add(strokeBeginMouse.SubscribeOn(scheduler).Subscribe(args => OnBeginStroke(scheduler)));
-
-            //Subscriptions.Add(SubscribeToRecognitionTimer(scheduler, args => RecognitionTimerOnElapsed(args)));
-
+            
             return partCanvas;
         }
         

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Calculator.Pages
 {
@@ -13,19 +14,24 @@ namespace Calculator.Pages
             get { return (PathSampleCollection) GetValue(TrainingSetProperty); }
             set { SetValue(TrainingSetProperty, value); }
         }
+
+        public ICommand SaveCommand { get; }
         #endregion
 
         public GestureRecognizerTraining()
         {
             InitializeComponent();
+            TrainingSet = CreateTrainingSet();
+            SaveCommand = new SaveTrainingSetCommand(this);
+        }
 
+        private static PathSampleCollection CreateTrainingSet()
+        {
             var numbers = Enumerable.Range(48, 10).ToChars();
             var smallCharacters = Enumerable.Range(97, 26).ToChars();
             var upperCharacters = Enumerable.Range(65, 26).ToChars();
-
             var characters = numbers.Concat(smallCharacters).Concat(upperCharacters);
-
-            TrainingSet = characters.ToTrainingSet().ToPathSampleCollection();
+            return characters.ToTrainingSet().ToPathSampleCollection();
         }
     }
 }
