@@ -1,6 +1,7 @@
 ﻿using System;
 using Calculator.Keypad;
 using Calculator.Messages;
+using Calculator.Pages;
 using DryIoc;
 using MemBus;
 using MemBus.Configurators;
@@ -44,7 +45,9 @@ namespace Calculator.DependencyInjection
 
         public static IContainer SetupPages(this IContainer container)
         {
-            container.Register<Pages.MainWindow>();
+            container.Register<ShellWindow>();
+            container.RegisterFactory<MainFrame>();
+            container.RegisterFactory<GestureTrainingFrame>();
             return container;
         }
 

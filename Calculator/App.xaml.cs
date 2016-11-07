@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 using Calculator.DependencyInjection;
 using DryIoc;
 using Serilog;
@@ -17,8 +15,8 @@ namespace Calculator
             var logger = resolver.Resolve<ILogger>();
             RegisterGlobalExceptionHandling(logger);
             
-            var mainWindow = resolver.Resolve<Pages.MainWindow>();
-            mainWindow.Show();
+            var shellWindow = resolver.Resolve<Pages.ShellWindow>();
+            shellWindow.Show();
         }
         
         private static void RegisterGlobalExceptionHandling(ILogger log)

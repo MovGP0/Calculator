@@ -7,9 +7,9 @@ namespace Calculator.Pages
 {
     public sealed class SaveTrainingSetCommand : ICommand
     {
-        private GestureRecognizerTraining Control { get; }
+        private GestureTrainingFrame Control { get; }
 
-        public SaveTrainingSetCommand(GestureRecognizerTraining control)
+        public SaveTrainingSetCommand(GestureTrainingFrame control)
         {
             Control = control;
         }

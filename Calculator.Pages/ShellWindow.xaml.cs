@@ -1,26 +1,49 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Calculator.Keypad;
 
 namespace Calculator.Pages
 {
-    public partial class MainWindow
+    [TemplatePart(Name=PartMainFrameName, Type=typeof(Frame))]
+    public partial class ShellWindow
     {
-        public MainWindow(KeypadViewModel keypadViewModel)
+        internal const string PartMainFrameName = "PART_MainFrame";
+        private Frame PartMainFrame { get; set; }
+        private Func<MainFrame> MainFrameFactory { get; }
+
+        public ShellWindow(Func<MainFrame> mainFrameFactory)
         {
+            MainFrameFactory = mainFrameFactory;
+
             InitializeComponent();
             Loaded += OnLoaded;
-
-            PART_Keypad.DataContext = keypadViewModel;
-
+            
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
         }
         
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            PartMainFrame = GetPartMainFrame();
+        }
+
+        private Frame GetPartMainFrame()
+        {
+            var partMainFrame = (Frame) Template.FindName(PartMainFrameName, this);
+            if (partMainFrame == null)
+                throw new InvalidOperationException($"Cold not find '{PartMainFrameName}'.");
+
+            return partMainFrame;
+        }
+
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
+            PartMainFrame.NavigationService.Navigate(MainFrameFactory());
+
             //var rootAdorner = new BaselineAdorner(BaselineElement);
             //AdornerLayer.GetAdornerLayer(BaselineElement).Add(rootAdorner);
         }

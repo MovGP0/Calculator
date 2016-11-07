@@ -68,6 +68,7 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <Style x:Key="StandardStyle" TargetType="{x:Type Window}">
+                <Setter Property="FontFamily" Value="{StaticResource NotoSans}" />
                 <Setter Property="shell:WindowChrome.WindowChrome">
                     <Setter.Value>
                         <shell:WindowChrome GlassFrameThickness="0" CornerRadius="0" ResizeBorderThickness="2" />
@@ -87,7 +88,7 @@
 
                                 <Border Grid.Column="0" Grid.Row="1" Background="{StaticResource MaterialDesignPaper}" Margin="0">
                                     <AdornerDecorator>
-                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                        <Frame Name="PART_MainFrame" />
                                     </AdornerDecorator>
                                 </Border>
 

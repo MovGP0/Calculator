@@ -4,10 +4,10 @@ using System.Windows.Input;
 
 namespace Calculator.Pages
 {
-    public partial class GestureRecognizerTraining
+    public partial class GestureTrainingFrame
     {
         #region DependencyProperties
-        public static readonly DependencyProperty TrainingSetProperty = DependencyProperty.Register(nameof(TrainingSet), typeof(PathSampleCollection), typeof(GestureRecognizerTraining), new PropertyMetadata(default(PathSampleCollection)));
+        public static readonly DependencyProperty TrainingSetProperty = DependencyProperty.Register(nameof(TrainingSet), typeof(PathSampleCollection), typeof(GestureTrainingFrame), new PropertyMetadata(default(PathSampleCollection)));
 
         public PathSampleCollection TrainingSet
         {
@@ -18,7 +18,7 @@ namespace Calculator.Pages
         public ICommand SaveCommand { get; }
         #endregion
 
-        public GestureRecognizerTraining()
+        public GestureTrainingFrame()
         {
             InitializeComponent();
             TrainingSet = CreateTrainingSet();
