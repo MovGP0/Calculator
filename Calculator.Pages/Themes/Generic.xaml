@@ -3,5 +3,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../GestureTrainingFrame.Dictionary.xaml" />
         <ResourceDictionary Source="../ShellWindow.Dictionary.xaml" />
+        <ResourceDictionary Source="../MainFrame.Dictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
