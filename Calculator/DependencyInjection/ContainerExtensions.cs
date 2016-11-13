@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Navigation;
 using Calculator.Keypad;
 using Calculator.Messages;
 using Calculator.Pages;
@@ -47,11 +46,26 @@ namespace Calculator.DependencyInjection
         public static IContainer SetupPages(this IContainer container)
         {
             container.Register<ShellWindow>();
-            container.RegisterFactory<GestureTrainingPage>();
-            container.Register<NavigateToTrainCommand>(Reuse.Transient);
-            container.RegisterFactory<MainPage>();
-            
+            SetupGestureTrainingPage(container);
+            SetupMainPage(container);
             return container;
+        }
+
+        private static void SetupMainPage(IRegistrator container)
+        {
+            container.RegisterFactory<MainPage>();
+            container.Register<NavigateToTrainCommand>(Reuse.Transient);
+        }
+
+        private static void SetupGestureTrainingPage(IRegistrator container)
+        {
+            container.RegisterFactory<GestureTrainingPage>();
+
+            container.RegisterDelegate<Func<GestureTrainingPage, LoadTrainingSetCommand>>(r =>
+                    page => new LoadTrainingSetCommand(page, r.Resolve<ILogger>()), Reuse.Transient);
+
+            container.RegisterDelegate<Func<GestureTrainingPage, SaveTrainingSetCommand>>(r =>
+                    page => new SaveTrainingSetCommand(page), Reuse.Transient);
         }
 
         public static IContainer SetupLogging(this IContainer container)

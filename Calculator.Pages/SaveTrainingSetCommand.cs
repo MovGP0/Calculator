@@ -8,6 +8,7 @@ namespace Calculator.Pages
     public sealed class SaveTrainingSetCommand : IAsyncCommand
     {
         private GestureTrainingPage Control { get; }
+        private const string FileName = "training.bin";
 
         public SaveTrainingSetCommand(GestureTrainingPage control)
         {
@@ -35,7 +36,7 @@ namespace Calculator.Pages
         {
             var gestures = Control.TrainingSet.SelectMany(sample => sample.ToGesture());
             var trainingSet = new TrainingSet(gestures.ToList());
-            await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, "training.xml");
+            await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName);
         }
     }
 }

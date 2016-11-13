@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -53,6 +53,7 @@ namespace Calculator.GestureRecognizer
 
         public static readonly DependencyProperty StrokesProperty = DependencyProperty.Register(nameof(Strokes), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer), new PropertyMetadata(null));
 
+        [TypeConverter(typeof(StrokeConverter))]
         public IEnumerable<Stroke> Strokes
         {
             get { return (IEnumerable<Stroke>) GetValue(StrokesProperty); }
@@ -74,10 +75,7 @@ namespace Calculator.GestureRecognizer
             InitializeComponent();
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
-
-            //FontSizeProperty.OverrideMetadata(typeof(double), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits, (sender, args) => UpdateBaseline()));
-            //FontFamilyProperty.OverrideMetadata(typeof(FontFamily), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits, (sender, args) => UpdateBaseline()));
-
+            
             var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
             GlyphTypeface glyphTypeface;
             if (!typeface.TryGetGlyphTypeface(out glyphTypeface))
@@ -198,8 +196,8 @@ namespace Calculator.GestureRecognizer
             scheduler.Schedule(() =>
             {
                 _isRecognized = true;
-                var strokes = PartCanvas.Strokes.ConvertToStrokes();    
-                Strokes = strokes;
+                //var strokes = PartCanvas.Strokes.ConvertToStrokes();    
+                //Strokes = strokes;
                 
                 if (!IsTraining)
                 {
