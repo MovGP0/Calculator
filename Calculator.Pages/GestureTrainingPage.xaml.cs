@@ -8,41 +8,38 @@ namespace Calculator.Pages
 {
     public partial class GestureTrainingPage
     {
-        #region DependencyProperties
-        public static readonly DependencyProperty TrainingSetProperty = DependencyProperty.Register(nameof(TrainingSet), typeof(ObservableCollection<PathSample>), typeof(GestureTrainingPage), new PropertyMetadata(null));
-
-        public ObservableCollection<PathSample> TrainingSet
+        private GestureTrainingPageViewModel ViewModel
         {
-            get { return (ObservableCollection<PathSample>) GetValue(TrainingSetProperty); }
-            set { SetValue(TrainingSetProperty, value); }
+            get { return (GestureTrainingPageViewModel) DataContext; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                DataContext = value;
+            }
         }
 
-        public IAsyncCommand SaveCommand { get; }
-        public LoadTrainingSetCommand LoadCommand { get; }
-        #endregion
-
-        public GestureTrainingPage(
-            Func<GestureTrainingPage, SaveTrainingSetCommand> saveTrainingSetCommandFactory, 
-            Func<GestureTrainingPage, LoadTrainingSetCommand> loadTrainingSetCommandFactory)
+        public GestureTrainingPage(GestureTrainingPageViewModel viewModel)
         {
             InitializeComponent();
-            
-            SaveCommand = saveTrainingSetCommandFactory(this);
-            LoadCommand = loadTrainingSetCommandFactory(this);
-            
-            Loaded += OnLoaded;
-
             var trainingSet = SetupTrainingSet();
-            TrainingSet = trainingSet;
+            viewModel.TrainingSet = trainingSet;
+            ViewModel = viewModel;
+
+            Loaded += OnLoaded;
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            LoadCommand.PathNamesToLoad = GetCharactersToLoad().Select(c => c.ToString());
+            var loadCommand = ViewModel.LoadCommand;
+            loadCommand.PathNamesToLoad = GetCharactersToLoad().Select(c => c.ToString());
 
-            if (LoadCommand.CanExecute(null))
+            if (loadCommand.CanExecute(null))
             {
-                await LoadCommand.ExecuteAsync(null);
+                await loadCommand.ExecuteAsync(null);
             }
         }
 

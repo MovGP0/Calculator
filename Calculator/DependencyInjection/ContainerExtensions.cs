@@ -59,13 +59,24 @@ namespace Calculator.DependencyInjection
 
         private static void SetupGestureTrainingPage(IRegistrator container)
         {
+            container.RegisterDelegate(r =>
+                {
+                    var saveTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>();
+                    var loadTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>();
+
+                    var viewModel = new GestureTrainingPageViewModel();
+                    viewModel.SaveCommand = saveTrainingSetCommandFactory(viewModel);
+                    viewModel.LoadCommand = loadTrainingSetCommandFactory(viewModel);
+                    return viewModel;
+                }, Reuse.Singleton);
+
             container.RegisterFactory<GestureTrainingPage>();
 
-            container.RegisterDelegate<Func<GestureTrainingPage, LoadTrainingSetCommand>>(r =>
-                    page => new LoadTrainingSetCommand(page, r.Resolve<ILogger>()), Reuse.Transient);
+            container.RegisterDelegate<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>(r =>
+                    viewModel => new LoadTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
 
-            container.RegisterDelegate<Func<GestureTrainingPage, SaveTrainingSetCommand>>(r =>
-                    page => new SaveTrainingSetCommand(page), Reuse.Transient);
+            container.RegisterDelegate<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>(r =>
+                    viewModel => new SaveTrainingSetCommand(viewModel), Reuse.Singleton);
         }
 
         public static IContainer SetupLogging(this IContainer container)

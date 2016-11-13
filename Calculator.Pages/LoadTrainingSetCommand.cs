@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,15 +28,15 @@ namespace Calculator.Pages
             private get { return _pathNamesToLoad; }
         }
 
-        private GestureTrainingPage Control { get; }
+        private GestureTrainingPageViewModel ViewModel { get; }
         private const string FileName = "training.bin";
         private string Directory { get; }
         private FileSystemWatcher Watcher { get; set; } = new FileSystemWatcher();
 
-        public LoadTrainingSetCommand(GestureTrainingPage control, ILogger log)
+        public LoadTrainingSetCommand(GestureTrainingPageViewModel viewModel, ILogger log)
         {
             Log = log;
-            Control = control;
+            ViewModel = viewModel;
             Directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             SetupWatcher();
         }
@@ -108,12 +107,12 @@ namespace Calculator.Pages
             if(PathNamesToLoad == null) throw new InvalidOperationException($"{nameof(PathNamesToLoad)} was not set.");
 
             var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName, Log);
-
-            Control.TrainingSet.Clear();
+            
+            ViewModel.TrainingSet.Clear();
 
             foreach (var pathSample in gestures.ToPathSamples(PathNamesToLoad))
             {
-                Control.TrainingSet.Add(pathSample);
+                ViewModel.TrainingSet.Add(pathSample);
             }
         }
     }

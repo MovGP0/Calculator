@@ -74,6 +74,7 @@
     <Compile Include="GestureTrainingPage.xaml.cs">
       <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GestureTrainingPageViewModel.cs" />
     <Compile Include="IAsyncCommand.cs" />
     <Compile Include="LoadTrainingSetCommand.cs" />
     <Compile Include="MainPage.xaml.cs">

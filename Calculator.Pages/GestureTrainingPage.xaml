@@ -9,7 +9,10 @@
              d:DesignHeight="300" d:DesignWidth="300" x:Name="This" Title="Gesture Training" WindowTitle="Gesture Training">
     <Page.Template>
         <ControlTemplate>
-            <Grid DataContext="{Binding ElementName=This}">
+            <Grid DataContext="{Binding DataContext, ElementName=This}">
+                <d:Grid.DataContext>
+                    <local:GestureTrainingPageViewModel />
+                </d:Grid.DataContext>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />

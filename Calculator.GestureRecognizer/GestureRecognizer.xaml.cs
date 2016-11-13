@@ -196,8 +196,6 @@ namespace Calculator.GestureRecognizer
             scheduler.Schedule(() =>
             {
                 _isRecognized = true;
-                //var strokes = PartCanvas.Strokes.ConvertToStrokes();    
-                //Strokes = strokes;
                 
                 if (!IsTraining)
                 {

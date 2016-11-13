@@ -7,12 +7,12 @@ namespace Calculator.Pages
 {
     public sealed class SaveTrainingSetCommand : IAsyncCommand
     {
-        private GestureTrainingPage Control { get; }
+        private GestureTrainingPageViewModel ViewModel { get; }
         private const string FileName = "training.bin";
 
-        public SaveTrainingSetCommand(GestureTrainingPage control)
+        public SaveTrainingSetCommand(GestureTrainingPageViewModel viewModel)
         {
-            Control = control;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -34,7 +34,7 @@ namespace Calculator.Pages
 
         public async Task ExecuteAsync(object parameter)
         {
-            var gestures = Control.TrainingSet.SelectMany(sample => sample.ToGesture());
+            var gestures = ViewModel.TrainingSet.SelectMany(sample => sample.ToGesture());
             var trainingSet = new TrainingSet(gestures.ToList());
             await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName);
         }
