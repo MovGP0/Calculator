@@ -34,6 +34,11 @@ namespace Calculator.GestureRecognizer
             return strokes.Select(s => s.ConvertToInkStroke());
         }
 
+        public static StrokeCollection ConvertToStrokeCollection(this IEnumerable<Stroke> strokes)
+        {
+            return new StrokeCollection(strokes.ConvertToInkStrokes());
+        }
+
         private static IEnumerable<Point> ConvertToPoints(this StylusPointCollection points)
         {
             return points.Select(p => p.ConvertToPoint());

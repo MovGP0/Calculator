@@ -142,6 +142,7 @@
     <Compile Include="GestureRecognizer.xaml.cs">
       <DependentUpon>GestureRecognizer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GestureRecognizerViewModel.cs" />
     <Compile Include="PointExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stroke.cs" />

@@ -1,31 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
+using System.Windows.Data;
 using System.Windows.Ink;
 using InkStroke = System.Windows.Ink.Stroke;
 
 namespace Calculator.GestureRecognizer
 {
-    public sealed class StrokeConverter : TypeConverter
+    [ValueConversion(typeof(IEnumerable<InkStroke>), typeof(StrokeCollection))]
+    [ValueConversion(typeof(IEnumerable<Stroke>), typeof(StrokeCollection))]
+    [ValueConversion(typeof(StrokeCollection), typeof(StrokeCollection))]
+    
+    [ValueConversion(typeof(StrokeCollection), typeof(IEnumerable<InkStroke>))]
+    [ValueConversion(typeof(StrokeCollection), typeof(IEnumerable<Stroke>))]
+    [ValueConversion(typeof(StrokeCollection), typeof(StrokeCollection))]
+    public sealed class StrokeConverter : IValueConverter
     {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(IEnumerable<Stroke>) 
-                || sourceType == typeof(IEnumerable<InkStroke>) 
-                || sourceType == typeof(StrokeCollection)
-                || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return destinationType == typeof(IEnumerable<Stroke>) 
-                || destinationType == typeof(IEnumerable<InkStroke>) 
-                || destinationType == typeof(StrokeCollection)
-                || base.CanConvertTo(context, destinationType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
@@ -39,8 +30,36 @@ namespace Calculator.GestureRecognizer
 
             if (TryConvertStrokes(value, out strokeCollection))
                 return strokeCollection;
+            
+            throw new NotSupportedException($"Cannot convert to type {targetType}");
+        }
 
-            return base.ConvertFrom(context, culture, value);
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            var strokeCollection = value as StrokeCollection;
+            if (strokeCollection == null)
+            {
+                throw new NotSupportedException($"Cannot convert from type {value.GetType()}");
+            }
+
+            if (targetType == typeof(StrokeCollection))
+            {
+                return strokeCollection;
+            }
+
+            if(targetType == typeof(IEnumerable<Stroke>))
+            {
+                return strokeCollection.ConvertToStrokes();
+            }
+
+            if(targetType == typeof(IEnumerable<InkStroke>))
+            {
+                return strokeCollection.ConvertToInkStrokes();
+            }
+            
+            throw new NotSupportedException($"Cannot convert to type {targetType}");
         }
 
         private static bool TryConvertInkStroke(object value, out StrokeCollection strokeCollection)
@@ -67,34 +86,6 @@ namespace Calculator.GestureRecognizer
             
             strokeCollection = null;
             return false;
-        }
-        
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            if (value == null) return null;
-
-            var strokeCollection = value as StrokeCollection;
-            if (strokeCollection == null)
-            {
-                return base.ConvertTo(context, culture, value, destinationType);
-            }
-            
-            if (destinationType == typeof(StrokeCollection))
-            {
-                return strokeCollection;
-            }
-
-            if(destinationType == typeof(IEnumerable<Stroke>))
-            {
-                return strokeCollection.ConvertToStrokes();
-            }
-
-            if(destinationType == typeof(IEnumerable<InkStroke>))
-            {
-                return strokeCollection.ConvertToInkStrokes();
-            }
-
-            return base.ConvertTo(context, culture, value, destinationType);
         }
     }
 }

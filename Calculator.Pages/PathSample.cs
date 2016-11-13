@@ -1,58 +1,93 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Calculator.GestureRecognizer;
 
 namespace Calculator.Pages
 {
-    public sealed class PathSample : DependencyObject
+    public sealed class PathSample : INotifyPropertyChanged
     {
-        public static readonly DependencyProperty CharacterProperty = DependencyProperty.Register(nameof(Character), typeof(string), typeof(PathSample), new PropertyMetadata(default(string)));
+        private string _character;
+        private IEnumerable<Stroke> _sample1;
+        private IEnumerable<Stroke> _sample2;
+        private IEnumerable<Stroke> _sample3;
+        private IEnumerable<Stroke> _sample4;
+        private IEnumerable<Stroke> _sample5;
+
+        #region INotifyPropertyChanged implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged([CallerMemberName]string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         public string Character
         {
-            get { return (string) GetValue(CharacterProperty); }
-            set { SetValue(CharacterProperty, value); }
+            get { return _character; }
+            set
+            {
+                _character = value;
+                RaisePropertyChanged();
+            }
         }
-
-        public static readonly DependencyProperty Sample1Property = DependencyProperty.Register(nameof(Sample1), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer.GestureRecognizer), new PropertyMetadata(default(IEnumerable<Stroke>)));
 
         public IEnumerable<Stroke> Sample1
         {
-            get { return (IEnumerable<Stroke>) GetValue(Sample1Property); }
-            set { SetValue(Sample1Property, value); }
+            get { return _sample1; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _sample1 = value;
+                RaisePropertyChanged();
+            }
         }
-
-        public static readonly DependencyProperty Sample2Property = DependencyProperty.Register(nameof(Sample2), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer.GestureRecognizer), new PropertyMetadata(default(IEnumerable<Stroke>)));
 
         public IEnumerable<Stroke> Sample2
         {
-            get { return (IEnumerable<Stroke>) GetValue(Sample2Property); }
-            set { SetValue(Sample2Property, value); }
+            get { return _sample2; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _sample2 = value;
+                RaisePropertyChanged();
+            }
         }
-        
-        public static readonly DependencyProperty Sample3Property = DependencyProperty.Register(nameof(Sample3), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer.GestureRecognizer), new PropertyMetadata(default(IEnumerable<Stroke>)));
 
         public IEnumerable<Stroke> Sample3
         {
-            get { return (IEnumerable<Stroke>) GetValue(Sample3Property); }
-            set { SetValue(Sample3Property, value); }
+            get { return _sample3; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _sample3 = value;
+                RaisePropertyChanged();
+            }
         }
-        
-        public static readonly DependencyProperty Sample4Property = DependencyProperty.Register(nameof(Sample4), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer.GestureRecognizer), new PropertyMetadata(default(IEnumerable<Stroke>)));
 
         public IEnumerable<Stroke> Sample4
         {
-            get { return (IEnumerable<Stroke>) GetValue(Sample4Property); }
-            set { SetValue(Sample4Property, value); }
+            get { return _sample4; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _sample4 = value;
+                RaisePropertyChanged();
+            }
         }
-        
-        public static readonly DependencyProperty Sample5Property = DependencyProperty.Register(nameof(Sample5), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer.GestureRecognizer), new PropertyMetadata(default(IEnumerable<Stroke>)));
-        
+
         public IEnumerable<Stroke> Sample5
+
         {
-            get { return (IEnumerable<Stroke>) GetValue(Sample5Property); }
-            set { SetValue(Sample5Property, value); }
+            get { return _sample5; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _sample5 = value;
+                RaisePropertyChanged();
+            }
         }
-        
     }
 }

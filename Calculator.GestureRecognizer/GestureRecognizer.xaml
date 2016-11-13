@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Calculator.GestureRecognizer"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" x:Name="This">
+    <d:Control.DataContext>
+        <local:GestureRecognizerViewModel />
+    </d:Control.DataContext>
     <Control.Template>
         <ControlTemplate>
-            <InkCanvas Height="Auto" Width="Auto" DataContext="{Binding ElementName=This}" x:Name="PART_Canvas" Background="LightYellow" Strokes="{Binding Strokes, Mode=TwoWay}">
+            <InkCanvas Height="Auto" Width="Auto" x:Name="PART_Canvas" Background="LightYellow" Strokes="{Binding Strokes, Mode=TwoWay}">
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_XHeight" X1="0" Y1="{Binding XHeight}" X2="{Binding Width}" Y2="{Binding XHeight}" Stroke="Black" StrokeThickness="1" StrokeDashArray="5,3" />
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_CapsHeight" X1="0" Y1="{Binding CapsHeight}" X2="{Binding Width}" Y2="{Binding CapsHeight}" Stroke="Gray" StrokeThickness="1" StrokeDashArray="5,3" />
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_Baseline" X1="0" Y1="{Binding Baseline}" X2="{Binding Width}" Y2="{Binding Baseline}" Stroke="Blue" StrokeThickness="2" />

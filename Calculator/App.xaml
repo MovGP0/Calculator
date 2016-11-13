@@ -1,12 +1,16 @@
 ﻿<Application x:Class="Calculator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:gestureRecognizer="clr-namespace:Calculator.GestureRecognizer;assembly=Calculator.GestureRecognizer">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Calculator.Styling;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Calculator.Controls;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Calculator.Pages;component/Themes/Generic.xaml" />
+                <ResourceDictionary>
+                    <gestureRecognizer:StrokeConverter x:Key="StrokeConverter" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
