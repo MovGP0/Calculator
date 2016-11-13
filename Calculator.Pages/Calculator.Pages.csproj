@@ -67,12 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExtensions.cs" />
-    <Compile Include="GestureTrainingFrame.xaml.cs">
-      <DependentUpon>GestureTrainingFrame.xaml</DependentUpon>
+    <Compile Include="GestureTrainingPage.xaml.cs">
+      <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainFrame.xaml.cs">
-      <DependentUpon>MainFrame.xaml</DependentUpon>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigateToTrainCommand.cs" />
     <Compile Include="ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
     </Compile>
@@ -88,11 +89,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GestureTrainingFrame.xaml">
+    <Page Include="GestureTrainingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainFrame.xaml">
+    <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,7 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GestureTrainingFrame.Dictionary.xaml">
+    <Page Include="GestureTrainingPage.Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

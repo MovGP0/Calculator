@@ -5,25 +5,32 @@ using System.Windows;
 namespace Calculator.Pages
 {
     [TemplatePart(Name="PART_Keypad", Type=typeof(Keypad.Keypad))]
-    public partial class MainFrame
+    public partial class MainPage
     {
-        private Keypad.Keypad PartKeypad { get; set; }
         private KeypadViewModel KeypadViewModel { get; }
+        public NavigateToTrainCommand NavigateToTrainCommand { get; private set; }
 
-        public MainFrame(KeypadViewModel keypadViewModel)
+        public MainPage(KeypadViewModel keypadViewModel, NavigateToTrainCommand navigateToTrainCommand)
         {
             InitializeComponent();
 
             Debug.Assert(keypadViewModel != null);
             KeypadViewModel = keypadViewModel;
+
+            Loaded += OnLoaded;
+            NavigateToTrainCommand = navigateToTrainCommand;
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            NavigateToTrainCommand.NavigationService = NavigationService;
+        }
+        
         public override void OnApplyTemplate()
         {
             var partKeypad = (Keypad.Keypad)Template.FindName("PART_Keypad", this);
             partKeypad.DataContext = KeypadViewModel;
-            PartKeypad = partKeypad;
-
+            
             base.OnApplyTemplate();
         }
     }

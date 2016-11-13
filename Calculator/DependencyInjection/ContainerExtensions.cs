@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Navigation;
 using Calculator.Keypad;
 using Calculator.Messages;
 using Calculator.Pages;
@@ -46,8 +47,10 @@ namespace Calculator.DependencyInjection
         public static IContainer SetupPages(this IContainer container)
         {
             container.Register<ShellWindow>();
-            container.RegisterFactory<MainFrame>();
-            container.RegisterFactory<GestureTrainingFrame>();
+            container.RegisterFactory<GestureTrainingPage>();
+            container.Register<NavigateToTrainCommand>(Reuse.Transient);
+            container.RegisterFactory<MainPage>();
+            
             return container;
         }
 
