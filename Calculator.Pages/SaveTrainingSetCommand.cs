@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using Calculator.GestureRecognizer;
 
 namespace Calculator.Pages
 {
-    public sealed class SaveTrainingSetCommand : ICommand
+    public sealed class SaveTrainingSetCommand : IAsyncCommand
     {
         private GestureTrainingPage Control { get; }
 
@@ -19,13 +19,23 @@ namespace Calculator.Pages
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            var gestures = Control.TrainingSet.ToGestures();
-            var trainingSet = new TrainingSet(gestures.ToList());
-            TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, "training.xml");
+            await ExecuteAsync(parameter);
         }
-        
-        public event EventHandler CanExecuteChanged;
+
+        private event EventHandler CanExecuteChangedHandler;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CanExecuteChangedHandler += value; }
+            remove { CanExecuteChangedHandler -= value; }
+        }
+
+        public async Task ExecuteAsync(object parameter)
+        {
+            var gestures = Control.TrainingSet.SelectMany(sample => sample.ToGesture());
+            var trainingSet = new TrainingSet(gestures.ToList());
+            await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, "training.xml");
+        }
     }
 }

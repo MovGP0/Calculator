@@ -70,16 +70,16 @@
     <Compile Include="GestureTrainingPage.xaml.cs">
       <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IAsyncCommand.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigateToTrainCommand.cs" />
+    <Compile Include="PathSampleExtensions.cs" />
     <Compile Include="ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PathSample.cs" />
-    <Compile Include="PathSampleCollection.cs" />
-    <Compile Include="PathSampleCollectionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveTrainingSetCommand.cs" />
     <Compile Include="TrainingSetExtensions.cs" />
