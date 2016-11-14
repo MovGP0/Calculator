@@ -22,7 +22,7 @@ namespace Calculator.GestureRecognizer
         {
             if(info == null) throw new ArgumentNullException(nameof(info));
             
-            Points = (Point[])info.GetValue("points", Points.GetType());
+            Points = (Point[])info.GetValue("points", typeof(Point[]));
         }
 
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.SerializationFormatter)]

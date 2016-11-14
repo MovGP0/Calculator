@@ -31,7 +31,7 @@ namespace Calculator.GestureRecognizer
             if(info == null) throw new ArgumentNullException(nameof(info));
 
             Name = info.GetString("name");
-            Strokes = (Stroke[])info.GetValue("strokes", Strokes.GetType());
+            Strokes = (Stroke[])info.GetValue("strokes", typeof(Stroke[]));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Calculator.GestureRecognizer
 {
     [Serializable]
-    public sealed class TrainingSet : ISerializable
+    public sealed class TrainingSet : ISerializable, IEnumerable<Gesture>
     {
         public TrainingSet(IList<Gesture> gestures)
         {
@@ -21,7 +22,7 @@ namespace Calculator.GestureRecognizer
         {
             if(info == null) throw new ArgumentNullException(nameof(info));
             
-            var gestures = (Gesture[])info.GetValue("points", typeof(Gesture[]));
+            var gestures = (Gesture[])info.GetValue("gestures", typeof(Gesture[]));
             Gestures = new ReadOnlyCollection<Gesture>(gestures);
         }
 
@@ -32,5 +33,15 @@ namespace Calculator.GestureRecognizer
             info.AddValue("gestures", Gestures.ToArray());
         }
         #endregion
+
+        public IEnumerator<Gesture> GetEnumerator()
+        {
+            return Gestures.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

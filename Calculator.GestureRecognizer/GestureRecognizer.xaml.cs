@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -21,44 +20,6 @@ namespace Calculator.GestureRecognizer
     public partial class GestureRecognizer
     {
         #region DependencyProperties
-        public static readonly DependencyProperty BaselineProperty = DependencyProperty.Register(nameof(Baseline), typeof(double), typeof(GestureRecognizer), new PropertyMetadata(default(double)));
-
-        public double Baseline
-        {
-            get { return (double) GetValue(BaselineProperty); }
-            set { SetValue(BaselineProperty, value); }
-        }
-        
-        public static readonly DependencyProperty CapsHeightProperty = DependencyProperty.Register(nameof(CapsHeight), typeof(double), typeof(GestureRecognizer), new PropertyMetadata(default(double)));
-
-        /// <summary>
-        /// Height of uppercase letters over Baseline
-        /// </summary>
-        public double CapsHeight
-        {
-            get { return (double) GetValue(CapsHeightProperty); }
-            set { SetValue(CapsHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty XHeightProperty = DependencyProperty.Register(nameof(XHeight), typeof(double), typeof(GestureRecognizer), new PropertyMetadata(default(double)));
-
-        /// <summary>
-        /// Height of small letters over Baseline
-        /// </summary>
-        public double XHeight
-        {
-            get { return (double) GetValue(XHeightProperty); }
-            set { SetValue(XHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty StrokesProperty = DependencyProperty.Register(nameof(Strokes), typeof(IEnumerable<Stroke>), typeof(GestureRecognizer), new PropertyMetadata(null));
-
-        public IEnumerable<Stroke> Strokes
-        {
-            get { return (IEnumerable<Stroke>) GetValue(StrokesProperty); }
-            set { SetValue(StrokesProperty, value); }
-        }
-
         public static readonly DependencyProperty IsTrainingProperty = DependencyProperty.Register(
             nameof(IsTraining), typeof(bool), typeof(GestureRecognizer), new PropertyMetadata(false));
 
@@ -67,28 +28,73 @@ namespace Calculator.GestureRecognizer
             get { return (bool) GetValue(IsTrainingProperty); }
             set { SetValue(IsTrainingProperty, value); }
         }
+
+        public static readonly DependencyProperty StrokesProperty = DependencyProperty.Register(
+            nameof(Strokes), typeof(StrokeCollection), typeof(GestureRecognizer), new PropertyMetadata(default(StrokeCollection), OnStrokesPropertyChanged));
+
+        private static void OnStrokesPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (dependencyPropertyChangedEventArgs.OldValue == dependencyPropertyChangedEventArgs.NewValue) return;
+
+            var control = (GestureRecognizer) dependencyObject;
+            var viewModel = control.ViewModel;
+
+            var newStrokes = (StrokeCollection) dependencyPropertyChangedEventArgs.NewValue;
+
+            viewModel.Strokes.Clear();
+            foreach (var stroke in newStrokes)
+            {
+                viewModel.Strokes.Add(stroke);
+            }
+        }
+
+        public StrokeCollection Strokes
+        {
+            get { return ViewModel.Strokes; }
+            set { SetValue(StrokesProperty, value); }
+        }
         #endregion
+
+        public GestureRecognizerViewModel ViewModel
+        {
+            get { return (GestureRecognizerViewModel) DataContext; }
+            set { DataContext = value; }
+        }
 
         public GestureRecognizer()
         {
+            ViewModel = new GestureRecognizerViewModel();
+            InitializeViewModel();
+
             InitializeComponent();
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
+            DataContextChanged += OnDataContextChanged;
+        }
 
-            //FontSizeProperty.OverrideMetadata(typeof(double), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits, (sender, args) => UpdateBaseline()));
-            //FontFamilyProperty.OverrideMetadata(typeof(FontFamily), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits, (sender, args) => UpdateBaseline()));
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            InitializeViewModel();
+        }
 
+        private void InitializeViewModel()
+        {
             var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
             GlyphTypeface glyphTypeface;
             if (!typeface.TryGetGlyphTypeface(out glyphTypeface))
                 throw new InvalidOperationException("No GlyphTypeface found");
 
-            var fontSize = FontSize * 10;
+            var viewModel = ViewModel;
+
+            var fontSize = FontSize*10;
             var baseline = glyphTypeface.Baseline;
-            Baseline = baseline * fontSize;
-            CapsHeight = glyphTypeface.CapsHeight * fontSize;
-            XHeight = glyphTypeface.XHeight * fontSize;
-            Height = glyphTypeface.Height * fontSize;
+
+            viewModel.Baseline = baseline*fontSize;
+            viewModel.CapsHeight = glyphTypeface.CapsHeight*fontSize;
+            viewModel.XHeight = glyphTypeface.XHeight*fontSize;
+            viewModel.Width = Width;
+
+            Height = glyphTypeface.Height*fontSize;
         }
 
         private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
@@ -198,8 +204,6 @@ namespace Calculator.GestureRecognizer
             scheduler.Schedule(() =>
             {
                 _isRecognized = true;
-                var strokes = PartCanvas.Strokes.ConvertToStrokes();    
-                Strokes = strokes;
                 
                 if (!IsTraining)
                 {

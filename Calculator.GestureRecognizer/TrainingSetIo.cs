@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
@@ -45,7 +46,7 @@ namespace Calculator.GestureRecognizer
             }
         }
 
-        public static async Task<TrainingSet> ReadGestureFromBinaryAsync(string fileName)
+        public static async Task<TrainingSet> ReadGestureFromBinaryAsync(string fileName, ILogger log)
         {
             return await Task<TrainingSet>.Factory.StartNew(() =>
             {
@@ -58,8 +59,14 @@ namespace Calculator.GestureRecognizer
                         return trainingSet;
                     }
                 }
-                catch (FileNotFoundException)
+                catch (SerializationException e)
                 {
+                    log.Error(e, e.Message);
+                    return new TrainingSet(new List<Gesture>());
+                }
+                catch (FileNotFoundException e)
+                {
+                    log.Warning(e, e.Message);
                     return new TrainingSet(new List<Gesture>());
                 }
             });

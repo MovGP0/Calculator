@@ -46,9 +46,37 @@ namespace Calculator.DependencyInjection
         public static IContainer SetupPages(this IContainer container)
         {
             container.Register<ShellWindow>();
-            container.RegisterFactory<MainFrame>();
-            container.RegisterFactory<GestureTrainingFrame>();
+            SetupGestureTrainingPage(container);
+            SetupMainPage(container);
             return container;
+        }
+
+        private static void SetupMainPage(IRegistrator container)
+        {
+            container.RegisterFactory<MainPage>();
+            container.Register<NavigateToTrainCommand>(Reuse.Transient);
+        }
+
+        private static void SetupGestureTrainingPage(IRegistrator container)
+        {
+            container.RegisterDelegate(r =>
+                {
+                    var saveTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>();
+                    var loadTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>();
+
+                    var viewModel = new GestureTrainingPageViewModel();
+                    viewModel.SaveCommand = saveTrainingSetCommandFactory(viewModel);
+                    viewModel.LoadCommand = loadTrainingSetCommandFactory(viewModel);
+                    return viewModel;
+                }, Reuse.Singleton);
+
+            container.RegisterFactory<GestureTrainingPage>();
+
+            container.RegisterDelegate<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>(r =>
+                    viewModel => new LoadTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
+
+            container.RegisterDelegate<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>(r =>
+                    viewModel => new SaveTrainingSetCommand(viewModel), Reuse.Singleton);
         }
 
         public static IContainer SetupLogging(this IContainer container)

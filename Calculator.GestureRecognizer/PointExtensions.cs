@@ -58,7 +58,7 @@ namespace Calculator.GestureRecognizer
         {
             if (numPoints == n - 1)
             {
-                newPoints[n] = lastPoint;
+                newPoints[n-1] = lastPoint;
             }
             return newPoints;
         }

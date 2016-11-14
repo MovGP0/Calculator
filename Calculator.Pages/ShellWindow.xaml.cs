@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace Calculator.Pages
 {
@@ -10,9 +11,9 @@ namespace Calculator.Pages
     {
         internal const string PartMainFrameName = "PART_MainFrame";
         private Frame PartMainFrame { get; set; }
-        private Func<MainFrame> MainFrameFactory { get; }
+        private Func<MainPage> MainFrameFactory { get; }
 
-        public ShellWindow(Func<MainFrame> mainFrameFactory)
+        public ShellWindow(Func<MainPage> mainFrameFactory)
         {
             MainFrameFactory = mainFrameFactory;
 
@@ -42,7 +43,8 @@ namespace Calculator.Pages
 
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
-            PartMainFrame.NavigationService.Navigate(MainFrameFactory());
+            var navigationService = PartMainFrame.NavigationService;
+            navigationService.Navigate(MainFrameFactory());
 
             //var rootAdorner = new BaselineAdorner(BaselineElement);
             //AdornerLayer.GetAdornerLayer(BaselineElement).Add(rootAdorner);
