@@ -9,11 +9,11 @@ namespace Calculator.Pages
     {
         public static IEnumerable<Gesture> ToGesture(this PathSample training)
         {
-            if(training.Sample1 != null) yield return new Gesture(training.Sample1.ToList(), training.Character);
-            if(training.Sample2 != null) yield return new Gesture(training.Sample2.ToList(), training.Character);
-            if(training.Sample3 != null) yield return new Gesture(training.Sample3.ToList(), training.Character);
-            if(training.Sample4 != null) yield return new Gesture(training.Sample4.ToList(), training.Character);
-            if(training.Sample5 != null) yield return new Gesture(training.Sample5.ToList(), training.Character);
+            if(training.Sample1 != null) yield return new Gesture(training.Sample1.ConvertToStrokes(), training.Character);
+            if(training.Sample2 != null) yield return new Gesture(training.Sample2.ConvertToStrokes(), training.Character);
+            if(training.Sample3 != null) yield return new Gesture(training.Sample3.ConvertToStrokes(), training.Character);
+            if(training.Sample4 != null) yield return new Gesture(training.Sample4.ConvertToStrokes(), training.Character);
+            if(training.Sample5 != null) yield return new Gesture(training.Sample5.ConvertToStrokes(), training.Character);
         }
 
         public static IEnumerable<PathSample> ToPathSamples(this TrainingSet gestures, IEnumerable<string> gestureNamesToLoad)
@@ -44,11 +44,11 @@ namespace Calculator.Pages
 
             var samples = gestures.Take(5).ToArray();
 
-            if (samples.Length > 0) pathSample.Sample1 = samples[0].Strokes;
-            if (samples.Length > 1) pathSample.Sample2 = samples[1].Strokes;
-            if (samples.Length > 2) pathSample.Sample3 = samples[2].Strokes;
-            if (samples.Length > 3) pathSample.Sample4 = samples[3].Strokes;
-            if (samples.Length > 4) pathSample.Sample5 = samples[4].Strokes;
+            if (samples.Length > 0) pathSample.Sample1 = samples[0].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 1) pathSample.Sample2 = samples[1].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 2) pathSample.Sample3 = samples[2].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 3) pathSample.Sample4 = samples[3].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 4) pathSample.Sample5 = samples[4].Strokes.ConvertToStrokeCollection();
 
             return pathSample;
         }

@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using Timer = System.Threading.Timer;
 
@@ -17,7 +16,7 @@ namespace Calculator.GestureRecognizer
     [TemplatePart(Name="PART_CapsHeight", Type=typeof(Line))]
     [TemplatePart(Name="PART_XHeight", Type=typeof(Line))]
     [TemplatePart(Name="PART_Baseline", Type=typeof(Line))]
-    public partial class GestureRecognizer
+    public partial class GestureRecognizer : IDisposable
     {
         #region DependencyProperties
         public static readonly DependencyProperty IsTrainingProperty = DependencyProperty.Register(
@@ -30,80 +29,77 @@ namespace Calculator.GestureRecognizer
         }
 
         public static readonly DependencyProperty StrokesProperty = DependencyProperty.Register(
-            nameof(Strokes), typeof(StrokeCollection), typeof(GestureRecognizer), new PropertyMetadata(default(StrokeCollection), OnStrokesPropertyChanged));
-
-        private static void OnStrokesPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            if (dependencyPropertyChangedEventArgs.OldValue == dependencyPropertyChangedEventArgs.NewValue) return;
-
-            var control = (GestureRecognizer) dependencyObject;
-            var viewModel = control.ViewModel;
-
-            var newStrokes = (StrokeCollection) dependencyPropertyChangedEventArgs.NewValue;
-
-            viewModel.Strokes.Clear();
-            foreach (var stroke in newStrokes)
-            {
-                viewModel.Strokes.Add(stroke);
-            }
-        }
+            nameof(Strokes), typeof(StrokeCollection), typeof(GestureRecognizer), new PropertyMetadata(default(StrokeCollection)));
 
         public StrokeCollection Strokes
         {
-            get { return ViewModel.Strokes; }
+            get { return (StrokeCollection)GetValue(StrokesProperty); }
             set { SetValue(StrokesProperty, value); }
         }
         #endregion
 
         public GestureRecognizerViewModel ViewModel
         {
-            get { return (GestureRecognizerViewModel) DataContext; }
+            get { return (GestureRecognizerViewModel)DataContext; }
             set { DataContext = value; }
         }
-
+        
         public GestureRecognizer()
         {
             ViewModel = new GestureRecognizerViewModel();
-            InitializeViewModel();
-
             InitializeComponent();
+
+            var subscriptions = SubscribeToDependencyProperties();
+            Subscriptions.AddRange(subscriptions);
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
-            DataContextChanged += OnDataContextChanged;
         }
-
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        
+        private IEnumerable<IDisposable> SubscribeToDependencyProperties()
         {
-            InitializeViewModel();
+            yield return this.Observe(StrokesProperty).Subscribe(_ => ViewModel.Strokes.Value = Strokes);
+            yield return this.Observe(FontSizeProperty).Subscribe(_ => ViewModel.FontSize.Value = FontSize);
+            yield return this.Observe(WidthProperty).Subscribe(_ => ViewModel.Width.Value = Width);
+            yield return this.Observe(FontFamilyProperty).Subscribe(_ => ViewModel.FontFamily.Value = FontFamily);
+            yield return this.Observe(FontStyleProperty).Subscribe(_ => ViewModel.FontStyle.Value = FontStyle);
+            yield return this.Observe(FontWeightProperty).Subscribe(_ => ViewModel.FontWeight.Value = FontWeight);
+            yield return this.Observe(FontFamilyProperty).Subscribe(_ => ViewModel.FontFamily.Value = FontFamily);
+            yield return this.Observe(FontStretchProperty).Subscribe(_ => ViewModel.FontStretch.Value = FontStretch);
         }
 
-        private void InitializeViewModel()
-        {
-            var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
-            GlyphTypeface glyphTypeface;
-            if (!typeface.TryGetGlyphTypeface(out glyphTypeface))
-                throw new InvalidOperationException("No GlyphTypeface found");
-
-            var viewModel = ViewModel;
-
-            var fontSize = FontSize*10;
-            var baseline = glyphTypeface.Baseline;
-
-            viewModel.Baseline = baseline*fontSize;
-            viewModel.CapsHeight = glyphTypeface.CapsHeight*fontSize;
-            viewModel.XHeight = glyphTypeface.XHeight*fontSize;
-            viewModel.Width = Width;
-
-            Height = glyphTypeface.Height*fontSize;
-        }
-
+        #region IDisposable
         private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
         {
+            Dispose();
+        }
+
+        ~GestureRecognizer()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private bool _isDisposed;
+        private void Dispose(bool disposing)
+        {
+            if (_isDisposed) return;
+
             foreach (var subscription in Subscriptions)
             {
                 subscription?.Dispose();
             }
+
+            _isDisposed = true;
+            if (disposing)
+            {
+                GC.SuppressFinalize(this);
+            }
         }
+        #endregion
 
         private InkCanvas PartCanvas { get; set; }
         private Line CapsHeightLine { get; set; }
@@ -233,5 +229,6 @@ namespace Calculator.GestureRecognizer
 
             return new Size(Width, Height);
         }
+
     }
 }

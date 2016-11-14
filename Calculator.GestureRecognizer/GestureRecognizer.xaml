@@ -11,10 +11,10 @@
     </d:Control.DataContext>
     <Control.Template>
         <ControlTemplate>
-            <InkCanvas Height="Auto" Width="Auto" x:Name="PART_Canvas" Background="LightYellow" Strokes="{Binding Strokes, Mode=TwoWay}">
-                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_XHeight" X1="0" Y1="{Binding XHeight}" X2="{Binding Width}" Y2="{Binding XHeight}" Stroke="Black" StrokeThickness="1" StrokeDashArray="5,3" />
-                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_CapsHeight" X1="0" Y1="{Binding CapsHeight}" X2="{Binding Width}" Y2="{Binding CapsHeight}" Stroke="Gray" StrokeThickness="1" StrokeDashArray="5,3" />
-                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_Baseline" X1="0" Y1="{Binding Baseline}" X2="{Binding Width}" Y2="{Binding Baseline}" Stroke="Blue" StrokeThickness="2" />
+            <InkCanvas Height="Auto" Width="Auto" x:Name="PART_Canvas" Background="LightYellow" Strokes="{Binding Strokes.Value, Mode=TwoWay}">
+                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_XHeight" X1="0" Y1="{Binding XHeight.Value}" X2="{Binding Width.Value}" Y2="{Binding XHeight.Value}" Stroke="Black" StrokeThickness="1" StrokeDashArray="5,3" />
+                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_CapsHeight" X1="0" Y1="{Binding CapsHeight.Value}" X2="{Binding Width.Value}" Y2="{Binding CapsHeight.Value}" Stroke="Gray" StrokeThickness="1" StrokeDashArray="5,3" />
+                <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_Baseline" X1="0" Y1="{Binding Baseline.Value}" X2="{Binding Width.Value}" Y2="{Binding Baseline.Value}" Stroke="Blue" StrokeThickness="2" />
             </InkCanvas>
         </ControlTemplate>
     </Control.Template>
