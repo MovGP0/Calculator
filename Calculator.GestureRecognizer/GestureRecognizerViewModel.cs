@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
 using Reactive.Bindings;
+using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
@@ -18,22 +19,24 @@ namespace Calculator.GestureRecognizer
         public ReactiveProperty<FontWeight> FontWeight { get; set; } = new ReactiveProperty<FontWeight>(default(FontWeight), ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<FontStretch> FontStretch { get; set; } = new ReactiveProperty<FontStretch>(default(FontStretch), ReactivePropertyMode.DistinctUntilChanged);
         
-        public GestureRecognizerViewModel()
+        public GestureRecognizerViewModel(ILogger log)
         {
-            Subscriptions.Add(FontSize.Subscribe(_ => UpdateValues()));
-            Subscriptions.Add(Width.Subscribe(_ => UpdateValues()));
-            Subscriptions.Add(FontFamily.Subscribe(_ => UpdateValues()));
-            Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues()));
-            Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues()));
-            Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(FontSize.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(Width.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(FontFamily.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues(log)));
         }
         
-        public void UpdateValues()
+        public void UpdateValues(ILogger log)
         {
             if (FontFamily.Value == null)
             {
                 return;
             }
+
+            log.Information("Updating Values");
 
             var typeface = new Typeface(FontFamily.Value, FontStyle.Value, FontWeight.Value, FontStretch.Value);
             GlyphTypeface glyphTypeface;

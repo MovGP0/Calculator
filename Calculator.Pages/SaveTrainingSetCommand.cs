@@ -2,17 +2,20 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Calculator.GestureRecognizer;
+using Serilog;
 
 namespace Calculator.Pages
 {
     public sealed class SaveTrainingSetCommand : IAsyncCommand
     {
         private GestureTrainingPageViewModel ViewModel { get; }
+        private ILogger Log { get; }
         private const string FileName = "training.bin";
 
-        public SaveTrainingSetCommand(GestureTrainingPageViewModel viewModel)
+        public SaveTrainingSetCommand(GestureTrainingPageViewModel viewModel, ILogger log)
         {
             ViewModel = viewModel;
+            Log = log;
         }
 
         public bool CanExecute(object parameter)
@@ -34,6 +37,8 @@ namespace Calculator.Pages
 
         public async Task ExecuteAsync(object parameter)
         {
+            Log.Information($"Executing {nameof(SaveTrainingSetCommand)}");
+
             var gestures = ViewModel.TrainingSet.SelectMany(sample => sample.ToGesture());
             var trainingSet = new TrainingSet(gestures.ToList());
             await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName);

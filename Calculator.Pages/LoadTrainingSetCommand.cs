@@ -104,8 +104,10 @@ namespace Calculator.Pages
         public event EventHandler CanExecuteChanged;
         public async Task ExecuteAsync(object parameter)
         {
-            if(PathNamesToLoad == null) throw new InvalidOperationException($"{nameof(PathNamesToLoad)} was not set.");
+            Log.Information($"Executing {nameof(LoadTrainingSetCommand)}");
 
+            if(PathNamesToLoad == null) throw new InvalidOperationException($"{nameof(PathNamesToLoad)} was not set.");
+            
             var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName, Log);
             
             ViewModel.TrainingSet.Clear();

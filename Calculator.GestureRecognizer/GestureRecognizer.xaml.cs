@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using Serilog;
 using Timer = System.Threading.Timer;
 
 namespace Calculator.GestureRecognizer
@@ -46,15 +47,26 @@ namespace Calculator.GestureRecognizer
         
         public GestureRecognizer()
         {
-            ViewModel = new GestureRecognizerViewModel();
+            ViewModel = new GestureRecognizerViewModel(Log.Logger);
             InitializeComponent();
+            InitializeViewModel();
 
             var subscriptions = SubscribeToDependencyProperties();
             Subscriptions.AddRange(subscriptions);
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
         }
-        
+
+        private void InitializeViewModel()
+        {
+            var vm = ViewModel;
+            vm.FontSize.Value = FontSize;
+            vm.FontFamily.Value = FontFamily;
+            vm.FontStyle.Value = FontStyle;
+            vm.FontWeight.Value = FontWeight;
+            vm.FontStretch.Value = FontStretch;
+        }
+
         private IEnumerable<IDisposable> SubscribeToDependencyProperties()
         {
             yield return this.Observe(StrokesProperty).Subscribe(_ => ViewModel.Strokes.Value = Strokes);
@@ -92,6 +104,9 @@ namespace Calculator.GestureRecognizer
             {
                 subscription?.Dispose();
             }
+
+            ViewModel?.Dispose();
+            ViewModel = null;
 
             _isDisposed = true;
             if (disposing)

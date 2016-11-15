@@ -1,4 +1,5 @@
 ﻿using System;
+using Calculator.GestureRecognizer;
 using Calculator.Keypad;
 using Calculator.Messages;
 using Calculator.Pages;
@@ -13,7 +14,7 @@ namespace Calculator.DependencyInjection
     {
         public static IRegistrator RegisterFactory<T>(this IRegistrator container)
         {
-            container.Register<T>(Reuse.Transient);
+            container.Register<T>();
             container.RegisterDelegate<Func<T>>(r => () => r.Resolve<T>());
             return container;
         }
@@ -59,6 +60,9 @@ namespace Calculator.DependencyInjection
 
         private static void SetupGestureTrainingPage(IRegistrator container)
         {
+            container.Register<GestureRecognizerViewModel>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
+            container.Register<GestureRecognizer.GestureRecognizer>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
+
             container.RegisterDelegate(r =>
                 {
                     var saveTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>();
@@ -76,7 +80,7 @@ namespace Calculator.DependencyInjection
                     viewModel => new LoadTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
 
             container.RegisterDelegate<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>(r =>
-                    viewModel => new SaveTrainingSetCommand(viewModel), Reuse.Singleton);
+                    viewModel => new SaveTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
         }
 
         public static IContainer SetupLogging(this IContainer container)
