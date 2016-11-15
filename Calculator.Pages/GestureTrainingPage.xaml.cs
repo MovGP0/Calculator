@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Serilog;
 
 namespace Calculator.Pages
 {
@@ -22,35 +22,37 @@ namespace Calculator.Pages
             }
         }
 
-        public GestureTrainingPage(GestureTrainingPageViewModel viewModel)
+        private ILogger Log { get; }
+
+        public GestureTrainingPage(GestureTrainingPageViewModel viewModel, ILogger log)
         {
+            Log = log;
             InitializeComponent();
-            var trainingSet = SetupTrainingSet();
-            viewModel.TrainingSet = trainingSet;
+            ApplyTrainingSet(viewModel.PathSamples);
             ViewModel = viewModel;
 
             Loaded += OnLoaded;
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var loadCommand = ViewModel.LoadCommand;
-            loadCommand.PathNamesToLoad = GetCharactersToLoad().Select(c => c.ToString());
+            var viewModel = ViewModel;
+            viewModel.PathNamesToLoad.Value = GetCharactersToLoad().Select(c => c.ToString());
 
-            if (loadCommand.CanExecute(null))
+            Log.Information("Loading strokes from file...");
+            if (viewModel.LoadCommand.CanExecute())
             {
-                await loadCommand.ExecuteAsync(null);
+                viewModel.LoadCommand.Execute(null);
             }
         }
 
-        private static ObservableCollection<PathSample> SetupTrainingSet()
+        private static void ApplyTrainingSet(ICollection<PathSample> pathSamples)
         {
-            var trainingSet = new ObservableCollection<PathSample>();
+            pathSamples.Clear();
             foreach (var pathSample in CreateTrainingSet())
             {
-                trainingSet.Add(pathSample);
+                pathSamples.Add(pathSample);
             }
-            return trainingSet;
         }
 
         private static IEnumerable<PathSample> CreateTrainingSet()

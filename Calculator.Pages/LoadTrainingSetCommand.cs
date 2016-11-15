@@ -110,11 +110,11 @@ namespace Calculator.Pages
             
             var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName, Log);
             
-            ViewModel.TrainingSet.Clear();
+            ViewModel.PathSamples.Clear();
 
             foreach (var pathSample in gestures.ToPathSamples(PathNamesToLoad))
             {
-                ViewModel.TrainingSet.Add(pathSample);
+                ViewModel.PathSamples.Add(pathSample);
             }
         }
     }

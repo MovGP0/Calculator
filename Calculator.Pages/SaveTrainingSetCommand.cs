@@ -39,7 +39,7 @@ namespace Calculator.Pages
         {
             Log.Information($"Executing {nameof(SaveTrainingSetCommand)}");
 
-            var gestures = ViewModel.TrainingSet.SelectMany(sample => sample.ToGesture());
+            var gestures = ViewModel.PathSamples.SelectMany(sample => sample.ToGesture());
             var trainingSet = new TrainingSet(gestures.ToList());
             await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName);
         }

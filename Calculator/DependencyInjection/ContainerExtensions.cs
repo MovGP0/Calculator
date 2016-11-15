@@ -63,17 +63,7 @@ namespace Calculator.DependencyInjection
             container.Register<GestureRecognizerViewModel>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
             container.Register<GestureRecognizer.GestureRecognizer>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
 
-            container.RegisterDelegate(r =>
-                {
-                    var saveTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>();
-                    var loadTrainingSetCommandFactory = r.Resolve<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>();
-
-                    var viewModel = new GestureTrainingPageViewModel();
-                    viewModel.SaveCommand = saveTrainingSetCommandFactory(viewModel);
-                    viewModel.LoadCommand = loadTrainingSetCommandFactory(viewModel);
-                    return viewModel;
-                }, Reuse.Singleton);
-
+            container.RegisterFactory<GestureTrainingPageViewModel>();
             container.RegisterFactory<GestureTrainingPage>();
 
             container.RegisterDelegate<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>(r =>

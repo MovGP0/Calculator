@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyObjectExtensions.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Gesture.cs" />
     <Compile Include="GestureRecognizer.xaml.cs">
