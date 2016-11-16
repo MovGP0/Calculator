@@ -21,13 +21,19 @@ namespace Calculator.Pages
                 DataContext = value;
             }
         }
-
-        private ILogger Log { get; }
-
-        public GestureTrainingPage(GestureTrainingPageViewModel viewModel, ILogger log)
+        
+        public GestureTrainingPage(GestureTrainingPageViewModel viewModel)
         {
-            Log = log;
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+
             ApplyTrainingSet(viewModel.PathSamples);
             ViewModel = viewModel;
 
@@ -46,7 +52,7 @@ namespace Calculator.Pages
             }
         }
 
-        private static void ApplyTrainingSet(ICollection<PathSample> pathSamples)
+        private static void ApplyTrainingSet(ICollection<PathSampleViewModel> pathSamples)
         {
             pathSamples.Clear();
             foreach (var pathSample in CreateTrainingSet())
@@ -55,7 +61,7 @@ namespace Calculator.Pages
             }
         }
 
-        private static IEnumerable<PathSample> CreateTrainingSet()
+        private static IEnumerable<PathSampleViewModel> CreateTrainingSet()
         {
             var characters = GetCharactersToLoad();
             return characters.ToTrainingSet();

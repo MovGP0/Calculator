@@ -46,7 +46,7 @@ namespace Calculator.GestureRecognizer
             }
         }
 
-        public static async Task<TrainingSet> ReadGestureFromBinaryAsync(string fileName, ILogger log)
+        public static async Task<TrainingSet> ReadGestureFromBinaryAsync(string fileName)
         {
             return await Task<TrainingSet>.Factory.StartNew(() =>
             {
@@ -61,12 +61,12 @@ namespace Calculator.GestureRecognizer
                 }
                 catch (SerializationException e)
                 {
-                    log.Error(e, e.Message);
+                    Log.Error(e, e.Message);
                     return new TrainingSet(new List<Gesture>());
                 }
                 catch (FileNotFoundException e)
                 {
-                    log.Warning(e, e.Message);
+                    Log.Warning(e, e.Message);
                     return new TrainingSet(new List<Gesture>());
                 }
             });

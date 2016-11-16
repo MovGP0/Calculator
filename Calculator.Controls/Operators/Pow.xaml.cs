@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Operators
 {
@@ -72,7 +73,15 @@ namespace Calculator.Controls.Operators
 
         public Pow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
 
         private const double Scale = 0.5;

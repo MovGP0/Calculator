@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Groupings
 {
@@ -70,7 +71,15 @@ namespace Calculator.Controls.Groupings
 
         public Brackets()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch(Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
 
         private double _scaleFactor;

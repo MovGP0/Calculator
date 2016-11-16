@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Groupings
 {
@@ -74,7 +76,15 @@ namespace Calculator.Controls.Groupings
 
         public Parentheses()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
 
         protected override Size MeasureOverride(Size constraint)

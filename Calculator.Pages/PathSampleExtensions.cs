@@ -7,16 +7,16 @@ namespace Calculator.Pages
 {
     public static class PathSampleExtensions
     {
-        public static IEnumerable<Gesture> ToGesture(this PathSample training)
+        public static IEnumerable<Gesture> ToGesture(this PathSampleViewModel training)
         {
-            if(training.Sample1 != null) yield return new Gesture(training.Sample1.ConvertToStrokes(), training.Character);
-            if(training.Sample2 != null) yield return new Gesture(training.Sample2.ConvertToStrokes(), training.Character);
-            if(training.Sample3 != null) yield return new Gesture(training.Sample3.ConvertToStrokes(), training.Character);
-            if(training.Sample4 != null) yield return new Gesture(training.Sample4.ConvertToStrokes(), training.Character);
-            if(training.Sample5 != null) yield return new Gesture(training.Sample5.ConvertToStrokes(), training.Character);
+            if(training.Sample1.Value != null && training.Sample1.Value.Any()) yield return new Gesture(training.Sample1.Value.ConvertToStrokes(), training.Character.Value);
+            if(training.Sample2.Value != null && training.Sample2.Value.Any()) yield return new Gesture(training.Sample2.Value.ConvertToStrokes(), training.Character.Value);
+            if(training.Sample3.Value != null && training.Sample3.Value.Any()) yield return new Gesture(training.Sample3.Value.ConvertToStrokes(), training.Character.Value);
+            if(training.Sample4.Value != null && training.Sample4.Value.Any()) yield return new Gesture(training.Sample4.Value.ConvertToStrokes(), training.Character.Value);
+            if(training.Sample5.Value != null && training.Sample5.Value.Any()) yield return new Gesture(training.Sample5.Value.ConvertToStrokes(), training.Character.Value);
         }
 
-        public static IEnumerable<PathSample> ToPathSamples(this TrainingSet gestures, IEnumerable<string> gestureNamesToLoad)
+        public static IEnumerable<PathSampleViewModel> ToPathSamples(this TrainingSet gestures, IEnumerable<string> gestureNamesToLoad)
         {
             if(gestures == null) throw new ArgumentNullException(nameof(gestures));
             if(gestureNamesToLoad == null) throw new ArgumentNullException(nameof(gestureNamesToLoad));
@@ -27,7 +27,9 @@ namespace Calculator.Pages
 
                 if (currentGestures.Length == 0)
                 {
-                    yield return new PathSample { Character = gestureName };
+                    var model = new PathSampleViewModel();
+                    model.Character.Value = gestureName;
+                    yield return model;
                     continue;
                 }
                 
@@ -35,20 +37,18 @@ namespace Calculator.Pages
             }
         }
 
-        private static PathSample ToPathSample(string gestureName, IEnumerable<Gesture> gestures)
+        private static PathSampleViewModel ToPathSample(string gestureName, IEnumerable<Gesture> gestures)
         {
-            var pathSample = new PathSample
-            {
-                Character = gestureName
-            };
+            var pathSample = new PathSampleViewModel();
+            pathSample.Character.Value = gestureName;
 
             var samples = gestures.Take(5).ToArray();
 
-            if (samples.Length > 0) pathSample.Sample1 = samples[0].Strokes.ConvertToStrokeCollection();
-            if (samples.Length > 1) pathSample.Sample2 = samples[1].Strokes.ConvertToStrokeCollection();
-            if (samples.Length > 2) pathSample.Sample3 = samples[2].Strokes.ConvertToStrokeCollection();
-            if (samples.Length > 3) pathSample.Sample4 = samples[3].Strokes.ConvertToStrokeCollection();
-            if (samples.Length > 4) pathSample.Sample5 = samples[4].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 0) pathSample.Sample1.Value = samples[0].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 1) pathSample.Sample2.Value = samples[1].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 2) pathSample.Sample3.Value = samples[2].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 3) pathSample.Sample4.Value = samples[3].Strokes.ConvertToStrokeCollection();
+            if (samples.Length > 4) pathSample.Sample5.Value = samples[4].Strokes.ConvertToStrokeCollection();
 
             return pathSample;
         }

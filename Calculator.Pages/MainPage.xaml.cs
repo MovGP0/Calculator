@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Calculator.Keypad;
 using System.Windows;
+using Serilog;
 
 namespace Calculator.Pages
 {
@@ -8,11 +10,19 @@ namespace Calculator.Pages
     public partial class MainPage
     {
         private KeypadViewModel KeypadViewModel { get; }
-        public NavigateToTrainCommand NavigateToTrainCommand { get; private set; }
+        public NavigateToTrainCommand NavigateToTrainCommand { get; }
 
         public MainPage(KeypadViewModel keypadViewModel, NavigateToTrainCommand navigateToTrainCommand)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
 
             Debug.Assert(keypadViewModel != null);
             KeypadViewModel = keypadViewModel;

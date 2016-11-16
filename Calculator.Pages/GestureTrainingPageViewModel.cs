@@ -17,9 +17,7 @@ namespace Calculator.Pages
 {
     public sealed class GestureTrainingPageViewModel
     {
-        private ILogger Log { get; }
-
-        public ObservableCollection<PathSample> PathSamples { get; } = new ObservableCollection<PathSample>(new List<PathSample>());
+        public ObservableCollection<PathSampleViewModel> PathSamples { get; } = new ObservableCollection<PathSampleViewModel>(new List<PathSampleViewModel>());
         
         public AsyncReactiveCommand SaveCommand { get; }
         
@@ -73,8 +71,6 @@ namespace Calculator.Pages
         
         public GestureTrainingPageViewModel()
         {
-            Log = Serilog.Log.Logger;
-
             SetupWatcher();
 
             SaveCommand = CanSave.ToAsyncReactiveCommand();
@@ -108,7 +104,7 @@ namespace Calculator.Pages
                 CanLoad.Value = IsLoadExecuteable();
             });
 
-            yield return PathSamples.Subscribe(Observer.Create<PathSample>(_ =>
+            yield return PathSamples.Subscribe(Observer.Create<PathSampleViewModel>(_ =>
             {
                 CanSave.Value = IsSaveExecuteable();
             }));
@@ -128,11 +124,11 @@ namespace Calculator.Pages
 
         private async Task LoadAsync()
         {
-            Log.Information($"Executing {nameof(LoadTrainingSetCommand)}");
+            Log.Information("Loading training data");
 
             if(PathNamesToLoad.Value == null) throw new InvalidOperationException($"{nameof(PathNamesToLoad)} was not set.");
             
-            var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName.Value, Log);
+            var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName.Value);
             
             PathSamples.Clear();
 
@@ -140,15 +136,19 @@ namespace Calculator.Pages
             {
                 PathSamples.Add(pathSample);
             }
+
+            Log.Information("Loaded training data");
         }
 
-        private async Task SaveAsync(IEnumerable<PathSample> pathSamples)
+        private async Task SaveAsync(IEnumerable<PathSampleViewModel> pathSamples)
         {
-            Log.Information($"Executing {nameof(SaveTrainingSetCommand)}");
+            Log.Information("Saving training data");
 
             var gestures = pathSamples.SelectMany(sample => sample.ToGesture());
             var trainingSet = new TrainingSet(gestures.ToList());
             await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName.Value);
+
+            Log.Information("Saved training information");
         }
 
         private bool _isDisposed;

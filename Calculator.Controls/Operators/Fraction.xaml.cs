@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Operators
 {
@@ -60,7 +61,15 @@ namespace Calculator.Controls.Operators
 
         public Fraction()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
         
         protected override Size MeasureOverride(Size availableSize)

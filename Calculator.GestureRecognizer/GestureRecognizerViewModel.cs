@@ -8,7 +8,7 @@ using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
-    public sealed class GestureRecognizerViewModel : IDisposable
+    public sealed class GestureRecognizerViewModel
     {
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
 
@@ -19,24 +19,24 @@ namespace Calculator.GestureRecognizer
         public ReactiveProperty<FontWeight> FontWeight { get; set; } = new ReactiveProperty<FontWeight>(default(FontWeight), ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<FontStretch> FontStretch { get; set; } = new ReactiveProperty<FontStretch>(default(FontStretch), ReactivePropertyMode.DistinctUntilChanged);
         
-        public GestureRecognizerViewModel(ILogger log)
+        public GestureRecognizerViewModel()
         {
-            Subscriptions.Add(FontSize.Subscribe(_ => UpdateValues(log)));
-            Subscriptions.Add(Width.Subscribe(_ => UpdateValues(log)));
-            Subscriptions.Add(FontFamily.Subscribe(_ => UpdateValues(log)));
-            Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues(log)));
-            Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues(log)));
-            Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues(log)));
+            Subscriptions.Add(FontSize.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(Width.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(FontFamily.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues()));
+            Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues()));
         }
         
-        public void UpdateValues(ILogger log)
+        public void UpdateValues()
         {
             if (FontFamily.Value == null)
             {
                 return;
             }
 
-            log.Information("Updating Values");
+            Log.Information("Updating Values");
 
             var typeface = new Typeface(FontFamily.Value, FontStyle.Value, FontWeight.Value, FontStretch.Value);
             GlyphTypeface glyphTypeface;

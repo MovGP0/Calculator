@@ -47,8 +47,18 @@ namespace Calculator.GestureRecognizer
         
         public GestureRecognizer()
         {
-            ViewModel = new GestureRecognizerViewModel(Log.Logger);
-            InitializeComponent();
+            ViewModel = new GestureRecognizerViewModel();
+
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+
             InitializeViewModel();
 
             var subscriptions = SubscribeToDependencyProperties();

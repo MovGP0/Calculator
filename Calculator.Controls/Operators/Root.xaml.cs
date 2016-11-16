@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Operators
 {
@@ -63,7 +64,16 @@ namespace Calculator.Controls.Operators
 
         public Root()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch(Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+
             IndexTransform = new ScaleTransform(Scale, Scale);
         }
 

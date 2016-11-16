@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Threading;
 using Calculator.DependencyInjection;
 using DryIoc;
 using Serilog;
@@ -11,27 +12,38 @@ namespace Calculator
         protected override void OnStartup(StartupEventArgs e)
         {
             var resolver = ResolverFactory.Get();
+            Log.Logger = resolver.Resolve<ILogger>();
 
-            var logger = resolver.Resolve<ILogger>();
-            RegisterGlobalExceptionHandling(logger);
+            Log.Information("Application starting");
+            RegisterGlobalExceptionHandling();
             
             var shellWindow = resolver.Resolve<Pages.ShellWindow>();
             shellWindow.Show();
         }
-        
-        private static void RegisterGlobalExceptionHandling(ILogger log)
+
+        protected override void OnExit(ExitEventArgs e)
         {
-            AppDomain.CurrentDomain.UnhandledException += 
-                (sender, args) => CurrentDomainOnUnhandledException(args, log);
+            Log.Information("Application exiting");
         }
-        
-        private static void CurrentDomainOnUnhandledException(UnhandledExceptionEventArgs args, ILogger log)
+
+        private static void RegisterGlobalExceptionHandling()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            Current.DispatcherUnhandledException += ApplicationOnDispatcherUnhandledException;
+        }
+
+        private static void ApplicationOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
+        {
+            Log.Error(args.Exception, args.Exception.Message);
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             var exception = args.ExceptionObject as Exception;
             var terminatingMessage = args.IsTerminating ? " The application is terminating." : string.Empty;
             var exceptionMessage = exception?.Message ?? "An unmanaged exception occured.";
             var message = string.Concat(exceptionMessage, terminatingMessage);
-            log.Error(exception, message);
+            Log.Error(exception, message);
         }
     }
 }

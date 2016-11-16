@@ -7,6 +7,9 @@ using DryIoc;
 using MemBus;
 using MemBus.Configurators;
 using Serilog;
+using Serilog.Enrichers;
+using Serilog.Events;
+using Serilog.Formatting.Json;
 
 namespace Calculator.DependencyInjection
 {
@@ -65,12 +68,6 @@ namespace Calculator.DependencyInjection
 
             container.RegisterFactory<GestureTrainingPageViewModel>();
             container.RegisterFactory<GestureTrainingPage>();
-
-            container.RegisterDelegate<Func<GestureTrainingPageViewModel, LoadTrainingSetCommand>>(r =>
-                    viewModel => new LoadTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
-
-            container.RegisterDelegate<Func<GestureTrainingPageViewModel, SaveTrainingSetCommand>>(r =>
-                    viewModel => new SaveTrainingSetCommand(viewModel, r.Resolve<ILogger>()), Reuse.Singleton);
         }
 
         public static IContainer SetupLogging(this IContainer container)
@@ -82,7 +79,13 @@ namespace Calculator.DependencyInjection
         private static ILogger SetupLogger()
         {
             return new LoggerConfiguration()
+                .Enrich.With<EnvironmentUserNameEnricher>()
+                .Enrich.With<MachineNameEnricher>()
+                .Enrich.With<ProcessIdEnricher>()
+                .Enrich.With<ThreadIdEnricher>()
+                .Enrich.FromLogContext()
                 .WriteTo.LiterateConsole()
+                .WriteTo.RollingFile(new JsonFormatter(), "logs/Calculator-{Date}.log.json", LogEventLevel.Error)
                 .CreateLogger();
         }
     }

@@ -5,17 +5,16 @@ namespace Calculator.Pages
 {
     internal static class TrainingSetExtensions
     {
-        public static IEnumerable<PathSample> ToTrainingSet(this IEnumerable<char> chars)
+        public static IEnumerable<PathSampleViewModel> ToTrainingSet(this IEnumerable<char> chars)
         {
             return chars.Select(ToPathSample);
         }
 
-        private static PathSample ToPathSample(this char character)
+        private static PathSampleViewModel ToPathSample(this char character)
         {
-            return new PathSample
-            {
-                Character = character.ToString()
-            };
+            var model = new PathSampleViewModel();
+            model.Character.Value = character.ToString();
+            return model;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
+using Serilog;
 
 namespace Calculator.Pages
 {
@@ -17,7 +17,16 @@ namespace Calculator.Pages
         {
             MainFrameFactory = mainFrameFactory;
 
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+
             Loaded += OnLoaded;
             
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));

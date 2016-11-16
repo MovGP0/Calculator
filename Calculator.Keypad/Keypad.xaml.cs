@@ -1,10 +1,21 @@
-﻿namespace Calculator.Keypad
+﻿using System;
+using Serilog;
+
+namespace Calculator.Keypad
 {
     public partial class Keypad
     {
         public Keypad()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
     }
 }

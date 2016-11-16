@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Serilog;
 
 namespace Calculator.Controls.Variables
 {
@@ -47,7 +49,15 @@ namespace Calculator.Controls.Variables
 
         public Scalar()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
 
         private double _width;

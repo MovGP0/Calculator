@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Calculator.Pages"
                     xmlns:r="clr-namespace:Calculator.GestureRecognizer;assembly=Calculator.GestureRecognizer">
-    <DataTemplate DataType="local:PathSample" x:Key="PathSampleTemplate">
+    <DataTemplate DataType="local:PathSampleViewModel" x:Key="PathSampleTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120" />

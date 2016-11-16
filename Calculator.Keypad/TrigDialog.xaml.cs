@@ -1,4 +1,7 @@
-﻿namespace Calculator.Keypad
+﻿using System;
+using Serilog;
+
+namespace Calculator.Keypad
 {
     /// <summary>
     /// Interaction logic for TrigDialog.xaml
@@ -7,7 +10,15 @@
     {
         public TrigDialog()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
         }
     }
 }
