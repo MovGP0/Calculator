@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
 using Reactive.Bindings;
-using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
@@ -35,9 +34,7 @@ namespace Calculator.GestureRecognizer
             {
                 return;
             }
-
-            Log.Information("Updating Values");
-
+            
             var typeface = new Typeface(FontFamily.Value, FontStyle.Value, FontWeight.Value, FontStretch.Value);
             GlyphTypeface glyphTypeface;
             if (!typeface.TryGetGlyphTypeface(out glyphTypeface))

@@ -84,7 +84,7 @@ namespace Calculator.DependencyInjection
                 .Enrich.With<ProcessIdEnricher>()
                 .Enrich.With<ThreadIdEnricher>()
                 .Enrich.FromLogContext()
-                .WriteTo.LiterateConsole()
+                .WriteTo.LiterateConsole(outputTemplate: "{Timestamp:u} [{Level}] [{EnvironmentUserName}@{MachineName}:{ProcessId}:{ThreadId}] [{MethodName}:{LineNumber}] {Message}{NewLine}{Exception}")
                 .WriteTo.RollingFile(new JsonFormatter(), "logs/Calculator-{Date}.log.json", LogEventLevel.Error)
                 .CreateLogger();
         }

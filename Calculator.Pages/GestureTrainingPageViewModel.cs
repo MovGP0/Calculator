@@ -4,10 +4,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Calculator.GestureRecognizer;
 using Reactive.Bindings;
@@ -42,27 +40,11 @@ namespace Calculator.Pages
         private void SetupWatcher()
         {
             ResetWatcher();
-            Subscriptions.AddRange(SubscribeToWatcher(new SynchronizationContextScheduler(SynchronizationContext.Current)));
+            Watcher.Created += (sender, args) => IsLoadExecuteable();
+            Watcher.Deleted += (sender, args) => IsLoadExecuteable();
+            Watcher.Renamed += (sender, args) => IsLoadExecuteable();
         }
-
-        private IEnumerable<IDisposable> SubscribeToWatcher(IScheduler scheduler)
-        {
-            yield return Observable
-                .FromEvent<FileSystemEventHandler, EventArgs>(h => Watcher.Created += h, h => Watcher.Created -= h)
-                .ObserveOn(scheduler)
-                .Subscribe(_ => IsLoadExecuteable());
-
-            yield return Observable
-                .FromEvent<FileSystemEventHandler, EventArgs>(h => Watcher.Deleted += h, h => Watcher.Deleted -= h)
-                .ObserveOn(scheduler)
-                .Subscribe(_ => IsLoadExecuteable());
-
-            yield return Observable
-                .FromEvent<RenamedEventHandler, EventArgs>(h => Watcher.Renamed += h, h => Watcher.Renamed -= h)
-                .ObserveOn(scheduler)
-                .Subscribe(_ => IsLoadExecuteable());
-        }
-
+        
         private void ResetWatcher()
         {
             Watcher.Path = Directory.Value;
