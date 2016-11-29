@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Serilog;
@@ -8,22 +9,10 @@ namespace Calculator.Pages
 {
     public partial class GestureTrainingPage
     {
-        private GestureTrainingPageViewModel ViewModel
+        public GestureTrainingPage()
         {
-            get { return (GestureTrainingPageViewModel) DataContext; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
+            DataContextChanged += OnDataContextChanged;
 
-                DataContext = value;
-            }
-        }
-        
-        public GestureTrainingPage(GestureTrainingPageViewModel viewModel)
-        {
             try
             {
                 InitializeComponent();
@@ -33,16 +22,14 @@ namespace Calculator.Pages
                 Log.Error(e, e.Message);
                 throw;
             }
-
-            ApplyTrainingSet(viewModel.PathSamples);
-            ViewModel = viewModel;
-
-            Loaded += OnLoaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private static void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
-            var viewModel = ViewModel;
+            var viewModel = (GestureTrainingPageViewModel)args.NewValue;
+            Debug.Assert(viewModel != null, "ViewModel was null");
+
+            ApplyTrainingSet(viewModel.PathSamples);
             viewModel.PathNamesToLoad.Value = GetCharactersToLoad().Select(c => c.ToString());
 
             Log.Information("Loading strokes from file...");

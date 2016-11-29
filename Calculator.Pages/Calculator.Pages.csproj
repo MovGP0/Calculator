@@ -171,7 +171,6 @@
       <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GestureTrainingPageViewModel.cs" />
-    <Compile Include="IAsyncCommand.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

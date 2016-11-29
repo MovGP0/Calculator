@@ -7,12 +7,12 @@
              xmlns:gestureRecognizer="clr-namespace:Calculator.GestureRecognizer;assembly=Calculator.GestureRecognizer"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" x:Name="This" Title="Gesture Training" WindowTitle="Gesture Training">
+    <Page.DataContext>
+        <local:GestureTrainingPageViewModel />
+    </Page.DataContext>
     <Page.Template>
         <ControlTemplate>
-            <Grid DataContext="{Binding DataContext, ElementName=This}">
-                <d:Grid.DataContext>
-                    <local:GestureTrainingPageViewModel />
-                </d:Grid.DataContext>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
