@@ -111,6 +111,11 @@ namespace Calculator.Pages
             if(PathNamesToLoad.Value == null) throw new InvalidOperationException($"{nameof(PathNamesToLoad)} was not set.");
             
             var gestures = await TrainingSetIo.ReadGestureFromBinaryAsync(FileName.Value);
+            if (!gestures.Any())
+            {
+                Log.Information("No training data found.");
+                return;
+            }
             
             PathSamples.Clear();
 

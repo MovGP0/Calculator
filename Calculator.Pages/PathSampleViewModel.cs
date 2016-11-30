@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Ink;
+using Calculator.GestureRecognizer;
 using Reactive.Bindings;
+using Serilog;
 
 namespace Calculator.Pages
 {
@@ -24,6 +27,17 @@ namespace Calculator.Pages
         public ReactiveProperty<StrokeCollection> Sample5 { get; } 
             = new ReactiveProperty<StrokeCollection>(new StrokeCollection());
 
+        private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
+
+        public PathSampleViewModel()
+        {
+            Subscriptions.Add(Sample1.Subscribe(_ => Log.Information("Sample changed")));
+            Subscriptions.Add(Sample2.Subscribe(_ => Log.Information("Sample changed")));
+            Subscriptions.Add(Sample3.Subscribe(_ => Log.Information("Sample changed")));
+            Subscriptions.Add(Sample4.Subscribe(_ => Log.Information("Sample changed")));
+            Subscriptions.Add(Sample5.Subscribe(_ => Log.Information("Sample changed")));
+        }
+
         ~PathSampleViewModel()
         {
             Dispose(false);
@@ -40,6 +54,7 @@ namespace Calculator.Pages
             Sample3?.Dispose();
             Sample4?.Dispose();
             Sample5?.Dispose();
+            Subscriptions?.Dispose();
 
             _isDisposed = true;
             if (disposing)

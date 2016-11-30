@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
 using Reactive.Bindings;
+using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
@@ -26,6 +27,14 @@ namespace Calculator.GestureRecognizer
             Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues()));
             Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues()));
             Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues()));
+
+            Subscriptions.Add(Strokes.Subscribe(strokeCollection => strokeCollection.StrokesChanged += OnStrokesChanged));
+            Strokes.Value.StrokesChanged += OnStrokesChanged;
+        }
+
+        private void OnStrokesChanged(object sender, StrokeCollectionChangedEventArgs args)
+        {
+            Log.Information("Stroke changed");
         }
         
         public void UpdateValues()
