@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExtensions.cs" />
+    <Compile Include="ExitAppCommand.cs" />
     <Compile Include="GestureTrainingPage.xaml.cs">
       <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>

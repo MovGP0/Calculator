@@ -18,8 +18,15 @@ namespace Calculator.Pages
                 if(ReferenceEquals(_navigationService, value)) return;
 
                 _navigationService = value;
+                _navigationService.Navigated += NavigationServiceOnNavigated;
+
                 OnCanExecuteChanged();
             }
+        }
+
+        private void NavigationServiceOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        {
+            OnCanExecuteChanged();
         }
 
         private Func<GestureTrainingPage> GestureTrainingFrameFactory { get; }
@@ -31,11 +38,14 @@ namespace Calculator.Pages
         
         public bool CanExecute(object parameter)
         {
-            return _navigationService != null;
+            return _navigationService != null 
+                && _navigationService.Content.GetType() != typeof(GestureTrainingPage);
         }
 
         public void Execute(object parameter)
         {
+            if (!CanExecute(null)) return;
+             
             NavigationService.Navigate(GestureTrainingFrameFactory());
         }
 

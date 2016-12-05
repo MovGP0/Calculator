@@ -11,7 +11,7 @@ namespace Calculator.Pages
     {
         private KeypadViewModel KeypadViewModel { get; }
         public NavigateToTrainCommand NavigateToTrainCommand { get; }
-
+        
         public MainPage(KeypadViewModel keypadViewModel, NavigateToTrainCommand navigateToTrainCommand)
         {
             try

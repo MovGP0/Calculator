@@ -12,8 +12,11 @@ namespace Calculator.Pages
         internal const string PartMainFrameName = "PART_MainFrame";
         private Frame PartMainFrame { get; set; }
         private Func<MainPage> MainFrameFactory { get; }
+        
+        private NavigateToTrainCommand NavigateToTrainCommand { get; }
+        private ExitAppCommand ExitAppCommand { get; }
 
-        public ShellWindow(Func<MainPage> mainFrameFactory)
+        public ShellWindow(Func<MainPage> mainFrameFactory, ExitAppCommand exitAppCommand, NavigateToTrainCommand navigateToTrainCommand)
         {
             MainFrameFactory = mainFrameFactory;
 
@@ -29,10 +32,16 @@ namespace Calculator.Pages
 
             Loaded += OnLoaded;
             
+            ExitAppCommand = exitAppCommand;
+            NavigateToTrainCommand = navigateToTrainCommand;
+
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
+
+            InputBindings.Add(new InputBinding(ExitAppCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
+            InputBindings.Add(new InputBinding(NavigateToTrainCommand, new KeyGesture(Key.T, ModifierKeys.Control)));
         }
         
         public override void OnApplyTemplate()
@@ -53,10 +62,8 @@ namespace Calculator.Pages
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
             var navigationService = PartMainFrame.NavigationService;
+            NavigateToTrainCommand.NavigationService = navigationService;
             navigationService.Navigate(MainFrameFactory());
-
-            //var rootAdorner = new BaselineAdorner(BaselineElement);
-            //AdornerLayer.GetAdornerLayer(BaselineElement).Add(rootAdorner);
         }
 
         private void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)

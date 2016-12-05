@@ -59,6 +59,7 @@ namespace Calculator.DependencyInjection
         {
             container.RegisterFactory<MainPage>();
             container.Register<NavigateToTrainCommand>(Reuse.Transient);
+            container.Register<ExitAppCommand>(Reuse.Transient);
         }
 
         private static void SetupGestureTrainingPage(IRegistrator container)
