@@ -7,9 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using Serilog;
-using Timer = System.Threading.Timer;
 
 namespace Calculator.GestureRecognizer
 {
@@ -79,14 +81,27 @@ namespace Calculator.GestureRecognizer
 
         private IEnumerable<IDisposable> SubscribeToDependencyProperties()
         {
-            yield return this.Observe(StrokesProperty).Subscribe(_ => ViewModel.Strokes.Value = Strokes);
-            yield return this.Observe(FontSizeProperty).Subscribe(_ => ViewModel.FontSize.Value = FontSize);
-            yield return this.Observe(WidthProperty).Subscribe(_ => ViewModel.Width.Value = Width);
-            yield return this.Observe(FontFamilyProperty).Subscribe(_ => ViewModel.FontFamily.Value = FontFamily);
-            yield return this.Observe(FontStyleProperty).Subscribe(_ => ViewModel.FontStyle.Value = FontStyle);
-            yield return this.Observe(FontWeightProperty).Subscribe(_ => ViewModel.FontWeight.Value = FontWeight);
-            yield return this.Observe(FontFamilyProperty).Subscribe(_ => ViewModel.FontFamily.Value = FontFamily);
-            yield return this.Observe(FontStretchProperty).Subscribe(_ => ViewModel.FontStretch.Value = FontStretch);
+            const ReactivePropertyMode distinct = ReactivePropertyMode.DistinctUntilChanged;
+            yield return this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesProperty, distinct)
+                .Subscribe(_ => ViewModel.Strokes.Value = Strokes);
+
+            yield return this.ToReadOnlyReactiveProperty<double>(FontSizeProperty, distinct)
+                .Subscribe(value => ViewModel.FontSize.Value = value);
+
+            yield return this.ToReadOnlyReactiveProperty<double>(WidthProperty, distinct)
+                .Subscribe(value => ViewModel.Width.Value = value);
+
+            yield return this.ToReadOnlyReactiveProperty<FontFamily>(FontFamilyProperty, distinct)
+                .Subscribe(value => ViewModel.FontFamily.Value = value);
+
+            yield return this.ToReadOnlyReactiveProperty<FontStyle>(FontStyleProperty, distinct)
+                .Subscribe(value => ViewModel.FontStyle.Value = value);
+
+            yield return this.ToReadOnlyReactiveProperty<FontWeight>(FontWeightProperty, distinct)
+                .Subscribe(value => ViewModel.FontWeight.Value = value);
+            
+            yield return this.ToReadOnlyReactiveProperty<FontStretch>(FontStretchProperty, distinct)
+                .Subscribe(value => ViewModel.FontStretch.Value = value);
         }
 
         #region IDisposable
@@ -228,6 +243,7 @@ namespace Calculator.GestureRecognizer
                 
                 if (!IsTraining)
                 {
+                    Log.Information("Recognizing character");
                     // TODO: start character recognition
                 }
             });
@@ -254,6 +270,5 @@ namespace Calculator.GestureRecognizer
 
             return new Size(Width, Height);
         }
-
     }
 }
