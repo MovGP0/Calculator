@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -11,14 +12,36 @@ namespace Calculator.GestureRecognizer
     public sealed class GestureRecognizerViewModel
     {
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
+        private IDisposable StrokesChangedSubsription { get; set; }
 
-        public ReactiveProperty<double> FontSize { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<double> Width { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<FontFamily> FontFamily { get; set; } = new ReactiveProperty<FontFamily>(default(FontFamily), ReactivePropertyMode.RaiseLatestValueOnSubscribe);
-        public ReactiveProperty<FontStyle> FontStyle { get; set; } = new ReactiveProperty<FontStyle>(default(FontStyle), ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<FontWeight> FontWeight { get; set; } = new ReactiveProperty<FontWeight>(default(FontWeight), ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<FontStretch> FontStretch { get; set; } = new ReactiveProperty<FontStretch>(default(FontStretch), ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<double> FontSize { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<double> Width { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<FontFamily> FontFamily { get; } = new ReactiveProperty<FontFamily>(default(FontFamily), ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+        public ReactiveProperty<FontStyle> FontStyle { get; } = new ReactiveProperty<FontStyle>(default(FontStyle), ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<FontWeight> FontWeight { get; } = new ReactiveProperty<FontWeight>(default(FontWeight), ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<FontStretch> FontStretch { get; } = new ReactiveProperty<FontStretch>(default(FontStretch), ReactivePropertyMode.DistinctUntilChanged);
         
+        
+        public ReactiveProperty<double> Height { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<double> Baseline { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+
+        /// <summary>
+        /// Height of uppercase letters over Baseline
+        /// </summary>
+        public ReactiveProperty<double> CapsHeight { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+
+        /// <summary>
+        /// Height of small letters over Baseline
+        /// </summary>
+        public ReactiveProperty<double> XHeight { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
+
+        public ReactiveProperty<StrokeCollection> Strokes { get; } = new ReactiveProperty<StrokeCollection>(new StrokeCollection(), ReactivePropertyMode.DistinctUntilChanged);
+
+        /// <summary>
+        /// Clone of <see cref="Strokes"/> that updates when Stroke changes.
+        /// </summary>
+        public ReactiveProperty<StrokeCollection> StrokeCollection { get; } = new ReactiveProperty<StrokeCollection>(new StrokeCollection());
+
         public GestureRecognizerViewModel()
         {
             Subscriptions.Add(FontSize.Subscribe(_ => UpdateValues()));
@@ -28,13 +51,44 @@ namespace Calculator.GestureRecognizer
             Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues()));
             Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues()));
 
-            Subscriptions.Add(Strokes.Subscribe(strokeCollection => strokeCollection.StrokesChanged += OnStrokesChanged));
-            Strokes.Value.StrokesChanged += OnStrokesChanged;
+            Subscriptions.Add(Strokes.Subscribe(strokeCollection =>
+            {
+                StrokesChangedSubsription?.Dispose();
+                StrokesChangedSubsription = SubscribeToStrokeCollection(strokeCollection);
+            }));
+            StrokesChangedSubsription = SubscribeToStrokeCollection(Strokes.Value);
         }
 
-        private void OnStrokesChanged(object sender, StrokeCollectionChangedEventArgs args)
+        private IDisposable SubscribeToStrokeCollection(StrokeCollection strokeCollection)
         {
-            Log.Information("Stroke changed");
+            try
+            {
+                return GetStrokesChanged(strokeCollection)
+                    .Subscribe(args => OnStrokesChanged(strokeCollection, args));
+            }
+            catch(Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+        }
+
+        private static IObservable<StrokeCollectionChangedEventArgs> GetStrokesChanged(StrokeCollection strokeCollection)
+        {
+            return Observable.FromEvent<StrokeCollectionChangedEventHandler, StrokeCollectionChangedEventArgs>(
+                    onNextHandler =>
+                    {
+                        StrokeCollectionChangedEventHandler handler = (sender, args) => onNextHandler(args);
+                        return handler;
+                    },
+                    eh => strokeCollection.StrokesChanged += eh,
+                    eh => strokeCollection.StrokesChanged -= eh);
+        }
+
+        private void OnStrokesChanged(StrokeCollection sender, StrokeCollectionChangedEventArgs args)
+        {
+            Log.Information($"{sender.Count} strokes ({args.Added.Count} strokes added; {args.Removed.Count} strokes removed).");
+            StrokeCollection.Value = sender;
         }
         
         public void UpdateValues()
@@ -58,21 +112,6 @@ namespace Calculator.GestureRecognizer
             Height.Value = glyphTypeface.Height*fontSize;
         }
 
-        public ReactiveProperty<double> Height { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<double> Baseline { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-
-        /// <summary>
-        /// Height of uppercase letters over Baseline
-        /// </summary>
-        public ReactiveProperty<double> CapsHeight { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-
-        /// <summary>
-        /// Height of small letters over Baseline
-        /// </summary>
-        public ReactiveProperty<double> XHeight { get; set; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
-
-        public ReactiveProperty<StrokeCollection> Strokes { get; set; } = new ReactiveProperty<StrokeCollection>(new StrokeCollection(), ReactivePropertyMode.DistinctUntilChanged);
-
         #region IDisposable
         ~GestureRecognizerViewModel()
         {
@@ -94,6 +133,7 @@ namespace Calculator.GestureRecognizer
                 subscription?.Dispose();
             }
 
+            StrokesChangedSubsription?.Dispose();
             FontSize?.Dispose();
             Width?.Dispose();
             FontFamily?.Dispose();
@@ -105,6 +145,7 @@ namespace Calculator.GestureRecognizer
             CapsHeight?.Dispose();
             XHeight?.Dispose();
             Strokes?.Dispose();
+            StrokeCollection?.Dispose();
 
             _isDisposed = true;
             GC.SuppressFinalize(this);
