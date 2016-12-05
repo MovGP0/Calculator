@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
@@ -41,6 +42,24 @@ namespace Calculator.GestureRecognizer
         }
         #endregion
 
+        #region ReactiveProperties
+        private ReadOnlyReactiveProperty<bool> IsTrainingReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<StrokeCollection> StrokesReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<double> FontSizeReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<double> WidthReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<FontFamily> FontFamilyReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<FontStyle> FontStyleReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<FontWeight> FontWeightReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<FontStretch> FontStretchReactiveProperty { get; }
+        #endregion
+
+        private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
+        
+        private InkCanvas PartCanvas { get; set; }
+        private Line CapsHeightLine { get; set; }
+        private Line XHeightLine { get; set; }
+        private Line BaselineLine { get; set; }
+
         public GestureRecognizerViewModel ViewModel
         {
             get { return (GestureRecognizerViewModel)DataContext; }
@@ -62,8 +81,18 @@ namespace Calculator.GestureRecognizer
             }
 
             InitializeViewModel();
+            
+            const ReactivePropertyMode distinct = ReactivePropertyMode.DistinctUntilChanged;
+            IsTrainingReactiveProperty = this.ToReadOnlyReactiveProperty<bool>(IsTrainingProperty, distinct);
+            StrokesReactiveProperty = this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesProperty, distinct);
+            FontSizeReactiveProperty = this.ToReadOnlyReactiveProperty<double>(FontSizeProperty, distinct);
+            WidthReactiveProperty = this.ToReadOnlyReactiveProperty<double>(WidthProperty, distinct);
+            FontFamilyReactiveProperty = this.ToReadOnlyReactiveProperty<FontFamily>(FontFamilyProperty, distinct);
+            FontStyleReactiveProperty = this.ToReadOnlyReactiveProperty<FontStyle>(FontStyleProperty, distinct);
+            FontWeightReactiveProperty = this.ToReadOnlyReactiveProperty<FontWeight>(FontWeightProperty, distinct);
+            FontStretchReactiveProperty = this.ToReadOnlyReactiveProperty<FontStretch>(FontStretchProperty, distinct);
 
-            var subscriptions = SubscribeToDependencyProperties();
+            var subscriptions = SubscribeToReactiveProperties();
             Subscriptions.AddRange(subscriptions);
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
@@ -79,29 +108,15 @@ namespace Calculator.GestureRecognizer
             vm.FontStretch.Value = FontStretch;
         }
 
-        private IEnumerable<IDisposable> SubscribeToDependencyProperties()
+        private IEnumerable<IDisposable> SubscribeToReactiveProperties()
         {
-            const ReactivePropertyMode distinct = ReactivePropertyMode.DistinctUntilChanged;
-            yield return this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesProperty, distinct)
-                .Subscribe(_ => ViewModel.Strokes.Value = Strokes);
-
-            yield return this.ToReadOnlyReactiveProperty<double>(FontSizeProperty, distinct)
-                .Subscribe(value => ViewModel.FontSize.Value = value);
-
-            yield return this.ToReadOnlyReactiveProperty<double>(WidthProperty, distinct)
-                .Subscribe(value => ViewModel.Width.Value = value);
-
-            yield return this.ToReadOnlyReactiveProperty<FontFamily>(FontFamilyProperty, distinct)
-                .Subscribe(value => ViewModel.FontFamily.Value = value);
-
-            yield return this.ToReadOnlyReactiveProperty<FontStyle>(FontStyleProperty, distinct)
-                .Subscribe(value => ViewModel.FontStyle.Value = value);
-
-            yield return this.ToReadOnlyReactiveProperty<FontWeight>(FontWeightProperty, distinct)
-                .Subscribe(value => ViewModel.FontWeight.Value = value);
-            
-            yield return this.ToReadOnlyReactiveProperty<FontStretch>(FontStretchProperty, distinct)
-                .Subscribe(value => ViewModel.FontStretch.Value = value);
+            yield return StrokesReactiveProperty.Subscribe(value => ViewModel.Strokes.Value = value);
+            yield return FontSizeReactiveProperty.Subscribe(value => ViewModel.FontSize.Value = value);
+            yield return WidthReactiveProperty.Subscribe(value => ViewModel.Width.Value = value);
+            yield return FontFamilyReactiveProperty.Subscribe(value => ViewModel.FontFamily.Value = value);
+            yield return FontStyleReactiveProperty.Subscribe(value => ViewModel.FontStyle.Value = value);
+            yield return FontWeightReactiveProperty.Subscribe(value => ViewModel.FontWeight.Value = value);
+            yield return FontStretchReactiveProperty.Subscribe(value => ViewModel.FontStretch.Value = value);
         }
 
         #region IDisposable
@@ -133,6 +148,16 @@ namespace Calculator.GestureRecognizer
             ViewModel?.Dispose();
             ViewModel = null;
 
+            StrokesReactiveProperty?.Dispose();
+            StrokesReactiveProperty?.Dispose();
+            FontSizeReactiveProperty?.Dispose();
+            WidthReactiveProperty?.Dispose();
+            FontFamilyReactiveProperty?.Dispose();
+            FontStyleReactiveProperty?.Dispose();
+            FontWeightReactiveProperty?.Dispose();
+            FontStretchReactiveProperty?.Dispose();
+            IsTrainingReactiveProperty?.Dispose();
+
             _isDisposed = true;
             if (disposing)
             {
@@ -140,11 +165,6 @@ namespace Calculator.GestureRecognizer
             }
         }
         #endregion
-
-        private InkCanvas PartCanvas { get; set; }
-        private Line CapsHeightLine { get; set; }
-        private Line XHeightLine { get; set; }
-        private Line BaselineLine { get; set; }
 
         public override void OnApplyTemplate()
         {
@@ -155,8 +175,6 @@ namespace Calculator.GestureRecognizer
             BaselineLine = Template.FindName("PART_Baseline", this) as Line;
         }
         
-        private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
-
         private InkCanvas GetPartCanvas()
         {
             var partCanvas = Template.FindName("PART_Canvas", this) as InkCanvas;
@@ -166,33 +184,17 @@ namespace Calculator.GestureRecognizer
             partCanvas.EditingModeInverted = InkCanvasEditingMode.EraseByStroke;
             partCanvas.EraserShape = new EllipseStylusShape(5, 5);
             
-            var scheduler = new SynchronizationContextScheduler(SynchronizationContext.Current);
-            var strokeCollected = Observable.FromEvent<InkCanvasStrokeCollectedEventHandler, InkCanvasStrokeCollectedEventArgs>(
-                h =>
-                {
-                    InkCanvasStrokeCollectedEventHandler handler = (sender, args) => h(args);
-                    return handler;
-                },
-                h => partCanvas.StrokeCollected += h,
-                h => partCanvas.StrokeCollected -= h);
-            Subscriptions.Add(strokeCollected.SubscribeOn(scheduler).Subscribe(_ => OnStrokeCollected(scheduler)));
+            Subscriptions.Add(GetStrokeCollected(partCanvas).Subscribe(_ => OnStrokeCollected()));
+            Subscriptions.Add(GetStrokeBeginStylus(partCanvas).Subscribe(_ => OnBeginStroke()));
+            Subscriptions.Add(GetStrokeBeginFinger(partCanvas).Subscribe(_ => OnBeginStroke()));
+            Subscriptions.Add(GetStrokeBeginMouse(partCanvas).Subscribe(_ => OnBeginStroke()));
+            
+            return partCanvas;
+        }
 
-            var strokeBeginStylus = Observable.FromEvent<StylusDownEventHandler, StylusDownEventArgs>(
-                h =>
-                {
-                    StylusDownEventHandler handler = (sender, args) => h(args);
-                    return handler;
-                },
-                h => partCanvas.StylusDown += h, 
-                h => partCanvas.StylusDown -= h);
-            Subscriptions.Add(strokeBeginStylus.SubscribeOn(scheduler).Subscribe(_ => OnBeginStroke(scheduler)));
-
-            var strokeBeginFinger = Observable.FromEventPattern<TouchEventArgs>(
-                h => partCanvas.TouchDown += h, 
-                h => partCanvas.TouchDown -= h);
-            Subscriptions.Add(strokeBeginFinger.SubscribeOn(scheduler).Subscribe(_ => OnBeginStroke(scheduler)));
-
-            var strokeBeginMouse = Observable.FromEvent<MouseButtonEventHandler, MouseEventArgs>(
+        private static IObservable<MouseEventArgs> GetStrokeBeginMouse(IInputElement partCanvas)
+        {
+            return Observable.FromEvent<MouseButtonEventHandler, MouseEventArgs>(
                 h =>
                 {
                     MouseButtonEventHandler handler = (sender, args) => h(args);
@@ -200,14 +202,47 @@ namespace Calculator.GestureRecognizer
                 },
                 h => partCanvas.PreviewMouseLeftButtonDown += h,
                 h => partCanvas.PreviewMouseLeftButtonDown -= h);
-            Subscriptions.Add(strokeBeginMouse.SubscribeOn(scheduler).Subscribe(args => OnBeginStroke(scheduler)));
-            
-            return partCanvas;
         }
-        
-        private void OnBeginStroke(IScheduler scheduler)
+
+        private static IObservable<TouchEventArgs> GetStrokeBeginFinger(UIElement partCanvas)
         {
-            ResetTimer(scheduler);
+            return Observable.FromEvent<EventHandler<TouchEventArgs>, TouchEventArgs>(
+                handler =>
+                {
+                    EventHandler<TouchEventArgs> h = (sender, args) => handler(args);
+                    return h;
+                },
+                h => partCanvas.TouchDown += h, 
+                h => partCanvas.TouchDown -= h);
+        }
+
+        private static IObservable<StylusDownEventArgs> GetStrokeBeginStylus(IInputElement partCanvas)
+        {
+            return Observable.FromEvent<StylusDownEventHandler, StylusDownEventArgs>(
+                handler =>
+                {
+                    StylusDownEventHandler h = (sender, args) => handler(args);
+                    return h;
+                },
+                h => partCanvas.StylusDown += h, 
+                h => partCanvas.StylusDown -= h);
+        }
+
+        private static IObservable<InkCanvasStrokeCollectedEventArgs> GetStrokeCollected(InkCanvas partCanvas)
+        {
+            return Observable.FromEvent<InkCanvasStrokeCollectedEventHandler, InkCanvasStrokeCollectedEventArgs>(
+                handler =>
+                {
+                    InkCanvasStrokeCollectedEventHandler h = (sender, args) => handler(args);
+                    return h;
+                },
+                h => partCanvas.StrokeCollected += h,
+                h => partCanvas.StrokeCollected -= h);
+        }
+
+        private void OnBeginStroke()
+        {
+            ResetTimer();
             
             if (_isRecognized)
             {
@@ -219,32 +254,32 @@ namespace Calculator.GestureRecognizer
         private Timer _timer;
         private bool _isRecognized;
 
-        public void OnStrokeCollected(IScheduler scheduler)
+        public void OnStrokeCollected()
         {
             _isRecognized = false;
-            ResetTimer(scheduler);
+            ResetTimer();
         }
 
-        private void ResetTimer(IScheduler scheduler)
+        private void ResetTimer()
         {
             _timer?.Dispose();
-            _timer = new Timer(
-                _ => RecognitionTimerOnElapsed(scheduler), 
-                null, 
-                TimeSpan.FromSeconds(0.5d),
-                TimeSpan.FromMilliseconds(-1));
+            _timer = new Timer(_ => RecognitionTimerOnElapsed(), null, TimeSpan.FromSeconds(0.5d), TimeSpan.FromMilliseconds(-1));
         }
 
-        private void RecognitionTimerOnElapsed(IScheduler scheduler)
+        private void RecognitionTimerOnElapsed()
         {
-            scheduler.Schedule(() =>
+            NewThreadScheduler.Default.Schedule(() =>
             {
                 _isRecognized = true;
-                
-                if (!IsTraining)
+
+                if (!IsTrainingReactiveProperty.Value)
                 {
                     Log.Information("Recognizing character");
                     // TODO: start character recognition
+                }
+                else
+                {
+                    Log.Information("Skipping character recognition");
                 }
             });
         }
