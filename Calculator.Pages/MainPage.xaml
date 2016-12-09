@@ -14,22 +14,6 @@
         <ControlTemplate>
             <materialDesign:DialogHost Identifier="WindowDialog">
                 <DockPanel LastChildFill="True">
-                    <Menu IsMainMenu="True" DockPanel.Dock="Top">
-                        <MenuItem Header="_File" >
-                            <MenuItem Header="Exit" InputGestureText="Ctrl+E">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="ExitToApp" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="_Tools" >
-                            <MenuItem Header="Train" InputGestureText="Ctrl+T" Command="{Binding NavigateToTrainCommand}">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon Kind="Settings" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                    </Menu>
                     <keypad:Keypad DockPanel.Dock="Bottom" HorizontalAlignment="Center" x:Name="PART_Keypad" />
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <DockPanel LastChildFill="False">

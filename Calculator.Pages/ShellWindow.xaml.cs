@@ -7,6 +7,9 @@ using Serilog;
 namespace Calculator.Pages
 {
     [TemplatePart(Name=PartMainFrameName, Type=typeof(Frame))]
+    [TemplatePart(Name=PartExitAppControlName, Type=typeof(Control))]
+    [TemplatePart(Name=PartNavigateToTrainControlName, Type=typeof(Control))]
+    [TemplatePart(Name=PartNavigateToMainControlName, Type=typeof(Control))]
     public partial class ShellWindow
     {
         internal const string PartMainFrameName = "PART_MainFrame";
@@ -15,6 +18,15 @@ namespace Calculator.Pages
         
         private NavigateToTrainCommand NavigateToTrainCommand { get; }
         private ExitAppCommand ExitAppCommand { get; }
+
+        internal const string PartExitAppControlName = "PART_ExitAppControl";
+        private Control ExitAppControl { get; set; }
+
+        internal const string PartNavigateToTrainControlName = "PART_NavigateToTrainControl";
+        private Control NavigateToTrainControl { get; set; }
+
+        internal const string PartNavigateToMainControlName = "PART_NavigateToMainControl";
+        private Control NavigateToMainControl { get; set; }
 
         public ShellWindow(Func<MainPage> mainFrameFactory, ExitAppCommand exitAppCommand, NavigateToTrainCommand navigateToTrainCommand)
         {
@@ -48,8 +60,23 @@ namespace Calculator.Pages
         {
             base.OnApplyTemplate();
             PartMainFrame = GetPartMainFrame();
+            ExitAppControl = GetControl(PartExitAppControlName);
+            ExitAppControl.CommandBindings.Add(new CommandBinding(ExitAppCommand));
+
+            NavigateToTrainControl = GetControl(PartNavigateToTrainControlName);
+            NavigateToTrainControl.CommandBindings.Add(new CommandBinding(NavigateToTrainCommand));
+
+            NavigateToMainControl = GetControl(PartNavigateToMainControlName);
         }
 
+        private Control GetControl(string name)
+        {
+            var control = (Control) Template.FindName(name, this);
+            if (control == null)
+                throw new InvalidOperationException($"Cold not find '{name}'.");
+            return control;
+        }
+        
         private Frame GetPartMainFrame()
         {
             var partMainFrame = (Frame) Template.FindName(PartMainFrameName, this);

@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell">
+                    xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Fonts.Dictionary.xaml" />
         <ResourceDictionary Source="Colors.Dictionary.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/themes/materialdesigntheme.button.xaml" />
         <ResourceDictionary>
-            <ControlTemplate x:Key="FrameTemplate"  TargetType="Frame">
+            <ControlTemplate x:Key="FrameTemplate" TargetType="Frame">
                 <!--
                 <Button Content="&lt;" Command="{x:Static NavigationCommands.BrowseBack}" IsEnabled="{TemplateBinding CanGoBack}" />
                 <Button Content="&gt;" Command="{x:Static NavigationCommands.BrowseForward}" IsEnabled="{TemplateBinding CanGoForward}" />
@@ -36,7 +37,26 @@
 
                                     <!-- Content -->
                                     <Border Grid.Column="0" Grid.Row="1" Background="{StaticResource MaterialDesignPaper}" Margin="0">
-                                        <Frame Name="PART_MainFrame" Template="{StaticResource FrameTemplate}" />
+                                        <DockPanel Height="Auto" Width="Auto" LastChildFill="True">
+                                            <Menu IsMainMenu="True" DockPanel.Dock="Top">
+                                                <MenuItem Header="_File" >
+                                                    <MenuItem x:Name="PART_ExitAppControl" Header="Exit" InputGestureText="Ctrl+X">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ExitToApp" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </MenuItem>
+                                                <MenuItem Header="_Window">
+                                                    <MenuItem x:Name="PART_NavigateToMainControl" Header="Calculate" />
+                                                    <MenuItem x:Name="PART_NavigateToTrainControl" Header="Train" InputGestureText="Ctrl+T">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Settings" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </MenuItem>
+                                            </Menu>
+                                            <Frame Name="PART_MainFrame" Template="{StaticResource FrameTemplate}" Height="Auto" />
+                                        </DockPanel>
                                     </Border>
 
                                     <!-- Chrome bar -->
