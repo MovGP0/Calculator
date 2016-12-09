@@ -9,6 +9,8 @@ namespace Calculator.Pages
     [TemplatePart(Name="PART_Keypad", Type=typeof(Keypad.Keypad))]
     public partial class MainPage
     {
+        private static ILogger Log { get; } = Serilog.Log.ForContext<MainPage>();
+        
         private KeypadViewModel KeypadViewModel { get; }
         public NavigateToTrainCommand NavigateToTrainCommand { get; }
         

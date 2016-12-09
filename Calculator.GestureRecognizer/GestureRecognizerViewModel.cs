@@ -15,6 +15,8 @@ namespace Calculator.GestureRecognizer
 {
     public sealed class GestureRecognizerViewModel
     {
+        private static ILogger Log { get; } = Serilog.Log.ForContext<GestureRecognizerViewModel>();
+
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
         private IDisposable StrokesChangedSubsription { get; set; }
 

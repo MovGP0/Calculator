@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -21,6 +19,8 @@ namespace Calculator.GestureRecognizer
     [TemplatePart(Name="PART_Baseline", Type=typeof(Line))]
     public partial class GestureRecognizer : IDisposable
     {
+        private static ILogger Log { get; } = Serilog.Log.ForContext<GestureRecognizer>();
+
         #region DependencyProperties
         public static readonly DependencyProperty IsTrainingProperty = DependencyProperty.Register(
             nameof(IsTraining), typeof(bool), typeof(GestureRecognizer), new PropertyMetadata(false));
@@ -123,11 +123,9 @@ namespace Calculator.GestureRecognizer
 
         private IEnumerable<IDisposable> SubscribeToViewModel()
         {
-            yield return ViewModel.RecognizedCharacter.Subscribe(value =>
-            {
-                Log.Information($"recognized character: {value}");
-                RecognizedReactiveProperty.Value = value;
-            }, ex => Log.Error(ex, ex.Message));
+            yield return ViewModel.RecognizedCharacter.Subscribe(
+                value => RecognizedReactiveProperty.Value = value, 
+                ex => Log.Error(ex, ex.Message));
         }
 
         private void InitializeViewModel()

@@ -9,6 +9,8 @@ namespace Calculator.Pages
 {
     public partial class GestureTrainingPage
     {
+        private static ILogger Log { get; } = Serilog.Log.ForContext<GestureTrainingPage>();
+
         public GestureTrainingPage()
         {
             DataContextChanged += OnDataContextChanged;

@@ -14,7 +14,7 @@ namespace Calculator
             var resolver = ResolverFactory.Get();
             Log.Logger = resolver.Resolve<ILogger>();
 
-            Log.Information("Application starting");
+            Log.ForContext<App>().Information("Application starting");
             RegisterGlobalExceptionHandling();
             
             var shellWindow = resolver.Resolve<Pages.ShellWindow>();
@@ -23,7 +23,7 @@ namespace Calculator
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Log.Information("Application exiting");
+            Log.ForContext<App>().Information("Application exiting");
         }
 
         private static void RegisterGlobalExceptionHandling()
@@ -34,7 +34,7 @@ namespace Calculator
 
         private static void ApplicationOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
         {
-            Log.Error(args.Exception, args.Exception.Message);
+            Log.ForContext<App>().Error(args.Exception, args.Exception.Message);
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs args)
@@ -43,7 +43,7 @@ namespace Calculator
             var terminatingMessage = args.IsTerminating ? " The application is terminating." : string.Empty;
             var exceptionMessage = exception?.Message ?? "An unmanaged exception occured.";
             var message = string.Concat(exceptionMessage, terminatingMessage);
-            Log.Error(exception, message);
+            Log.ForContext<App>().Error(exception, message);
         }
     }
 }

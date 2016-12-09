@@ -15,6 +15,8 @@ namespace Calculator.Pages
 {
     public sealed class GestureTrainingPageViewModel
     {
+        private static ILogger Log { get; } = Serilog.Log.ForContext<GestureTrainingPageViewModel>();
+
         public ObservableCollection<PathSampleViewModel> PathSamples { get; } = new ObservableCollection<PathSampleViewModel>(new List<PathSampleViewModel>());
         
         public AsyncReactiveCommand SaveCommand { get; }
