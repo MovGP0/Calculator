@@ -4,7 +4,16 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Fonts.Dictionary.xaml" />
         <ResourceDictionary Source="Colors.Dictionary.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/themes/materialdesigntheme.button.xaml" />
         <ResourceDictionary>
+            <ControlTemplate x:Key="FrameTemplate"  TargetType="Frame">
+                <!--
+                <Button Content="&lt;" Command="{x:Static NavigationCommands.BrowseBack}" IsEnabled="{TemplateBinding CanGoBack}" />
+                <Button Content="&gt;" Command="{x:Static NavigationCommands.BrowseForward}" IsEnabled="{TemplateBinding CanGoForward}" />
+                -->
+                <ContentPresenter />
+            </ControlTemplate>
+            
             <Style x:Key="StandardStyle" TargetType="{x:Type Window}">
                 <Setter Property="FontFamily" Value="{StaticResource NotoSans}" />
                 <Setter Property="shell:WindowChrome.WindowChrome">
@@ -27,7 +36,7 @@
 
                                     <!-- Content -->
                                     <Border Grid.Column="0" Grid.Row="1" Background="{StaticResource MaterialDesignPaper}" Margin="0">
-                                        <Frame Name="PART_MainFrame" />
+                                        <Frame Name="PART_MainFrame" Template="{StaticResource FrameTemplate}" />
                                     </Border>
 
                                     <!-- Chrome bar -->
@@ -43,11 +52,11 @@
                                             </Grid>
                                             <Button.Style>
                                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                                    <Setter Property="Foreground" Value="White"></Setter>
+                                                    <Setter Property="Foreground" Value="White" />
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Foreground" Value="White"></Setter>
-                                                            <Setter Property="Background" Value="Red"></Setter>
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="Background" Value="Red" />
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -70,7 +79,6 @@
                                         </Button>
                                         <Border />
                                     </DockPanel>
-
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
