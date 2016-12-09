@@ -10,6 +10,8 @@ namespace Calculator.GestureRecognizer
     [Serializable]
     public sealed class TrainingSet : ISerializable, IEnumerable<Gesture>
     {
+        public static TrainingSet Empty => new TrainingSet(new List<Gesture>());
+
         public TrainingSet(IList<Gesture> gestures)
         {
             Gestures = new ReadOnlyCollection<Gesture>(gestures);

@@ -39,11 +39,11 @@
                                     </Grid.RowDefinitions>
 
                                     <TextBlock Width="120" Height="200" Grid.Column="0" Grid.Row="0" Text="{Binding Character.Value}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" />
-                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="1" Grid.Row="0" Strokes="{Binding Sample1.Value, Mode=TwoWay}" IsTraining="true" />
-                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="2" Grid.Row="0" Strokes="{Binding Sample2.Value, Mode=TwoWay}" IsTraining="true" />
-                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="3" Grid.Row="0" Strokes="{Binding Sample3.Value, Mode=TwoWay}" IsTraining="true" />
-                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="4" Grid.Row="0" Strokes="{Binding Sample4.Value, Mode=TwoWay}" IsTraining="true" />
-                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="5" Grid.Row="0" Strokes="{Binding Sample5.Value, Mode=TwoWay}" IsTraining="true" />
+                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="1" Grid.Row="0" StrokesCollection="{Binding Sample1.Value, Mode=OneWay}" IsTraining="true" />
+                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="2" Grid.Row="0" StrokesCollection="{Binding Sample2.Value, Mode=OneWay}" IsTraining="true" />
+                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="3" Grid.Row="0" StrokesCollection="{Binding Sample3.Value, Mode=OneWay}" IsTraining="true" />
+                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="4" Grid.Row="0" StrokesCollection="{Binding Sample4.Value, Mode=OneWay}" IsTraining="true" />
+                                    <gestureRecognizer:GestureRecognizer Width="100" Height="200" Grid.Column="5" Grid.Row="0" StrokesCollection="{Binding Sample5.Value, Mode=OneWay}" Recognized="{Binding Recognized.Value, Mode=OneWayToSource}" IsTraining="true" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

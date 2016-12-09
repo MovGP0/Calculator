@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
@@ -32,13 +31,31 @@ namespace Calculator.GestureRecognizer
             set { SetValue(IsTrainingProperty, value); }
         }
 
-        public static readonly DependencyProperty StrokesProperty = DependencyProperty.Register(
-            nameof(Strokes), typeof(StrokeCollection), typeof(GestureRecognizer), new PropertyMetadata(default(StrokeCollection)));
+        public static readonly DependencyProperty StrokesCollectionProperty = DependencyProperty.Register(
+            nameof(StrokesCollection), typeof(StrokeCollection), typeof(GestureRecognizer), new PropertyMetadata(default(StrokeCollection)));
 
-        public StrokeCollection Strokes
+        public StrokeCollection StrokesCollection
         {
-            get { return (StrokeCollection)GetValue(StrokesProperty); }
-            set { SetValue(StrokesProperty, value); }
+            get { return (StrokeCollection)GetValue(StrokesCollectionProperty); }
+            set { SetValue(StrokesCollectionProperty, value); }
+        }
+
+        public static readonly DependencyProperty TrainingSetProperty = DependencyProperty.Register(
+            nameof(TrainingSet), typeof(TrainingSet), typeof(GestureRecognizer), new PropertyMetadata(TrainingSet.Empty));
+
+        public TrainingSet TrainingSet
+        {
+            get { return (TrainingSet) GetValue(TrainingSetProperty); }
+            set { SetValue(TrainingSetProperty, value); }
+        }
+
+        public static readonly DependencyProperty RecognizedProperty = DependencyProperty.Register(
+            nameof(Recognized), typeof(string), typeof(GestureRecognizer), new PropertyMetadata(default(string)));
+
+        public string Recognized
+        {
+            get { return (string) GetValue(RecognizedProperty); }
+            set { SetValue(RecognizedProperty, value); }
         }
         #endregion
 
@@ -51,6 +68,8 @@ namespace Calculator.GestureRecognizer
         private ReadOnlyReactiveProperty<FontStyle> FontStyleReactiveProperty { get; }
         private ReadOnlyReactiveProperty<FontWeight> FontWeightReactiveProperty { get; }
         private ReadOnlyReactiveProperty<FontStretch> FontStretchReactiveProperty { get; }
+        private ReadOnlyReactiveProperty<TrainingSet> TrainingSetReactiveProperty { get; }
+        private ReactiveProperty<string> RecognizedReactiveProperty { get; }
         #endregion
 
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
@@ -84,18 +103,31 @@ namespace Calculator.GestureRecognizer
             
             const ReactivePropertyMode distinct = ReactivePropertyMode.DistinctUntilChanged;
             IsTrainingReactiveProperty = this.ToReadOnlyReactiveProperty<bool>(IsTrainingProperty, distinct);
-            StrokesReactiveProperty = this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesProperty, distinct);
+            StrokesReactiveProperty = this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesCollectionProperty, distinct);
             FontSizeReactiveProperty = this.ToReadOnlyReactiveProperty<double>(FontSizeProperty, distinct);
             WidthReactiveProperty = this.ToReadOnlyReactiveProperty<double>(WidthProperty, distinct);
             FontFamilyReactiveProperty = this.ToReadOnlyReactiveProperty<FontFamily>(FontFamilyProperty, distinct);
             FontStyleReactiveProperty = this.ToReadOnlyReactiveProperty<FontStyle>(FontStyleProperty, distinct);
             FontWeightReactiveProperty = this.ToReadOnlyReactiveProperty<FontWeight>(FontWeightProperty, distinct);
             FontStretchReactiveProperty = this.ToReadOnlyReactiveProperty<FontStretch>(FontStretchProperty, distinct);
+            TrainingSetReactiveProperty = this.ToReadOnlyReactiveProperty<TrainingSet>(TrainingSetProperty, distinct);
+            RecognizedReactiveProperty = this.ToReactiveProperty<string>(RecognizedProperty);
+
+            Subscriptions.AddRange(SubscribeToViewModel());
 
             var subscriptions = SubscribeToReactiveProperties();
             Subscriptions.AddRange(subscriptions);
             
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
+        }
+
+        private IEnumerable<IDisposable> SubscribeToViewModel()
+        {
+            yield return ViewModel.RecognizedCharacter.Subscribe(value =>
+            {
+                Log.Information($"recognized character: {value}");
+                RecognizedReactiveProperty.Value = value;
+            }, ex => Log.Error(ex, ex.Message));
         }
 
         private void InitializeViewModel()
@@ -110,13 +142,15 @@ namespace Calculator.GestureRecognizer
 
         private IEnumerable<IDisposable> SubscribeToReactiveProperties()
         {
-            yield return StrokesReactiveProperty.Subscribe(value => ViewModel.Strokes.Value = value);
-            yield return FontSizeReactiveProperty.Subscribe(value => ViewModel.FontSize.Value = value);
-            yield return WidthReactiveProperty.Subscribe(value => ViewModel.Width.Value = value);
-            yield return FontFamilyReactiveProperty.Subscribe(value => ViewModel.FontFamily.Value = value);
-            yield return FontStyleReactiveProperty.Subscribe(value => ViewModel.FontStyle.Value = value);
-            yield return FontWeightReactiveProperty.Subscribe(value => ViewModel.FontWeight.Value = value);
-            yield return FontStretchReactiveProperty.Subscribe(value => ViewModel.FontStretch.Value = value);
+            yield return StrokesReactiveProperty.Subscribe(value => ViewModel.Strokes.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return FontSizeReactiveProperty.Subscribe(value => ViewModel.FontSize.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return WidthReactiveProperty.Subscribe(value => ViewModel.Width.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return FontFamilyReactiveProperty.Subscribe(value => ViewModel.FontFamily.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return FontStyleReactiveProperty.Subscribe(value => ViewModel.FontStyle.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return FontWeightReactiveProperty.Subscribe(value => ViewModel.FontWeight.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return FontStretchReactiveProperty.Subscribe(value => ViewModel.FontStretch.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return TrainingSetReactiveProperty.Subscribe(value => ViewModel.TrainingSet.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return IsTrainingReactiveProperty.Subscribe(value => ViewModel.IsTraining.Value = value, ex => Log.Error(ex, ex.Message));
         }
 
         #region IDisposable
@@ -184,10 +218,10 @@ namespace Calculator.GestureRecognizer
             partCanvas.EditingModeInverted = InkCanvasEditingMode.EraseByStroke;
             partCanvas.EraserShape = new EllipseStylusShape(5, 5);
             
-            Subscriptions.Add(GetStrokeCollected(partCanvas).Subscribe(_ => OnStrokeCollected()));
-            Subscriptions.Add(GetStrokeBeginStylus(partCanvas).Subscribe(_ => OnBeginStroke()));
-            Subscriptions.Add(GetStrokeBeginFinger(partCanvas).Subscribe(_ => OnBeginStroke()));
-            Subscriptions.Add(GetStrokeBeginMouse(partCanvas).Subscribe(_ => OnBeginStroke()));
+            Subscriptions.Add(GetStrokeCollected(partCanvas).Subscribe(_ => ViewModel.OnStrokeCollected(), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(GetStrokeBeginStylus(partCanvas).Subscribe(_ => ViewModel.OnBeginStroke(), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(GetStrokeBeginFinger(partCanvas).Subscribe(_ => ViewModel.OnBeginStroke(), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(GetStrokeBeginMouse(partCanvas).Subscribe(_ => ViewModel.OnBeginStroke(), ex => Log.Error(ex, ex.Message)));
             
             return partCanvas;
         }
@@ -238,50 +272,6 @@ namespace Calculator.GestureRecognizer
                 },
                 h => partCanvas.StrokeCollected += h,
                 h => partCanvas.StrokeCollected -= h);
-        }
-
-        private void OnBeginStroke()
-        {
-            ResetTimer();
-            
-            if (_isRecognized)
-            {
-                PartCanvas.Strokes.Clear();
-                _isRecognized = false;
-            }
-        }
-
-        private Timer _timer;
-        private bool _isRecognized;
-
-        public void OnStrokeCollected()
-        {
-            _isRecognized = false;
-            ResetTimer();
-        }
-
-        private void ResetTimer()
-        {
-            _timer?.Dispose();
-            _timer = new Timer(_ => RecognitionTimerOnElapsed(), null, TimeSpan.FromSeconds(0.5d), TimeSpan.FromMilliseconds(-1));
-        }
-
-        private void RecognitionTimerOnElapsed()
-        {
-            NewThreadScheduler.Default.Schedule(() =>
-            {
-                _isRecognized = true;
-
-                if (!IsTrainingReactiveProperty.Value)
-                {
-                    Log.Information("Recognizing character");
-                    // TODO: start character recognition
-                }
-                else
-                {
-                    Log.Information("Skipping character recognition");
-                }
-            });
         }
 
         protected override Size MeasureOverride(Size constraint)

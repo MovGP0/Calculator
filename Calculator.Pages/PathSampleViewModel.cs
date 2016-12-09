@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Windows.Ink;
 using Calculator.GestureRecognizer;
 using Reactive.Bindings;
@@ -7,6 +8,24 @@ using Serilog;
 
 namespace Calculator.Pages
 {
+    public static class StrokeCollectionExtensions
+    {
+        public static IObservable<StrokeCollectionChangedEventArgs> ToStrokesChangedObservable(this StrokeCollection collection)
+        {
+            if(collection == null)
+                return Observable.Never<StrokeCollectionChangedEventArgs>();
+
+            return Observable.FromEvent<StrokeCollectionChangedEventHandler, StrokeCollectionChangedEventArgs>(
+                handler =>
+                {
+                    StrokeCollectionChangedEventHandler eh = (sender, args) => handler(args);
+                    return eh;
+                },
+                eh => collection.StrokesChanged += eh,
+                eh => collection.StrokesChanged -= eh);
+        }
+    }
+
     public sealed class PathSampleViewModel
     {
         public ReactiveProperty<string> Character { get; } 
@@ -26,16 +45,30 @@ namespace Calculator.Pages
 
         public ReactiveProperty<StrokeCollection> Sample5 { get; } 
             = new ReactiveProperty<StrokeCollection>(new StrokeCollection());
+        
+        public ReactiveProperty<string> Recognized { get; }
+            = new ReactiveProperty<string>(string.Empty);
 
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
-
+        
         public PathSampleViewModel()
         {
-            Subscriptions.Add(Sample1.Subscribe(_ => Log.Information("Sample changed")));
-            Subscriptions.Add(Sample2.Subscribe(_ => Log.Information("Sample changed")));
-            Subscriptions.Add(Sample3.Subscribe(_ => Log.Information("Sample changed")));
-            Subscriptions.Add(Sample4.Subscribe(_ => Log.Information("Sample changed")));
-            Subscriptions.Add(Sample5.Subscribe(_ => Log.Information("Sample changed")));
+            Subscriptions.Add(Sample1.Subscribe(_ => Log.Verbose("Sample1 changed"), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(Sample2.Subscribe(_ => Log.Verbose("Sample2 changed"), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(Sample3.Subscribe(_ => Log.Verbose("Sample3 changed"), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(Sample4.Subscribe(_ => Log.Verbose("Sample4 changed"), ex => Log.Error(ex, ex.Message)));
+            Subscriptions.Add(Sample5.Subscribe(_ => Log.Verbose("Sample5 changed"), ex => Log.Error(ex, ex.Message)));
+
+            Subscriptions.Add(Recognized.Subscribe(value =>
+                {
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        Log.Information($"Character '{value}' recognized.");
+                        return;
+                    }
+                    Log.Verbose("No character recognized.");
+                }, 
+                ex => Log.Error(ex, ex.Message)));
         }
 
         ~PathSampleViewModel()
@@ -54,6 +87,7 @@ namespace Calculator.Pages
             Sample3?.Dispose();
             Sample4?.Dispose();
             Sample5?.Dispose();
+            
             Subscriptions?.Dispose();
 
             _isDisposed = true;
