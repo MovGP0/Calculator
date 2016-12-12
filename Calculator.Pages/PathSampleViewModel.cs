@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Windows.Ink;
 using Calculator.GestureRecognizer;
 using Reactive.Bindings;
@@ -8,24 +7,6 @@ using Serilog;
 
 namespace Calculator.Pages
 {
-    public static class StrokeCollectionExtensions
-    {
-        public static IObservable<StrokeCollectionChangedEventArgs> ToStrokesChangedObservable(this StrokeCollection collection)
-        {
-            if(collection == null)
-                return Observable.Never<StrokeCollectionChangedEventArgs>();
-
-            return Observable.FromEvent<StrokeCollectionChangedEventHandler, StrokeCollectionChangedEventArgs>(
-                handler =>
-                {
-                    StrokeCollectionChangedEventHandler eh = (sender, args) => handler(args);
-                    return eh;
-                },
-                eh => collection.StrokesChanged += eh,
-                eh => collection.StrokesChanged -= eh);
-        }
-    }
-
     public sealed class PathSampleViewModel
     {
         public ReactiveProperty<string> Character { get; } 

@@ -18,7 +18,7 @@ namespace Calculator.GestureRecognizer
         }
 
         #region ISerializable
-        public Stroke(SerializationInfo info, StreamingContext context)
+        private Stroke(SerializationInfo info, StreamingContext context)
         {
             if(info == null) throw new ArgumentNullException(nameof(info));
             

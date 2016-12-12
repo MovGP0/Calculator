@@ -15,17 +15,22 @@ namespace Calculator.DependencyInjection
 {
     public static class ContainerExtensions
     {
-        public static IRegistrator RegisterFactory<T>(this IRegistrator container)
+        public static IRegistrator RegisterFactory<T>(this IRegistrator container, IReuse reuse)
         {
-            container.Register<T>();
+            container.Register<T>(reuse);
             container.RegisterDelegate<Func<T>>(r => () => r.Resolve<T>());
             return container;
+        }
+
+        public static IRegistrator RegisterFactory<T>(this IRegistrator container)
+        {
+            return RegisterFactory<T>(container, Reuse.Transient);
         }
 
         public static IContainer SetupKeypad(this IContainer container)
         {
             container.RegisterFactory<TrigDialog>();
-            container.RegisterFactory<TrigDialogViewModel>();
+            container.RegisterFactory<TrigDialogViewModel>(Reuse.InResolutionScope);
             container.RegisterFactory<SetsDialog>();
 
             container.Register(Made.Of(() => new KeypadViewModel(
@@ -33,7 +38,7 @@ namespace Calculator.DependencyInjection
                 Arg.Of<Func<TrigDialog>>(), 
                 Arg.Of<Func<TrigDialogViewModel>>(), 
                 Arg.Of<Func<SetsDialog>>())
-                ), Reuse.Transient);
+                ), Reuse.InResolutionScope);
 
             return container;
         }
@@ -57,7 +62,7 @@ namespace Calculator.DependencyInjection
 
         private static void SetupMainPage(IRegistrator container)
         {
-            container.RegisterFactory<MainPage>();
+            container.RegisterFactory<MainPage>(Reuse.Transient);
             container.Register<NavigateToTrainCommand>(Reuse.Transient);
             container.Register<ExitAppCommand>(Reuse.Transient);
         }
@@ -67,7 +72,7 @@ namespace Calculator.DependencyInjection
             container.Register<GestureRecognizerViewModel>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
             container.Register<GestureRecognizer.GestureRecognizer>(Reuse.Transient, setup: Setup.With(allowDisposableTransient: true));
 
-            container.RegisterFactory<GestureTrainingPageViewModel>();
+            container.RegisterFactory<GestureTrainingPageViewModel>(Reuse.InThread);
             container.RegisterFactory<GestureTrainingPage>();
         }
 

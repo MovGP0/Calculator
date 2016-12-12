@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using Calculator.DependencyInjection;
@@ -29,14 +30,8 @@ namespace Calculator
         private static void RegisterGlobalExceptionHandling()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            Current.DispatcherUnhandledException += ApplicationOnDispatcherUnhandledException;
         }
-
-        private static void ApplicationOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
-        {
-            Log.ForContext<App>().Error(args.Exception, args.Exception.Message);
-        }
-
+        
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             var exception = args.ExceptionObject as Exception;

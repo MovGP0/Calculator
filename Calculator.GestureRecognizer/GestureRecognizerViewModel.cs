@@ -13,7 +13,7 @@ using Serilog;
 
 namespace Calculator.GestureRecognizer
 {
-    public sealed class GestureRecognizerViewModel
+    public sealed class GestureRecognizerViewModel : IDisposable
     {
         private static ILogger Log { get; } = Serilog.Log.ForContext<GestureRecognizerViewModel>();
 
@@ -62,7 +62,7 @@ namespace Calculator.GestureRecognizer
             StrokesChangedSubsription = SubscribeToStrokeCollection(Strokes.Value);
         }
 
-        private IDisposable SubscribeToStrokeCollection(StrokeCollection strokeCollection)
+        private static IDisposable SubscribeToStrokeCollection(StrokeCollection strokeCollection)
         {
             try
             {
@@ -101,8 +101,7 @@ namespace Calculator.GestureRecognizer
             }
             
             var typeface = new Typeface(FontFamily.Value, FontStyle.Value, FontWeight.Value, FontStretch.Value);
-            GlyphTypeface glyphTypeface;
-            if (!typeface.TryGetGlyphTypeface(out glyphTypeface))
+            if (!typeface.TryGetGlyphTypeface(out var glyphTypeface))
                 throw new InvalidOperationException("No GlyphTypeface found");
             
             var fontSize = FontSize.Value*10;

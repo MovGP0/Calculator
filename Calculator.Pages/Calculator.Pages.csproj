@@ -186,13 +186,14 @@
     </Compile>
     <Compile Include="PathSampleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StrokeCollectionExtensions.cs" />
     <Compile Include="TrainingSetExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainFrame.Dictionary.xaml">
+    <Page Include="MainPage.Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-      <DependentUpon>MainFrame.xaml</DependentUpon>
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Page>
     <Page Include="ShellWindow.Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -214,7 +215,7 @@
     <Page Include="GestureTrainingPage.Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <DependentUpon>GestureTrainingFrame.xaml</DependentUpon>
+      <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>

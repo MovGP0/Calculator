@@ -13,7 +13,7 @@ using Serilog;
 
 namespace Calculator.Pages
 {
-    public sealed class GestureTrainingPageViewModel
+    public sealed class GestureTrainingPageViewModel : IDisposable
     {
         private static ILogger Log { get; } = Serilog.Log.ForContext<GestureTrainingPageViewModel>();
 
@@ -138,6 +138,11 @@ namespace Calculator.Pages
             await TrainingSetIo.WriteGestureAsBinaryAsync(trainingSet, FileName.Value);
 
             Log.Information("Saved training information");
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         private bool _isDisposed;

@@ -165,7 +165,7 @@
     <Compile Include="PointExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stroke.cs" />
-    <Compile Include="StrokeCollectionExtensions.cs" />
+    <Compile Include="InkStrokeExtensions.cs" />
     <Compile Include="StrokeConverter.cs" />
     <Compile Include="StrokeExtensions.cs" />
     <Compile Include="TrainingSet.cs" />

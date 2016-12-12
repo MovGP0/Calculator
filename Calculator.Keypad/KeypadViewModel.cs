@@ -13,15 +13,17 @@ using Command = Calculator.Controls.Command;
 
 namespace Calculator.Keypad
 {
-    public sealed class KeypadViewModel
+    public sealed class KeypadViewModel : IDisposable
     {
         private ISubject<Event, Event> ReplaySubject { get; }
         public ICommand KeyUpCommand => new Command<KeyEventArgs>(OnKeyUp);
-        public ICommand OpenTrigDialogCommand => new Command(OpenTrigDialog);
-        public ICommand OpenSetsDialogCommand => new Command(OpenSetsDialog);
+        public ICommand OpenTrigDialogCommand => new Command(OpenTrigDialogAsync);
+        public ICommand OpenSetsDialogCommand => new Command(OpenSetsDialogAsync);
         private Func<TrigDialog> TrigDialogFactory { get; }
         private Func<TrigDialogViewModel> TrigDialogViewModel { get; }
         private Func<SetsDialog> SetsDialogFactory { get; }
+
+        private IDisposable EventBusPublishing { get; }
 
         // ReSharper disable once SuggestBaseTypeForParameter
         public KeypadViewModel(
@@ -35,7 +37,7 @@ namespace Calculator.Keypad
             SetsDialogFactory = setsDialogFactory;
 
             ReplaySubject = new ReplaySubject<Event>();
-            eventBus.Publish(ReplaySubject);
+            EventBusPublishing = eventBus.Publish(ReplaySubject);
         }
         
         public KeypadViewModel()
@@ -68,7 +70,7 @@ namespace Calculator.Keypad
                 .Else(new None<Event>());
         }
         
-        private async void OpenTrigDialog(object o)
+        private async void OpenTrigDialogAsync(object o)
         {
             var view = TrigDialogFactory();
             view.DataContext = TrigDialogViewModel();
@@ -79,7 +81,7 @@ namespace Calculator.Keypad
             ReplaySubject.OnNext(@event);
         }
 
-        private async void OpenSetsDialog(object o)
+        private async void OpenSetsDialogAsync(object o)
         {
             var view = SetsDialogFactory();
             // view.DataContext = new SetsDialogViewModel()
@@ -106,5 +108,32 @@ namespace Calculator.Keypad
                 .With("gon", new GonAngleEvent())
                 .ElseException();
         }
+
+        #region IDisposable
+        ~KeypadViewModel()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private bool _isDisposed;
+        public void Dispose(bool disposing)
+        {
+            if(_isDisposed) return;
+
+            EventBusPublishing.Dispose();
+            
+            if (disposing)
+            {
+                GC.SuppressFinalize(this);
+            }
+
+            _isDisposed = true;
+        }
+        #endregion
     }
 }

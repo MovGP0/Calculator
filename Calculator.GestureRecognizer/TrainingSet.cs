@@ -20,7 +20,7 @@ namespace Calculator.GestureRecognizer
         public IEnumerable<Gesture> Gestures { get; }
 
         #region ISerializable
-        public TrainingSet(SerializationInfo info, StreamingContext context)
+        private TrainingSet(SerializationInfo info, StreamingContext context)
         {
             if(info == null) throw new ArgumentNullException(nameof(info));
             
