@@ -62,9 +62,9 @@ namespace Calculator.DependencyInjection
 
         private static void SetupMainPage(IRegistrator container)
         {
-            container.RegisterFactory<MainPage>(Reuse.Transient);
-            container.Register<NavigateToTrainCommand>(Reuse.Transient);
-            container.Register<ExitAppCommand>(Reuse.Transient);
+            container.RegisterFactory<MainPage>(Reuse.Singleton);
+            container.Register<NavigateToTrainCommand>(Reuse.Singleton);
+            container.Register<NavigateToMainCommand>(Reuse.Singleton);
         }
 
         private static void SetupGestureTrainingPage(IRegistrator container)

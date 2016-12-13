@@ -2,14 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Calculator.Common;
 using Serilog;
 
 namespace Calculator.Pages
 {
     [TemplatePart(Name=PartMainFrameName, Type=typeof(Frame))]
-    [TemplatePart(Name=PartExitAppControlName, Type=typeof(Control))]
-    [TemplatePart(Name=PartNavigateToTrainControlName, Type=typeof(Control))]
-    [TemplatePart(Name=PartNavigateToMainControlName, Type=typeof(Control))]
     public partial class ShellWindow
     {
         internal const string PartMainFrameName = "PART_MainFrame";
@@ -17,18 +15,9 @@ namespace Calculator.Pages
         private Func<MainPage> MainFrameFactory { get; }
         
         private NavigateToTrainCommand NavigateToTrainCommand { get; }
-        private ExitAppCommand ExitAppCommand { get; }
+        private NavigateToMainCommand NavigateToMainCommand { get; }
 
-        internal const string PartExitAppControlName = "PART_ExitAppControl";
-        private Control ExitAppControl { get; set; }
-
-        internal const string PartNavigateToTrainControlName = "PART_NavigateToTrainControl";
-        private Control NavigateToTrainControl { get; set; }
-
-        internal const string PartNavigateToMainControlName = "PART_NavigateToMainControl";
-        private Control NavigateToMainControl { get; set; }
-
-        public ShellWindow(Func<MainPage> mainFrameFactory, ExitAppCommand exitAppCommand, NavigateToTrainCommand navigateToTrainCommand)
+        public ShellWindow(Func<MainPage> mainFrameFactory, NavigateToTrainCommand navigateToTrainCommand, NavigateToMainCommand navigateToMainCommand)
         {
             MainFrameFactory = mainFrameFactory;
 
@@ -44,37 +33,34 @@ namespace Calculator.Pages
 
             Loaded += OnLoaded;
             
-            ExitAppCommand = exitAppCommand;
             NavigateToTrainCommand = navigateToTrainCommand;
+            NavigateToMainCommand = navigateToMainCommand;
 
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
+            CommandBindings.Add(new CommandBinding(RoutedCommands.NavigateToTrain, OnNavigateToTrain));
+            CommandBindings.Add(new CommandBinding(RoutedCommands.NavigateToMain, OnNavigateToMain));
 
-            InputBindings.Add(new InputBinding(ExitAppCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
-            InputBindings.Add(new InputBinding(NavigateToTrainCommand, new KeyGesture(Key.T, ModifierKeys.Control)));
+            InputBindings.Add(new InputBinding(SystemCommands.CloseWindowCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
+            InputBindings.Add(new InputBinding(RoutedCommands.NavigateToTrain, new KeyGesture(Key.T, ModifierKeys.Control)));
         }
         
+        private void OnNavigateToTrain(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        {
+            NavigateToTrainCommand.Execute(this);
+        }
+
+        private void OnNavigateToMain(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        {
+            NavigateToMainCommand.Execute(this);
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             PartMainFrame = GetPartMainFrame();
-            ExitAppControl = GetControl(PartExitAppControlName);
-            ExitAppControl.CommandBindings.Add(new CommandBinding(ExitAppCommand));
-
-            NavigateToTrainControl = GetControl(PartNavigateToTrainControlName);
-            NavigateToTrainControl.CommandBindings.Add(new CommandBinding(NavigateToTrainCommand));
-
-            NavigateToMainControl = GetControl(PartNavigateToMainControlName);
-        }
-
-        private Control GetControl(string name)
-        {
-            var control = (Control) Template.FindName(name, this);
-            if (control == null)
-                throw new InvalidOperationException($"Cold not find '{name}'.");
-            return control;
         }
         
         private Frame GetPartMainFrame()
@@ -89,7 +75,10 @@ namespace Calculator.Pages
         protected void OnLoaded(object sender, RoutedEventArgs e)
         {
             var navigationService = PartMainFrame.NavigationService;
+
             NavigateToTrainCommand.NavigationService = navigationService;
+            NavigateToMainCommand.NavigationService = navigationService;
+
             navigationService.Navigate(MainFrameFactory());
         }
 

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace Calculator.Pages
 {
-    public sealed class NavigateToTrainCommand : ICommand
+    public sealed class NavigateToMainCommand : ICommand
     {
         private NavigationService _navigationService;
         public NavigationService NavigationService
@@ -15,7 +15,7 @@ namespace Calculator.Pages
             }
             set
             {
-                if(ReferenceEquals(_navigationService, value)) return;
+                if (ReferenceEquals(_navigationService, value)) return;
 
                 _navigationService = value;
                 _navigationService.Navigated += NavigationServiceOnNavigated;
@@ -29,28 +29,28 @@ namespace Calculator.Pages
             OnCanExecuteChanged();
         }
 
-        private Func<GestureTrainingPage> GestureTrainingFrameFactory { get; }
+        private Func<MainPage> MainPageFactory { get; }
 
-        public NavigateToTrainCommand(Func<GestureTrainingPage> gestureTrainingFrameFactory)
+        public NavigateToMainCommand(Func<MainPage> mainPageFactory)
         {
-            GestureTrainingFrameFactory = gestureTrainingFrameFactory;
+            MainPageFactory = mainPageFactory;
         }
-        
+
         public bool CanExecute(object parameter)
         {
-            return NavigationService != null 
-                && _navigationService.Content.GetType() != typeof(GestureTrainingPage);
+            return NavigationService != null
+                   && NavigationService.Content.GetType() != typeof(MainPage);
         }
 
         public void Execute(object parameter)
         {
             if (!CanExecute(null)) return;
-             
-            NavigationService.Navigate(GestureTrainingFrameFactory());
+
+            NavigationService.Navigate(MainPageFactory());
         }
 
         public event EventHandler CanExecuteChanged;
-        
+
         private void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

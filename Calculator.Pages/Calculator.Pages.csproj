@@ -171,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExtensions.cs" />
-    <Compile Include="ExitAppCommand.cs" />
     <Compile Include="GestureTrainingPage.xaml.cs">
       <DependentUpon>GestureTrainingPage.xaml</DependentUpon>
     </Compile>
@@ -179,6 +178,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NavigateToMainCommand.cs" />
     <Compile Include="NavigateToTrainCommand.cs" />
     <Compile Include="PathSampleExtensions.cs" />
     <Compile Include="ShellWindow.xaml.cs">
