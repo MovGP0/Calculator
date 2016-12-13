@@ -12,6 +12,7 @@
     <Control.Template>
         <ControlTemplate>
             <InkCanvas Height="Auto" Width="Auto" x:Name="PART_Canvas" Background="LightYellow" Strokes="{Binding Strokes.Value, Mode=TwoWay}">
+                <TextBlock InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_Character" Text="{Binding Text.Value}" Foreground="Aquamarine" FontFamily="{Binding FontFamily.Value}" FontSize="{Binding VirtualFontSize.Value}" FontStretch="{Binding FontStretch.Value}" FontStyle="{Binding FontStyle.Value}" FontWeight="{Binding FontWeight.Value}" />
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_XHeight" X1="0" Y1="{Binding XHeight.Value}" X2="{Binding Width.Value}" Y2="{Binding XHeight.Value}" Stroke="Black" StrokeThickness="1" StrokeDashArray="5,3" />
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_CapsHeight" X1="0" Y1="{Binding CapsHeight.Value}" X2="{Binding Width.Value}" Y2="{Binding CapsHeight.Value}" Stroke="Gray" StrokeThickness="1" StrokeDashArray="5,3" />
                 <Line InkCanvas.Top="0" InkCanvas.Left="0" x:Name="PART_Baseline" X1="0" Y1="{Binding Baseline.Value}" X2="{Binding Width.Value}" Y2="{Binding Baseline.Value}" Stroke="Blue" StrokeThickness="2" />

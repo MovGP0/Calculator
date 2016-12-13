@@ -57,6 +57,15 @@ namespace Calculator.GestureRecognizer
             get { return (string) GetValue(RecognizedProperty); }
             set { SetValue(RecognizedProperty, value); }
         }
+        
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text), typeof(string), typeof(GestureRecognizer), new PropertyMetadata(default(string)));
+        
+        public string Text
+        {
+            get { return (string) GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
         #endregion
 
         #region ReactiveProperties
@@ -70,6 +79,7 @@ namespace Calculator.GestureRecognizer
         private ReadOnlyReactiveProperty<FontStretch> FontStretchReactiveProperty { get; }
         private ReadOnlyReactiveProperty<TrainingSet> TrainingSetReactiveProperty { get; }
         private ReactiveProperty<string> RecognizedReactiveProperty { get; }
+        private ReactiveProperty<string> TextReactiveProperty { get; }
         #endregion
 
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
@@ -99,8 +109,6 @@ namespace Calculator.GestureRecognizer
                 throw;
             }
 
-            InitializeViewModel();
-            
             const ReactivePropertyMode distinct = ReactivePropertyMode.DistinctUntilChanged;
             IsTrainingReactiveProperty = this.ToReadOnlyReactiveProperty<bool>(IsTrainingProperty, distinct);
             StrokesReactiveProperty = this.ToReadOnlyReactiveProperty<StrokeCollection>(StrokesCollectionProperty, distinct);
@@ -112,12 +120,15 @@ namespace Calculator.GestureRecognizer
             FontStretchReactiveProperty = this.ToReadOnlyReactiveProperty<FontStretch>(FontStretchProperty, distinct);
             TrainingSetReactiveProperty = this.ToReadOnlyReactiveProperty<TrainingSet>(TrainingSetProperty, distinct);
             RecognizedReactiveProperty = this.ToReactiveProperty<string>(RecognizedProperty);
+            TextReactiveProperty = this.ToReactiveProperty<string>(TextProperty);
 
             Subscriptions.AddRange(SubscribeToViewModel());
 
             var subscriptions = SubscribeToReactiveProperties();
             Subscriptions.AddRange(subscriptions);
-            
+
+            InitializeViewModel();
+
             Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
         }
 
@@ -131,11 +142,12 @@ namespace Calculator.GestureRecognizer
         private void InitializeViewModel()
         {
             var vm = ViewModel;
-            vm.FontSize.Value = FontSize;
-            vm.FontFamily.Value = FontFamily;
-            vm.FontStyle.Value = FontStyle;
-            vm.FontWeight.Value = FontWeight;
-            vm.FontStretch.Value = FontStretch;
+            vm.FontSize.Value = FontSizeReactiveProperty.Value;
+            vm.FontFamily.Value = FontFamilyReactiveProperty.Value;
+            vm.FontStyle.Value = FontStyleReactiveProperty.Value;
+            vm.FontWeight.Value = FontWeightReactiveProperty.Value;
+            vm.FontStretch.Value = FontStretchReactiveProperty.Value;
+            vm.Text.Value = TextReactiveProperty.Value;
         }
 
         private IEnumerable<IDisposable> SubscribeToReactiveProperties()
@@ -149,6 +161,7 @@ namespace Calculator.GestureRecognizer
             yield return FontStretchReactiveProperty.Subscribe(value => ViewModel.FontStretch.Value = value, ex => Log.Error(ex, ex.Message));
             yield return TrainingSetReactiveProperty.Subscribe(value => ViewModel.TrainingSet.Value = value, ex => Log.Error(ex, ex.Message));
             yield return IsTrainingReactiveProperty.Subscribe(value => ViewModel.IsTraining.Value = value, ex => Log.Error(ex, ex.Message));
+            yield return TextReactiveProperty.Subscribe(value => ViewModel.Text.Value = value, ex => Log.Error(ex, ex.Message));
         }
 
         #region IDisposable

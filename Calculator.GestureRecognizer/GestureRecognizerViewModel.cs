@@ -30,9 +30,11 @@ namespace Calculator.GestureRecognizer
         public ReactiveProperty<bool> IsTraining { get; } = new ReactiveProperty<bool>(false);
         public ReactiveProperty<StrokeCollection> Strokes { get; } = new ReactiveProperty<StrokeCollection>(new StrokeCollection(), ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<TrainingSet> TrainingSet { get; } = new ReactiveProperty<TrainingSet>(Calculator.GestureRecognizer.TrainingSet.Empty);
+        public ReactiveProperty<string> Text { get; } = new ReactiveProperty<string>(string.Empty, ReactivePropertyMode.DistinctUntilChanged);
         #endregion
 
         #region Output
+        public ReactiveProperty<double> VirtualFontSize { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<double> Height { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<double> Baseline { get; } = new ReactiveProperty<double>(0d, ReactivePropertyMode.DistinctUntilChanged);
         
@@ -53,7 +55,7 @@ namespace Calculator.GestureRecognizer
             Subscriptions.Add(FontStyle.Subscribe(_ => UpdateValues()));
             Subscriptions.Add(FontWeight.Subscribe(_ => UpdateValues()));
             Subscriptions.Add(FontStretch.Subscribe(_ => UpdateValues()));
-
+            
             Subscriptions.Add(Strokes.Subscribe(strokeCollection =>
             {
                 StrokesChangedSubsription?.Dispose();
@@ -111,6 +113,7 @@ namespace Calculator.GestureRecognizer
             CapsHeight.Value = glyphTypeface.CapsHeight*fontSize;
             XHeight.Value = glyphTypeface.XHeight*fontSize;
             Height.Value = glyphTypeface.Height*fontSize;
+            VirtualFontSize.Value = fontSize;
         }
 
         #region IDisposable
@@ -136,6 +139,7 @@ namespace Calculator.GestureRecognizer
 
             StrokesChangedSubsription?.Dispose();
             FontSize?.Dispose();
+            VirtualFontSize?.Dispose();
             Width?.Dispose();
             FontFamily?.Dispose();
             FontStyle?.Dispose();
@@ -146,6 +150,7 @@ namespace Calculator.GestureRecognizer
             CapsHeight?.Dispose();
             XHeight?.Dispose();
             Strokes?.Dispose();
+            Text?.Dispose();
 
             _isDisposed = true;
             GC.SuppressFinalize(this);
@@ -201,8 +206,7 @@ namespace Calculator.GestureRecognizer
                 }
                 else
                 {
-                    Log.Information("Skipping character recognition");
-                    RecognizedCharacter.Value = RandomString(1);
+                    Log.Information($"Training symbol {Text.Value ?? "null"}.");
                 }
             });
         }

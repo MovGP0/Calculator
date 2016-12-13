@@ -35,7 +35,7 @@ namespace Calculator.Pages
             = new ReactiveProperty<IEnumerable<string>>(new List<string>());
 
         private ReactiveProperty<bool> CanLoad { get; } = new ReactiveProperty<bool>(false);
-        private ReactiveProperty<bool> CanSave { get; } = new ReactiveProperty<bool>(false);
+        private ReactiveProperty<bool> CanSave { get; } = new ReactiveProperty<bool>(true);
         
         private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
         
