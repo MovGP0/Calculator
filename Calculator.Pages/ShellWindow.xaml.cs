@@ -45,8 +45,9 @@ namespace Calculator.Pages
 
             InputBindings.Add(new InputBinding(SystemCommands.CloseWindowCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
             InputBindings.Add(new InputBinding(RoutedCommands.NavigateToTrain, new KeyGesture(Key.T, ModifierKeys.Control)));
+            InputBindings.Add(new InputBinding(RoutedCommands.NavigateToMain, new KeyGesture(Key.Home)));
         }
-        
+
         private void OnNavigateToTrain(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
         {
             NavigateToTrainCommand.Execute(this);

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using Serilog;
 
 namespace Calculator.Pages
 {
     public sealed class NavigateToTrainCommand : ICommand
     {
+        private static ILogger Log => Serilog.Log.Logger.ForContext<NavigateToTrainCommand>();
+
         private NavigationService _navigationService;
         public NavigationService NavigationService
         {
@@ -29,11 +32,11 @@ namespace Calculator.Pages
             OnCanExecuteChanged();
         }
 
-        private Func<GestureTrainingPage> GestureTrainingFrameFactory { get; }
+        private Func<GestureTrainingPage> GestureTrainingPageFactory { get; }
 
-        public NavigateToTrainCommand(Func<GestureTrainingPage> gestureTrainingFrameFactory)
+        public NavigateToTrainCommand(Func<GestureTrainingPage> gestureTrainingPageFactory)
         {
-            GestureTrainingFrameFactory = gestureTrainingFrameFactory;
+            GestureTrainingPageFactory = gestureTrainingPageFactory;
         }
         
         public bool CanExecute(object parameter)
@@ -45,8 +48,9 @@ namespace Calculator.Pages
         public void Execute(object parameter)
         {
             if (!CanExecute(null)) return;
-             
-            NavigationService.Navigate(GestureTrainingFrameFactory());
+            
+            Log.Information("Navigating to TrainingPage");
+            NavigationService.Navigate(GestureTrainingPageFactory());
         }
 
         public event EventHandler CanExecuteChanged;

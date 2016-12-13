@@ -44,7 +44,7 @@
                                                     </MenuItem>
                                                 </MenuItem>
                                                 <MenuItem Header="_Window">
-                                                    <MenuItem x:Name="PART_NavigateToMainControl" Header="Calculate" Command="{x:Static common:RoutedCommands.NavigateToMain}" />
+                                                    <MenuItem x:Name="PART_NavigateToMainControl" Header="Calculate" InputGestureText="Home" Command="{x:Static common:RoutedCommands.NavigateToMain}" />
                                                     <MenuItem x:Name="PART_NavigateToTrainControl" Header="Train" InputGestureText="Ctrl+T" Command="{x:Static common:RoutedCommands.NavigateToTrain}">
                                                         <MenuItem.Icon>
                                                             <materialDesign:PackIcon Kind="Settings" />

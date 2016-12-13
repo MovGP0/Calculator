@@ -1,11 +1,14 @@
 using System;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using Serilog;
 
 namespace Calculator.Pages
 {
     public sealed class NavigateToMainCommand : ICommand
     {
+        private static ILogger Log => Serilog.Log.Logger.ForContext<NavigateToMainCommand>();
+
         private NavigationService _navigationService;
         public NavigationService NavigationService
         {
@@ -46,6 +49,7 @@ namespace Calculator.Pages
         {
             if (!CanExecute(null)) return;
 
+            Log.Information("Navigating to MainPage");
             NavigationService.Navigate(MainPageFactory());
         }
 
