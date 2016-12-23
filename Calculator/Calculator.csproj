@@ -171,9 +171,17 @@
       <Project>{65cd49cc-65f5-46b7-a0a4-fa386b6a46fe}</Project>
       <Name>Calculator.GestureRecognizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Calculator.GestureTraining\Calculator.GestureTraining.csproj">
+      <Project>{753585C2-B934-44CC-9D6F-0C6093DB7ED7}</Project>
+      <Name>Calculator.GestureTraining</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Keypad\Calculator.Keypad.csproj">
       <Project>{20fe640a-a9a1-4759-9cd5-87402f2d9cd5}</Project>
       <Name>Calculator.Keypad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculator.Main\Calculator.Main.csproj">
+      <Project>{6F8B388C-8679-4736-A360-52E4EC8AF4D5}</Project>
+      <Name>Calculator.Main</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Messages\Calculator.Messages.csproj">
       <Project>{2708AE29-8665-4AF1-8B70-A8BADFD04600}</Project>

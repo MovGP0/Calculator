@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
     public partial class GestureTrainingPage
     {

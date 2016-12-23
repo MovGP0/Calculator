@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Windows.Ink;
-using Calculator.GestureRecognizer;
 using Reactive.Bindings;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
-    public sealed class PathSampleViewModel
+    public sealed class PathSampleViewModel : IDisposable
     {
         public ReactiveProperty<string> Character { get; } 
             = new ReactiveProperty<string>(string.Empty);
@@ -30,10 +29,11 @@ namespace Calculator.Pages
         public ReactiveProperty<string> Recognized { get; }
             = new ReactiveProperty<string>(string.Empty);
 
-        private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
+        private CompositeDisposable Subscriptions { get; } = new CompositeDisposable();
         
         public PathSampleViewModel()
         {
+            Subscriptions.Add(Character.Subscribe(c => Log.Verbose($"Character changed to {c}"), ex => Log.Error(ex, ex.Message)));
             Subscriptions.Add(Sample1.Subscribe(_ => Log.Verbose("Sample1 changed"), ex => Log.Error(ex, ex.Message)));
             Subscriptions.Add(Sample2.Subscribe(_ => Log.Verbose("Sample2 changed"), ex => Log.Error(ex, ex.Message)));
             Subscriptions.Add(Sample3.Subscribe(_ => Log.Verbose("Sample3 changed"), ex => Log.Error(ex, ex.Message)));
@@ -52,9 +52,15 @@ namespace Calculator.Pages
                 ex => Log.Error(ex, ex.Message)));
         }
 
+        #region IDisposable
         ~PathSampleViewModel()
         {
             Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         private bool _isDisposed;
@@ -62,14 +68,14 @@ namespace Calculator.Pages
         {
             if (_isDisposed) return;
 
-            Character?.Dispose();
-            Sample1?.Dispose();
-            Sample2?.Dispose();
-            Sample3?.Dispose();
-            Sample4?.Dispose();
-            Sample5?.Dispose();
+            Character.Dispose();
+            Sample1.Dispose();
+            Sample2.Dispose();
+            Sample3.Dispose();
+            Sample4.Dispose();
+            Sample5.Dispose();
             
-            Subscriptions?.Dispose();
+            Subscriptions.Dispose();
 
             _isDisposed = true;
             if (disposing)
@@ -77,5 +83,6 @@ namespace Calculator.Pages
                 GC.SuppressFinalize(this);
             }
         }
+        #endregion
     }
 }

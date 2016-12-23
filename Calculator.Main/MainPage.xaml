@@ -1,4 +1,4 @@
-﻿<Page x:Class="Calculator.Pages.MainPage"
+﻿<Page x:Class="Calculator.Main.MainPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -57,7 +57,6 @@
                                                                                 <variables:Scalar Text="2" />
                                                                             </operators:Fraction.Denominator>
                                                                         </operators:Fraction>
-
                                                                     </operators:Pow.Exponent>
                                                                     <variables:Scalar Text="b" />
                                                                 </operators:Pow>

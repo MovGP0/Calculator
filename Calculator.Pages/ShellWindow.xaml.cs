@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Calculator.Common;
+using Calculator.GestureTraining;
+using Calculator.Main;
 using Serilog;
 
 namespace Calculator.Pages

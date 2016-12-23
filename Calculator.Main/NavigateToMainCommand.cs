@@ -3,7 +3,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator.Main
 {
     public sealed class NavigateToMainCommand : ICommand
     {

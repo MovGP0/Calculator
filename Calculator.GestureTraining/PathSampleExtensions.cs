@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Calculator.GestureRecognizer;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
     public static class PathSampleExtensions
     {

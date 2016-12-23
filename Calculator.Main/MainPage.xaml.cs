@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using Calculator.Keypad;
 using System.Windows;
+using Calculator.Keypad;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator.Main
 {
     [TemplatePart(Name="PART_Keypad", Type=typeof(Keypad.Keypad))]
     public partial class MainPage
@@ -12,9 +12,8 @@ namespace Calculator.Pages
         private static ILogger Log { get; } = Serilog.Log.ForContext<MainPage>();
         
         private KeypadViewModel KeypadViewModel { get; }
-        public NavigateToTrainCommand NavigateToTrainCommand { get; }
         
-        public MainPage(KeypadViewModel keypadViewModel, NavigateToTrainCommand navigateToTrainCommand)
+        public MainPage(KeypadViewModel keypadViewModel)
         {
             try
             {
@@ -28,14 +27,6 @@ namespace Calculator.Pages
 
             Debug.Assert(keypadViewModel != null);
             KeypadViewModel = keypadViewModel;
-
-            Loaded += OnLoaded;
-            NavigateToTrainCommand = navigateToTrainCommand;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            NavigateToTrainCommand.NavigationService = NavigationService;
         }
         
         public override void OnApplyTemplate()

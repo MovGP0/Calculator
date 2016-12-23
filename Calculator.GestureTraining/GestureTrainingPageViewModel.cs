@@ -11,7 +11,7 @@ using Calculator.GestureRecognizer;
 using Reactive.Bindings;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
     public sealed class GestureTrainingPageViewModel : IDisposable
     {

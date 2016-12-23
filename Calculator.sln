@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26009.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{F94C4A3C-763D-4E0D-B62C-195F10BCCAC1}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -28,6 +28,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.GestureRecognizer", "Calculator.GestureRecognizer\Calculator.GestureRecognizer.csproj", "{65CD49CC-65F5-46B7-A0A4-FA386B6A46FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Common", "Calculator.Common\Calculator.Common.csproj", "{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GestureTraining", "GestureTraining", "{62EB788F-2132-4C9E-88BF-FE7226370076}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{C22AE416-541A-4609-B3E4-8E65A3A51705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.GestureTraining", "Calculator.GestureTraining\Calculator.GestureTraining.csproj", "{753585C2-B934-44CC-9D6F-0C6093DB7ED7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CharacterSelection", "CharacterSelection", "{F3A5F5BD-09EB-4C1F-AC16-4D62AC5C001F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.CharacterSelection", "Calculator.CharacterSelection\Calculator.CharacterSelection.csproj", "{F7452645-6064-4D0D-A0CD-171AA04ACE4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Main", "Calculator.Main\Calculator.Main.csproj", "{6F8B388C-8679-4736-A360-52E4EC8AF4D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,8 +96,35 @@ Global
 		{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EDCAED3E-E410-48E4-B28C-B186C7F01251} = {C22AE416-541A-4609-B3E4-8E65A3A51705}
+		{20FE640A-A9A1-4759-9CD5-87402F2D9CD5} = {C22AE416-541A-4609-B3E4-8E65A3A51705}
+		{2708AE29-8665-4AF1-8B70-A8BADFD04600} = {C22AE416-541A-4609-B3E4-8E65A3A51705}
+		{65CD49CC-65F5-46B7-A0A4-FA386B6A46FE} = {62EB788F-2132-4C9E-88BF-FE7226370076}
+		{753585C2-B934-44CC-9D6F-0C6093DB7ED7} = {62EB788F-2132-4C9E-88BF-FE7226370076}
+		{F7452645-6064-4D0D-A0CD-171AA04ACE4B} = {F3A5F5BD-09EB-4C1F-AC16-4D62AC5C001F}
+		{6F8B388C-8679-4736-A360-52E4EC8AF4D5} = {C22AE416-541A-4609-B3E4-8E65A3A51705}
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Windows.Ink;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
     public static class StrokeCollectionExtensions
     {

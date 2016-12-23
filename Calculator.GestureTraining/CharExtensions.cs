@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Calculator.Pages
+namespace Calculator.GestureTraining
 {
     public static class CharExtensions
     {

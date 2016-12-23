@@ -1,6 +1,8 @@
 ﻿using System;
 using Calculator.GestureRecognizer;
+using Calculator.GestureTraining;
 using Calculator.Keypad;
+using Calculator.Main;
 using Calculator.Messages;
 using Calculator.Pages;
 using DryIoc;
