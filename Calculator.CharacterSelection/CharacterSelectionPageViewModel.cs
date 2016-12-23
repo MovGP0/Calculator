@@ -10,12 +10,13 @@ namespace Calculator.CharacterSelection
 {
     public sealed class CharacterSelectionPageViewModel : IDisposable
     {
-        private ILogger Log => Serilog.Log.ForContext<CharacterSelectionPageViewModel>();
+        private static ILogger Log => Serilog.Log.ForContext<CharacterSelectionPageViewModel>();
         public IEnumerable<Encoding> Codepages => CodepageHelper.Codepages;
         public ReactiveProperty<Encoding> CurrentCodepage { get; } = new ReactiveProperty<Encoding>(Encoding.Default);
         public ReactiveCollection<string> Characters { get; } = new ReactiveCollection<string>();
-        
         private CompositeDisposable Subscriptions { get; } = new CompositeDisposable();
+
+        // TODO: implement command to navigate to character training page
 
         public CharacterSelectionPageViewModel()
         {
