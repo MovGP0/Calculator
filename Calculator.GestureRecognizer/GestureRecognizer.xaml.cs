@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Calculator.Common;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Serilog;
@@ -82,7 +84,7 @@ namespace Calculator.GestureRecognizer
         private ReactiveProperty<string> TextReactiveProperty { get; }
         #endregion
 
-        private IList<IDisposable> Subscriptions { get; } = new List<IDisposable>();
+        private CompositeDisposable Subscriptions { get; } = new CompositeDisposable();
         
         private InkCanvas PartCanvas { get; set; }
         private Line CapsHeightLine { get; set; }
@@ -164,12 +166,12 @@ namespace Calculator.GestureRecognizer
             yield return TextReactiveProperty.Subscribe(value => ViewModel.Text.Value = value, ex => Log.Error(ex, ex.Message));
         }
 
-        #region IDisposable
         private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
         {
             Dispose();
         }
 
+        #region IDisposable
         ~GestureRecognizer()
         {
             Dispose(false);
@@ -185,29 +187,28 @@ namespace Calculator.GestureRecognizer
         {
             if (_isDisposed) return;
 
-            foreach (var subscription in Subscriptions)
+            Subscriptions.Dispose();
+
+            if (DataContext is IDisposable disposable)
             {
-                subscription?.Dispose();
+                disposable.Dispose();
             }
 
-            ViewModel?.Dispose();
-            ViewModel = null;
+            StrokesReactiveProperty.Dispose();
+            StrokesReactiveProperty.Dispose();
+            FontSizeReactiveProperty.Dispose();
+            WidthReactiveProperty.Dispose();
+            FontFamilyReactiveProperty.Dispose();
+            FontStyleReactiveProperty.Dispose();
+            FontWeightReactiveProperty.Dispose();
+            FontStretchReactiveProperty.Dispose();
+            IsTrainingReactiveProperty.Dispose();
 
-            StrokesReactiveProperty?.Dispose();
-            StrokesReactiveProperty?.Dispose();
-            FontSizeReactiveProperty?.Dispose();
-            WidthReactiveProperty?.Dispose();
-            FontFamilyReactiveProperty?.Dispose();
-            FontStyleReactiveProperty?.Dispose();
-            FontWeightReactiveProperty?.Dispose();
-            FontStretchReactiveProperty?.Dispose();
-            IsTrainingReactiveProperty?.Dispose();
-
-            _isDisposed = true;
             if (disposing)
             {
                 GC.SuppressFinalize(this);
             }
+            _isDisposed = true;
         }
         #endregion
 

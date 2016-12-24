@@ -99,6 +99,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
+      <Project>{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}</Project>
+      <Name>Calculator.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Controls\Calculator.Controls.csproj">
       <Project>{edcaed3e-e410-48e4-b28c-b186c7f01251}</Project>
       <Name>Calculator.Controls</Name>

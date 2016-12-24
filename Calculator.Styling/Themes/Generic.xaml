@@ -4,8 +4,8 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:common="clr-namespace:Calculator.Common;assembly=Calculator.Common">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Fonts.Dictionary.xaml" />
-        <ResourceDictionary Source="Colors.Dictionary.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Calculator.Styling;component/Themes/Colors.Dictionary.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Calculator.Styling;component/Themes/Fonts.Dictionary.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/themes/materialdesigntheme.button.xaml" />
         <ResourceDictionary>
             <ControlTemplate x:Key="FrameTemplate" TargetType="Frame">

@@ -15,6 +15,21 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -120,6 +135,9 @@
     </Compile>
     <Compile Include="DependencyInjection\ContainerExtensions.cs" />
     <Compile Include="DependencyInjection\ResolverFactory.cs" />
+    <Compile Include="ShellWindow.xaml.cs">
+      <DependentUpon>ShellWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DryIoc\AsyncExecutionFlowScopeContext.cs" />
@@ -159,6 +177,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.CharacterSelection\Calculator.CharacterSelection.csproj">
+      <Project>{f7452645-6064-4d0d-a0cd-171aa04ace4b}</Project>
+      <Name>Calculator.CharacterSelection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
       <Project>{81fce370-3f80-4ff7-adc9-14af74d77b96}</Project>
       <Name>Calculator.Common</Name>
@@ -172,7 +194,7 @@
       <Name>Calculator.GestureRecognizer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.GestureTraining\Calculator.GestureTraining.csproj">
-      <Project>{753585C2-B934-44CC-9D6F-0C6093DB7ED7}</Project>
+      <Project>{753585c2-b934-44cc-9d6f-0c6093db7ed7}</Project>
       <Name>Calculator.GestureTraining</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Keypad\Calculator.Keypad.csproj">
@@ -184,12 +206,8 @@
       <Name>Calculator.Main</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Messages\Calculator.Messages.csproj">
-      <Project>{2708AE29-8665-4AF1-8B70-A8BADFD04600}</Project>
+      <Project>{2708ae29-8665-4af1-8b70-a8badfd04600}</Project>
       <Name>Calculator.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Calculator.Pages\Calculator.Pages.csproj">
-      <Project>{D7C1CEC1-EDA6-4A54-8180-E98893F4E4D1}</Project>
-      <Name>Calculator.Pages</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Styling\Calculator.Styling.csproj">
       <Project>{BD4112DD-6462-4A9C-8AD3-3548C145421C}</Project>
@@ -213,6 +231,32 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Square150x150Logo.scale-200.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ShellWindow.Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <DependentUpon>ShellWindow.xaml</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

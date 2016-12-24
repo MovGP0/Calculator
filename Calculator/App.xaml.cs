@@ -18,7 +18,7 @@ namespace Calculator
             Log.ForContext<App>().Information("Application starting");
             RegisterGlobalExceptionHandling();
             
-            var shellWindow = resolver.Resolve<Pages.ShellWindow>();
+            var shellWindow = resolver.Resolve<ShellWindow>();
             shellWindow.Show();
         }
 

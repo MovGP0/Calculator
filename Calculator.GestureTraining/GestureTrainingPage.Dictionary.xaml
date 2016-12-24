@@ -26,8 +26,5 @@
     </DataTemplate>
 
     <Style TargetType="local:GestureTrainingPage" x:Key="GestureTrainingFrameStyle">
-        <Style.Setters>
-            
-        </Style.Setters>
     </Style>
 </ResourceDictionary>

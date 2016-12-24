@@ -4,7 +4,6 @@ using Calculator.GestureTraining;
 using Calculator.Keypad;
 using Calculator.Main;
 using Calculator.Messages;
-using Calculator.Pages;
 using DryIoc;
 using MemBus;
 using MemBus.Configurators;

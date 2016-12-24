@@ -109,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
+      <Project>{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}</Project>
+      <Name>Calculator.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator.GestureRecognizer\Calculator.GestureRecognizer.csproj">
       <Project>{65cd49cc-65f5-46b7-a0a4-fa386b6a46fe}</Project>
       <Name>Calculator.GestureRecognizer</Name>

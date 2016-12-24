@@ -102,5 +102,11 @@
   <ItemGroup>
     <Folder Include="Assets\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
+      <Project>{81FCE370-3F80-4FF7-ADC9-14AF74D77B96}</Project>
+      <Name>Calculator.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

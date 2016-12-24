@@ -7,11 +7,12 @@ using Calculator.GestureTraining;
 using Calculator.Main;
 using Serilog;
 
-namespace Calculator.Pages
+namespace Calculator
 {
     [TemplatePart(Name=PartMainFrameName, Type=typeof(Frame))]
     public partial class ShellWindow
     {
+        private static ILogger Log => Serilog.Log.ForContext<ShellWindow>();
         internal const string PartMainFrameName = "PART_MainFrame";
         private Frame PartMainFrame { get; set; }
         private Func<MainPage> MainFrameFactory { get; }
@@ -34,6 +35,7 @@ namespace Calculator.Pages
             }
 
             Loaded += OnLoaded;
+            Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
             
             NavigateToTrainCommand = navigateToTrainCommand;
             NavigateToMainCommand = navigateToMainCommand;
@@ -48,6 +50,14 @@ namespace Calculator.Pages
             InputBindings.Add(new InputBinding(SystemCommands.CloseWindowCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
             InputBindings.Add(new InputBinding(RoutedCommands.NavigateToTrain, new KeyGesture(Key.T, ModifierKeys.Control)));
             InputBindings.Add(new InputBinding(RoutedCommands.NavigateToMain, new KeyGesture(Key.Home)));
+        }
+        
+        private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+        {
+            if (DataContext is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
 
         private void OnNavigateToTrain(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)

@@ -1,28 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Serilog;
 
 namespace Calculator.CharacterSelection
 {
-    /// <summary>
-    /// Interaction logic for CharacterSelectionPage.xaml
-    /// </summary>
-    public partial class CharacterSelectionPage : UserControl
+    public partial class CharacterSelectionPage : IDisposable
     {
+        private static ILogger Log => Serilog.Log.ForContext<CharacterSelectionPage>();
+
         public CharacterSelectionPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, e.Message);
+                throw;
+            }
+
+            Dispatcher.ShutdownStarted += DispatcherOnShutdownStarted;
         }
+        
+        private void DispatcherOnShutdownStarted(object sender, EventArgs eventArgs)
+        {
+            Dispose();
+        }
+
+        #region IDisposable
+        ~CharacterSelectionPage()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private bool _isDisposed;
+        public void Dispose(bool disposing)
+        {
+            if(_isDisposed) return;
+
+            if (DataContext is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
+            if (disposing)
+            {
+                GC.SuppressFinalize(this);
+            }
+            _isDisposed = true;
+        }
+        #endregion
     }
 }

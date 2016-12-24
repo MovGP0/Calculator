@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:common="clr-namespace:Calculator.Common;assembly=Calculator.Common">
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,Calculator.CharacterSelection;component/CharacterSelectionPage.Dictionary.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/Calculator.CharacterSelection;component/CharacterSelectionPage.Dictionary.xaml" />
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
